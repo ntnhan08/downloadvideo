@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Video Downloader PRO</title>
+    <title>TikTok Video Downloader PRO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -16,6 +16,7 @@
             --gray: #6b7280;
             --card-bg: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.1);
+            --danger: #ef4444;
         }
         
         * {
@@ -106,11 +107,12 @@
             display: flex;
             gap: 15px;
             margin-bottom: 20px;
+            position: relative;
         }
         
         #videoUrl {
             flex: 1;
-            padding: 18px 20px;
+            padding: 18px 50px 18px 20px;
             border-radius: 12px;
             border: 2px solid var(--border);
             background: rgba(0, 0, 0, 0.3);
@@ -119,10 +121,87 @@
             transition: all 0.3s;
         }
         
-        #videoUrl:focus {
+        #multiVideoUrls {
+            flex: 1;
+            padding: 18px 50px 18px 20px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s;
+            resize: vertical;
+            min-height: 120px;
+            display: none;
+        }
+        
+        #videoUrl:focus, #multiVideoUrls:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+        
+        .input-buttons {
+            position: absolute;
+            right: 200px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 8px;
+        }
+        
+        .input-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--light);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .input-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .input-btn.clear {
+            color: var(--danger);
+        }
+        
+        .input-btn.clear:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+        
+        .mode-switch {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+        
+        .switch-btn {
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid var(--primary);
+            color: var(--light);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .switch-btn:hover {
+            background: rgba(99, 102, 241, 0.3);
+        }
+        
+        .switch-btn.active {
+            background: var(--primary);
         }
         
         #downloadBtn {
@@ -177,10 +256,6 @@
         }
         
         .tiktok { color: #ff0050; }
-        .youtube { color: #ff0000; }
-        .facebook { color: #1877f2; }
-        .instagram { color: #e4405f; }
-        .twitter { color: #1da1f2; }
         
         /* Loading */
         .loading {
@@ -391,6 +466,166 @@
             transform: none;
         }
         
+        /* Multi Download Section */
+        .multi-download-section {
+            display: none;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .multi-download-section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .multi-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+        }
+        
+        .multi-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .multi-item.success {
+            border-left-color: var(--secondary);
+        }
+        
+        .multi-item.error {
+            border-left-color: var(--danger);
+        }
+        
+        .multi-item.pending {
+            border-left-color: var(--primary);
+        }
+        
+        .multi-item-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .multi-item-thumb {
+            width: 60px;
+            height: 40px;
+            border-radius: 5px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .multi-item-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .multi-item-text {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .multi-item-title {
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 3px;
+        }
+        
+        .multi-item-status {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .multi-item-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .multi-action-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--light);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .multi-action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .multi-action-btn.download:hover {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+        
+        .multi-action-btn.remove:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+        
+        .multi-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .multi-stats {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        #downloadAllBtn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--secondary), #0ca678);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        #downloadAllBtn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        #downloadAllBtn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
         /* Notification */
         .notification {
             position: fixed;
@@ -420,16 +655,6 @@
         
         .notification.error {
             background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
-        
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            color: var(--gray);
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border);
-            margin-top: 50px;
         }
         
         /* Progress Bar */
@@ -465,6 +690,16 @@
             color: var(--gray);
         }
         
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 50px;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .container {
@@ -481,6 +716,7 @@
             
             #downloadBtn {
                 padding: 18px;
+                width: 100%;
             }
             
             .video-preview {
@@ -502,6 +738,21 @@
                 bottom: 20px;
                 max-width: none;
             }
+            
+            .multi-controls {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+            
+            .multi-stats {
+                text-align: center;
+            }
+            
+            #downloadAllBtn {
+                width: 100%;
+                justify-content: center;
+            }
         }
         
         @media (max-width: 480px) {
@@ -522,6 +773,20 @@
                 min-width: 120px;
                 text-align: center;
             }
+            
+            .multi-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .multi-item-info {
+                width: 100%;
+            }
+            
+            .multi-item-actions {
+                align-self: flex-end;
+            }
         }
     </style>
 </head>
@@ -532,15 +797,36 @@
         <header>
             <div class="logo">
                 <i class="fas fa-download"></i>
-                <h1>Video Downloader</h1>
+                <h1>TikTok Downloader</h1>
             </div>
-            <p class="tagline">Tải video từ TikTok, YouTube, Facebook, Instagram về máy của bạn</p>
+            <p class="tagline">Tải video từ TikTok về máy của bạn - Hỗ trợ tải nhiều video cùng lúc</p>
         </header>
         
         <div class="main-card">
+            <div class="mode-switch">
+                <button class="switch-btn active" id="singleModeBtn">
+                    <i class="fas fa-file-video"></i> Một video
+                </button>
+                <button class="switch-btn" id="multiModeBtn">
+                    <i class="fas fa-list"></i> Nhiều video
+                </button>
+            </div>
+            
             <div class="input-section">
                 <div class="input-wrapper">
-                    <input type="url" id="videoUrl" placeholder="Dán liên kết video tại đây..." autocomplete="off">
+                    <input type="url" id="videoUrl" placeholder="Dán liên kết video TikTok tại đây..." autocomplete="off">
+                    <textarea id="multiVideoUrls" placeholder="Dán nhiều liên kết video TikTok, mỗi liên kết trên một dòng..." autocomplete="off"></textarea>
+                    
+                    <div class="input-buttons">
+                        <!-- Đã đổi vị trí: Xóa trước, Dán sau -->
+                        <button class="input-btn clear" id="clearBtn" title="Xóa">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <button class="input-btn paste" id="pasteBtn" title="Dán">
+                            <i class="fas fa-paste"></i>
+                        </button>
+                    </div>
+                    
                     <button id="downloadBtn">
                         <i class="fas fa-search"></i> Tìm Video
                     </button>
@@ -550,22 +836,6 @@
                     <div class="platform-icon" data-example="https://www.tiktok.com/@tiktok/video/7156033831819906346">
                         <i class="fab fa-tiktok tiktok"></i>
                         <span>TikTok</span>
-                    </div>
-                    <div class="platform-icon" data-example="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-                        <i class="fab fa-youtube youtube"></i>
-                        <span>YouTube</span>
-                    </div>
-                    <div class="platform-icon" data-example="https://www.facebook.com/facebook/videos/10153231379946729/">
-                        <i class="fab fa-facebook facebook"></i>
-                        <span>Facebook</span>
-                    </div>
-                    <div class="platform-icon" data-example="https://www.instagram.com/reel/Cr4peFbJoDz/">
-                        <i class="fab fa-instagram instagram"></i>
-                        <span>Instagram</span>
-                    </div>
-                    <div class="platform-icon" data-example="https://twitter.com/Twitter/status/20">
-                        <i class="fab fa-twitter twitter"></i>
-                        <span>Twitter</span>
                     </div>
                 </div>
                 
@@ -639,19 +909,43 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="multi-download-section" id="multiDownloadSection">
+                <div class="multi-list" id="multiList">
+                    <!-- Multi video items will be loaded here -->
+                </div>
+                
+                <div class="multi-controls">
+                    <div class="multi-stats" id="multiStats">
+                        Tổng cộng: 0 video | Đã sẵn sàng: 0
+                    </div>
+                    <button id="downloadAllBtn" disabled>
+                        <i class="fas fa-download"></i> Tải tất cả (0)
+                    </button>
+                </div>
+            </div>
         </div>
         
         <footer>
-            <p>© 2023 Video Downloader. Chỉ sử dụng cho mục đích cá nhân. Tôn trọng bản quyền.</p>
+            <p>© 2023 TikTok Downloader. Chỉ sử dụng cho mục đích cá nhân. Tôn trọng bản quyền.</p>
         </footer>
     </div>
 
     <script>
         // Khởi tạo các biến
         const videoUrlInput = document.getElementById('videoUrl');
+        const multiVideoUrls = document.getElementById('multiVideoUrls');
         const downloadBtn = document.getElementById('downloadBtn');
+        const pasteBtn = document.getElementById('pasteBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const singleModeBtn = document.getElementById('singleModeBtn');
+        const multiModeBtn = document.getElementById('multiModeBtn');
         const loading = document.getElementById('loading');
         const videoInfoSection = document.getElementById('videoInfoSection');
+        const multiDownloadSection = document.getElementById('multiDownloadSection');
+        const multiList = document.getElementById('multiList');
+        const multiStats = document.getElementById('multiStats');
+        const downloadAllBtn = document.getElementById('downloadAllBtn');
         const tabBtns = document.querySelectorAll('.tab-btn');
         const videoOptions = document.getElementById('videoOptions');
         const audioOptions = document.getElementById('audioOptions');
@@ -666,21 +960,13 @@
         let selectedFormat = null;
         let selectedType = 'video';
         let currentVideoInfo = null;
+        let multiMode = false;
+        let multiVideos = [];
         
-        // APIs
-        const APIs = {
-            youtube: {
-                endpoint: 'https://ytdl.iamidiotareyoutoo.workers.dev',
-                method: 'GET'
-            },
-            tiktok: {
-                endpoint: 'https://tikwm.com/api/',
-                method: 'GET'
-            },
-            universal: {
-                endpoint: 'https://api.download-lagu.net/api/convert',
-                method: 'POST'
-            }
+        // TikTok API
+        const TIKTOK_API = {
+            endpoint: 'https://tikwm.com/api/',
+            method: 'GET'
         };
         
         // Show notification
@@ -694,43 +980,26 @@
             }, 4000);
         }
         
-        // Detect platform from URL
-        function detectPlatform(url) {
+        // Detect if URL is TikTok
+        function isTikTokUrl(url) {
             const urlLower = url.toLowerCase();
-            if (urlLower.includes('tiktok.com') || urlLower.includes('tiktok')) return 'tiktok';
-            if (urlLower.includes('youtube.com') || urlLower.includes('youtu.be')) return 'youtube';
-            if (urlLower.includes('facebook.com') || urlLower.includes('fb.watch')) return 'facebook';
-            if (urlLower.includes('instagram.com')) return 'instagram';
-            if (urlLower.includes('twitter.com') || urlLower.includes('x.com')) return 'twitter';
-            return 'universal';
+            return urlLower.includes('tiktok.com') || urlLower.includes('tiktok');
         }
         
-        // Fetch video info
+        // Fetch video info from TikTok
         async function fetchVideoInfo(url) {
-            const platform = detectPlatform(url);
-            let api = APIs[platform] || APIs.universal;
+            if (!isTikTokUrl(url)) {
+                throw new Error('Chỉ hỗ trợ liên kết TikTok');
+            }
             
             try {
-                let response;
-                
-                if (api.method === 'GET') {
-                    const apiUrl = `${api.endpoint}${platform === 'tiktok' ? '?url=' + encodeURIComponent(url) + '&hd=1' : '/?url=' + encodeURIComponent(url)}`;
-                    response = await fetch(apiUrl);
-                } else {
-                    response = await fetch(api.endpoint, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({ url: url })
-                    });
-                }
+                const apiUrl = `${TIKTOK_API.endpoint}?url=${encodeURIComponent(url)}&hd=1`;
+                const response = await fetch(apiUrl);
                 
                 if (!response.ok) throw new Error('Không thể kết nối đến dịch vụ');
                 
                 const data = await response.json();
-                return processVideoData(data, platform, url);
+                return processTikTokData(data, url);
                 
             } catch (error) {
                 console.error('API Error:', error);
@@ -738,154 +1007,84 @@
             }
         }
         
-        // Process video data
-        function processVideoData(data, platform, url) {
+        // Process TikTok data
+        function processTikTokData(data, url) {
             let result = {
-                platform: platform,
+                platform: 'tiktok',
+                url: url,
                 title: '',
                 thumbnail: '',
                 duration: '',
                 author: '',
-                formats: { video: [], audio: [] }
+                formats: { video: [], audio: [] },
+                status: 'pending',
+                error: null
             };
             
-            switch (platform) {
-                case 'tiktok':
-                    if (data.data) {
-                        result.title = data.data.title || 'Video TikTok';
-                        result.thumbnail = data.data.cover || '';
-                        result.duration = data.data.duration || '';
-                        result.author = data.data.author?.nickname || '@tiktok_user';
-                        
-                        // Video formats
-                        if (data.data.hdplay) {
-                            result.formats.video.push({
-                                quality: '1080p HD',
-                                url: data.data.hdplay,
-                                size: '~100 MB'
-                            });
-                        }
-                        if (data.data.play) {
-                            result.formats.video.push({
-                                quality: '720p',
-                                url: data.data.play,
-                                size: '~60 MB'
-                            });
-                        }
-                        if (data.data.wmplay) {
-                            result.formats.video.push({
-                                quality: '480p',
-                                url: data.data.wmplay,
-                                size: '~30 MB'
-                            });
-                        }
-                        
-                        // Audio format
-                        if (data.data.music) {
-                            result.formats.audio.push({
-                                quality: '320 kbps',
-                                url: data.data.music,
-                                size: '~5 MB'
-                            });
-                        }
-                    }
-                    break;
-                    
-                case 'youtube':
-                    if (data.formats) {
-                        result.title = data.videoDetails?.title || 'YouTube Video';
-                        result.thumbnail = data.videoDetails?.thumbnail?.thumbnails?.pop()?.url || '';
-                        result.duration = data.videoDetails?.lengthSeconds ? 
-                            `${Math.floor(data.videoDetails.lengthSeconds / 60)}:${(data.videoDetails.lengthSeconds % 60).toString().padStart(2, '0')}` : '';
-                        result.author = data.videoDetails?.author || 'YouTube Creator';
-                        
-                        // Filter and sort video formats
-                        const videoFormats = data.formats
-                            .filter(f => f.hasVideo && f.hasAudio && f.qualityLabel)
-                            .sort((a, b) => {
-                                const aQuality = parseInt(a.qualityLabel) || 0;
-                                const bQuality = parseInt(b.qualityLabel) || 0;
-                                return bQuality - aQuality;
-                            });
-                        
-                        // Add video formats (limit to 5)
-                        videoFormats.slice(0, 5).forEach(format => {
-                            const size = format.contentLength ? 
-                                `~${(format.contentLength / (1024 * 1024)).toFixed(0)} MB` : '~N/A';
-                            
-                            result.formats.video.push({
-                                quality: format.qualityLabel || 'Unknown',
-                                url: format.url,
-                                size: size
-                            });
-                        });
-                        
-                        // Audio formats
-                        const audioFormats = data.formats
-                            .filter(f => !f.hasVideo && f.hasAudio && f.audioBitrate)
-                            .sort((a, b) => b.audioBitrate - a.audioBitrate);
-                        
-                        // Add different audio qualities
-                        const audioQualities = [320, 256, 192, 128];
-                        audioQualities.forEach(quality => {
-                            const format = audioFormats.find(f => f.audioBitrate >= quality * 1000) || audioFormats[0];
-                            if (format) {
-                                result.formats.audio.push({
-                                    quality: `${quality} kbps`,
-                                    url: format.url,
-                                    size: format.contentLength ? `~${(format.contentLength / (1024 * 1024)).toFixed(1)} MB` : '~N/A'
-                                });
-                            }
-                        });
-                    }
-                    break;
-                    
-                default:
-                    // Universal API fallback
-                    if (data.url) {
-                        result.title = data.title || 'Video';
-                        result.thumbnail = data.thumbnail || '';
-                        result.duration = data.duration || '';
-                        result.author = data.author || '';
-                        
-                        if (data.type === 'audio') {
-                            result.formats.audio.push({
-                                quality: '320 kbps',
-                                url: data.url,
-                                size: data.filesize ? `~${data.filesize} MB` : '~N/A'
-                            });
-                        } else {
-                            result.formats.video.push({
-                                quality: data.quality || 'HD',
-                                url: data.url,
-                                size: data.filesize ? `~${data.filesize} MB` : '~N/A'
-                            });
-                        }
-                    }
-                    break;
-            }
-            
-            // Add default options if none found
-            if (result.formats.video.length === 0) {
-                result.formats.video.push({
-                    quality: 'HD',
-                    url: url,
-                    size: '~N/A'
-                });
-            }
-            
-            if (result.formats.audio.length === 0 && result.formats.video.length > 0) {
-                result.formats.audio.push({
-                    quality: '128 kbps',
-                    url: result.formats.video[0].url,
-                    size: '~N/A'
-                });
+            if (data.data) {
+                result.title = data.data.title || 'Video TikTok';
+                result.thumbnail = data.data.cover || '';
+                result.duration = data.data.duration || '';
+                result.author = data.data.author?.nickname || '@tiktok_user';
+                result.status = 'success';
+                
+                // Video formats
+                if (data.data.hdplay) {
+                    result.formats.video.push({
+                        quality: '1080p HD',
+                        url: data.data.hdplay,
+                        size: '~100 MB'
+                    });
+                }
+                if (data.data.play) {
+                    result.formats.video.push({
+                        quality: '720p',
+                        url: data.data.play,
+                        size: '~60 MB'
+                    });
+                }
+                if (data.data.wmplay) {
+                    result.formats.video.push({
+                        quality: '480p',
+                        url: data.data.wmplay,
+                        size: '~30 MB'
+                    });
+                }
+                
+                // Audio format
+                if (data.data.music) {
+                    result.formats.audio.push({
+                        quality: '320 kbps',
+                        url: data.data.music,
+                        size: '~5 MB'
+                    });
+                }
+                
+                // If no video formats found, add the URL as fallback
+                if (result.formats.video.length === 0) {
+                    result.formats.video.push({
+                        quality: 'HD',
+                        url: url,
+                        size: '~N/A'
+                    });
+                }
+                
+                if (result.formats.audio.length === 0 && result.formats.video.length > 0) {
+                    result.formats.audio.push({
+                        quality: '128 kbps',
+                        url: result.formats.video[0].url,
+                        size: '~N/A'
+                    });
+                }
+            } else {
+                result.status = 'error';
+                result.error = 'Không thể phân tích video';
             }
             
             return result;
         }
         
-        // Display video info
+        // Display video info (single mode)
         function displayVideoInfo(info) {
             currentVideoInfo = info;
             
@@ -917,7 +1116,7 @@
             // Select first quality by default
             selectFirstQuality();
             
-            showNotification(`Đã tìm thấy video trên ${info.platform}!`);
+            showNotification(`Đã tìm thấy video!`);
         }
         
         // Populate quality options
@@ -1006,7 +1205,7 @@
                         progressFill.style.width = `${percent}%`;
                         progressPercent.textContent = `${percent}%`;
                     } else {
-                        // Nếu không biết tổng kích thước, hiển thị loading
+                        // If total size unknown, show loading
                         progressFill.style.width = '100%';
                         progressPercent.textContent = 'Đang tải...';
                     }
@@ -1030,38 +1229,340 @@
                     progressPercent.textContent = '0%';
                 }, 1000);
                 
-                showNotification('Đã tải xuống thành công!');
+                return true;
                 
             } catch (error) {
                 console.error('Download error:', error);
                 showNotification('Lỗi khi tải xuống. Vui lòng thử lại.', 'error');
                 progressContainer.classList.remove('active');
+                return false;
             }
+        }
+        
+        // Add video to multi download list
+        function addToMultiList(videoInfo) {
+            // Check if video already exists
+            const exists = multiVideos.some(video => video.url === videoInfo.url);
+            if (exists) {
+                showNotification('Video đã có trong danh sách', 'error');
+                return;
+            }
+            
+            videoInfo.id = Date.now() + Math.random();
+            videoInfo.downloaded = false;
+            multiVideos.push(videoInfo);
+            
+            updateMultiList();
+            updateMultiStats();
+        }
+        
+        // Update multi download list UI
+        function updateMultiList() {
+            multiList.innerHTML = '';
+            
+            multiVideos.forEach((video, index) => {
+                const item = document.createElement('div');
+                item.className = `multi-item ${video.status}`;
+                item.id = `multi-item-${video.id}`;
+                
+                const statusText = video.status === 'success' ? 'Sẵn sàng' : 
+                                 video.status === 'error' ? 'Lỗi' : 'Đang xử lý';
+                
+                item.innerHTML = `
+                    <div class="multi-item-info">
+                        <div class="multi-item-thumb">
+                            ${video.thumbnail ? `<img src="${video.thumbnail}" alt="${video.title}">` : ''}
+                        </div>
+                        <div class="multi-item-text">
+                            <div class="multi-item-title">${video.title || 'Video TikTok'}</div>
+                            <div class="multi-item-status">${statusText} • ${video.author || '@tiktok_user'}</div>
+                        </div>
+                    </div>
+                    <div class="multi-item-actions">
+                        ${video.status === 'success' ? `
+                            <button class="multi-action-btn download" data-id="${video.id}" title="Tải xuống">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        ` : ''}
+                        <button class="multi-action-btn remove" data-id="${video.id}" title="Xóa">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                
+                multiList.appendChild(item);
+            });
+            
+            // Add event listeners
+            document.querySelectorAll('.multi-action-btn.download').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.currentTarget.dataset.id;
+                    downloadSingleFromMulti(id);
+                });
+            });
+            
+            document.querySelectorAll('.multi-action-btn.remove').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.currentTarget.dataset.id;
+                    removeFromMultiList(id);
+                });
+            });
+        }
+        
+        // Update multi download stats
+        function updateMultiStats() {
+            const total = multiVideos.length;
+            const ready = multiVideos.filter(v => v.status === 'success').length;
+            
+            multiStats.textContent = `Tổng cộng: ${total} video | Đã sẵn sàng: ${ready}`;
+            
+            if (ready > 0) {
+                downloadAllBtn.disabled = false;
+                downloadAllBtn.innerHTML = `<i class="fas fa-download"></i> Tải tất cả (${ready})`;
+            } else {
+                downloadAllBtn.disabled = true;
+                downloadAllBtn.innerHTML = `<i class="fas fa-download"></i> Tải tất cả (0)`;
+            }
+        }
+        
+        // Remove video from multi list
+        function removeFromMultiList(id) {
+            multiVideos = multiVideos.filter(video => video.id != id);
+            updateMultiList();
+            updateMultiStats();
+        }
+        
+        // Download single video from multi list
+        async function downloadSingleFromMulti(id) {
+            const video = multiVideos.find(v => v.id == id);
+            if (!video || video.status !== 'success') return;
+            
+            const format = video.formats.video[0] || video.formats.audio[0];
+            if (!format) return;
+            
+            const extension = format.url.includes('.mp3') ? 'mp3' : 'mp4';
+            const filename = `${video.title.replace(/[^\w\s]/gi, '').substring(0, 50)}_${video.platform}.${extension}`;
+            
+            await downloadFile(format.url, filename);
+            
+            video.downloaded = true;
+            const item = document.getElementById(`multi-item-${id}`);
+            if (item) {
+                item.classList.add('success');
+            }
+        }
+        
+        // Download all videos from multi list
+        async function downloadAllFromMulti() {
+            const readyVideos = multiVideos.filter(v => v.status === 'success' && !v.downloaded);
+            
+            if (readyVideos.length === 0) return;
+            
+            downloadAllBtn.disabled = true;
+            downloadAllBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải...';
+            
+            let successCount = 0;
+            
+            for (let i = 0; i < readyVideos.length; i++) {
+                const video = readyVideos[i];
+                const format = video.formats.video[0] || video.formats.audio[0];
+                
+                if (format) {
+                    const extension = format.url.includes('.mp3') ? 'mp3' : 'mp4';
+                    const filename = `${video.title.replace(/[^\w\s]/gi, '').substring(0, 50)}_${i+1}_${video.platform}.${extension}`;
+                    
+                    const success = await downloadFile(format.url, filename);
+                    
+                    if (success) {
+                        video.downloaded = true;
+                        successCount++;
+                        
+                        // Update UI
+                        const item = document.getElementById(`multi-item-${video.id}`);
+                        if (item) {
+                            item.classList.add('success');
+                        }
+                    }
+                }
+                
+                // Small delay between downloads
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            downloadAllBtn.disabled = false;
+            updateMultiStats();
+            
+            showNotification(`Đã tải xuống ${successCount}/${readyVideos.length} video thành công!`);
+        }
+        
+        // Process multiple URLs
+        async function processMultipleUrls(urls) {
+            loading.classList.add('active');
+            videoInfoSection.classList.remove('active');
+            multiDownloadSection.classList.add('active');
+            
+            // Clear previous videos if needed
+            if (multiVideos.length > 0) {
+                multiVideos = [];
+                updateMultiList();
+                updateMultiStats();
+            }
+            
+            // Filter out empty lines and validate TikTok URLs
+            const validUrls = urls
+                .map(url => url.trim())
+                .filter(url => url.length > 0)
+                .filter(url => isTikTokUrl(url));
+            
+            if (validUrls.length === 0) {
+                loading.classList.remove('active');
+                showNotification('Không có liên kết TikTok hợp lệ', 'error');
+                return;
+            }
+            
+            showNotification(`Đang xử lý ${validUrls.length} video...`);
+            
+            // Process each URL
+            for (let i = 0; i < validUrls.length; i++) {
+                const url = validUrls[i];
+                
+                try {
+                    const videoInfo = await fetchVideoInfo(url);
+                    addToMultiList(videoInfo);
+                    
+                    // Update loading message
+                    const loadingText = loading.querySelector('p');
+                    loadingText.textContent = `Đang phân tích video... (${i+1}/${validUrls.length})`;
+                    
+                } catch (error) {
+                    // Add error video to list
+                    const errorVideo = {
+                        id: Date.now() + Math.random(),
+                        platform: 'tiktok',
+                        url: url,
+                        title: 'Video không thể truy cập',
+                        thumbnail: '',
+                        duration: '',
+                        author: '',
+                        formats: { video: [], audio: [] },
+                        status: 'error',
+                        error: error.message,
+                        downloaded: false
+                    };
+                    
+                    multiVideos.push(errorVideo);
+                    updateMultiList();
+                    updateMultiStats();
+                }
+                
+                // Small delay between requests
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            loading.classList.remove('active');
+            showNotification(`Đã xử lý xong ${multiVideos.filter(v => v.status === 'success').length}/${validUrls.length} video!`);
         }
         
         // Event Listeners
         downloadBtn.addEventListener('click', async () => {
-            const url = videoUrlInput.value.trim();
-            
-            if (!url) {
-                showNotification('Vui lòng nhập liên kết video', 'error');
-                videoUrlInput.focus();
-                return;
+            if (multiMode) {
+                // Multi mode
+                const urlsText = multiVideoUrls.value.trim();
+                if (!urlsText) {
+                    showNotification('Vui lòng nhập ít nhất một liên kết video', 'error');
+                    multiVideoUrls.focus();
+                    return;
+                }
+                
+                const urls = urlsText.split('\n');
+                await processMultipleUrls(urls);
+                
+            } else {
+                // Single mode
+                const url = videoUrlInput.value.trim();
+                
+                if (!url) {
+                    showNotification('Vui lòng nhập liên kết video', 'error');
+                    videoUrlInput.focus();
+                    return;
+                }
+                
+                if (!isTikTokUrl(url)) {
+                    showNotification('Chỉ hỗ trợ liên kết TikTok', 'error');
+                    videoUrlInput.focus();
+                    return;
+                }
+                
+                try {
+                    downloadBtn.disabled = true;
+                    loading.classList.add('active');
+                    videoInfoSection.classList.remove('active');
+                    
+                    const videoInfo = await fetchVideoInfo(url);
+                    displayVideoInfo(videoInfo);
+                    
+                } catch (error) {
+                    loading.classList.remove('active');
+                    showNotification(error.message, 'error');
+                } finally {
+                    downloadBtn.disabled = false;
+                }
             }
-            
+        });
+        
+        // Paste button
+        pasteBtn.addEventListener('click', async () => {
             try {
-                downloadBtn.disabled = true;
-                loading.classList.add('active');
+                const text = await navigator.clipboard.readText();
+                
+                if (multiMode) {
+                    multiVideoUrls.value = text;
+                    multiVideoUrls.focus();
+                } else {
+                    videoUrlInput.value = text;
+                    videoUrlInput.focus();
+                }
+                
+                showNotification('Đã dán từ clipboard');
+            } catch (err) {
+                showNotification('Không thể đọc clipboard', 'error');
+            }
+        });
+        
+        // Clear button
+        clearBtn.addEventListener('click', () => {
+            if (multiMode) {
+                multiVideoUrls.value = '';
+                multiVideoUrls.focus();
+            } else {
+                videoUrlInput.value = '';
+                videoUrlInput.focus();
+            }
+        });
+        
+        // Mode switching
+        singleModeBtn.addEventListener('click', () => {
+            if (multiMode) {
+                multiMode = false;
+                singleModeBtn.classList.add('active');
+                multiModeBtn.classList.remove('active');
+                videoUrlInput.style.display = 'block';
+                multiVideoUrls.style.display = 'none';
                 videoInfoSection.classList.remove('active');
-                
-                const videoInfo = await fetchVideoInfo(url);
-                displayVideoInfo(videoInfo);
-                
-            } catch (error) {
-                loading.classList.remove('active');
-                showNotification(error.message, 'error');
-            } finally {
-                downloadBtn.disabled = false;
+                multiDownloadSection.classList.remove('active');
+                showNotification('Đã chuyển sang chế độ một video');
+            }
+        });
+        
+        multiModeBtn.addEventListener('click', () => {
+            if (!multiMode) {
+                multiMode = true;
+                singleModeBtn.classList.remove('active');
+                multiModeBtn.classList.add('active');
+                videoUrlInput.style.display = 'none';
+                multiVideoUrls.style.display = 'block';
+                videoInfoSection.classList.remove('active');
+                showNotification('Đã chuyển sang chế độ nhiều video');
             }
         });
         
@@ -1094,12 +1595,12 @@
             });
         });
         
-        // Start download
+        // Start download (single mode)
         startDownloadBtn.addEventListener('click', async () => {
             if (!selectedFormat || !currentVideoInfo) return;
             
             const extension = selectedType === 'video' ? 'mp4' : 'mp3';
-            const filename = `${currentVideoInfo.title.replace(/[^\w\s]/gi, '').substring(0, 50)}_${selectedType === 'video' ? currentVideoInfo.platform : 'audio'}.${extension}`;
+            const filename = `${currentVideoInfo.title.replace(/[^\w\s]/gi, '').substring(0, 50)}_${currentVideoInfo.platform}.${extension}`;
             
             startDownloadBtn.disabled = true;
             startDownloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải...';
@@ -1110,26 +1611,42 @@
             startDownloadBtn.innerHTML = '<i class="fas fa-download"></i> Tải xuống';
         });
         
+        // Download all (multi mode)
+        downloadAllBtn.addEventListener('click', downloadAllFromMulti);
+        
         // Platform icon click for examples
         document.querySelectorAll('.platform-icon').forEach(icon => {
             icon.addEventListener('click', () => {
                 const exampleUrl = icon.dataset.example;
-                videoUrlInput.value = exampleUrl;
-                videoUrlInput.focus();
+                
+                if (multiMode) {
+                    multiVideoUrls.value = exampleUrl + '\n' + multiVideoUrls.value;
+                    multiVideoUrls.focus();
+                } else {
+                    videoUrlInput.value = exampleUrl;
+                    videoUrlInput.focus();
+                }
+                
                 showNotification('Đã chèn ví dụ. Nhấn "Tìm Video" để tiếp tục.');
             });
         });
         
         // Enter key to search
         videoUrlInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && !multiMode) {
+                downloadBtn.click();
+            }
+        });
+        
+        multiVideoUrls.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.ctrlKey && multiMode) {
                 downloadBtn.click();
             }
         });
         
         // Initialize
         setTimeout(() => {
-            showNotification('Chào mừng đến với Video Downloader! Dán liên kết video để bắt đầu.');
+            showNotification('Chào mừng đến với TikTok Downloader! Dán liên kết video để bắt đầu.');
         }, 1000);
     </script>
 </body>
