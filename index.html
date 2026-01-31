@@ -1894,9 +1894,9 @@
                 return;
             }
             
-            if (validUrls.length > 10) {
-                showNotification(`Bạn đã nhập ${validUrls.length} video. Chỉ xử lý 10 video đầu tiên.`, 'warning');
-                validUrls.splice(10);
+            if (validUrls.length > 1000) {
+                showNotification(`Bạn đã nhập ${validUrls.length} video. Chỉ xử lý 1000 video đầu tiên.`, 'warning');
+                validUrls.splice(1000);
             }
             
             showNotification(`Đang xử lý ${validUrls.length} video...`, 'warning');
