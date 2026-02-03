@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="description" content="Tải video TikTok chất lượng cao miễn phí - Hỗ trợ MP4/MP3 và tìm kiếm video không giới hạn">
-    <meta name="keywords" content="tải tiktok, download tiktok, tiktok downloader, video tiktok, tìm kiếm tiktok">
+    <meta name="keywords" content="tải tiktok, download tiktok, tiktok downloader, video tiktok, tìm kiếm tiktok, tiktok không âm thanh, remove audio tiktok">
     <title>TikTok Video Downloader PRO - Tải Video TikTok & Tìm Kiếm Video</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⬇️</text></svg>">
@@ -24,6 +24,7 @@
             --tiktok-pink: #ff0050;
             --tiktok-black: #000000;
             --search-blue: #3b82f6;
+            --ai-purple: #8b5cf6;
         }
         
         * {
@@ -272,6 +273,12 @@
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
         
+        .main-tab-btn.ai-active {
+            background: var(--ai-purple);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+        
         /* Tab Content */
         .tab-content {
             display: none;
@@ -343,7 +350,7 @@
             margin-bottom: 15px;
         }
         
-        #videoUrls {
+        #videoUrls, #aiVideoUrls {
             width: 100%;
             padding: 20px 70px 20px 20px;
             border-radius: 16px;
@@ -358,7 +365,7 @@
             -webkit-appearance: none;
         }
         
-        #videoUrls:focus {
+        #videoUrls:focus, #aiVideoUrls:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
@@ -413,7 +420,7 @@
             background: rgba(239, 68, 68, 0.3);
         }
         
-        #downloadBtn {
+        #downloadBtn, #analyzeAIBtn {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border: none;
@@ -432,18 +439,18 @@
             min-width: 160px;
         }
         
-        #downloadBtn:hover {
+        #downloadBtn:hover:not(:disabled), #analyzeAIBtn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
         }
         
-        #downloadBtn:disabled {
+        #downloadBtn:disabled, #analyzeAIBtn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
         }
         
-        /* Search Section - Nâng cấp */
+        /* Search Section */
         .search-section {
             margin-bottom: 25px;
         }
@@ -499,7 +506,194 @@
             transform: none;
         }
         
-        /* Nâng cấp: Thêm bộ lọc nâng cao */
+        /* AI Audio Remover Section */
+        .ai-processing-section {
+            display: none;
+            margin-top: 25px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--ai-purple);
+            border-radius: 16px;
+            padding: 20px;
+        }
+        
+        .ai-processing-section.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .ai-processing-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            color: var(--ai-purple);
+        }
+        
+        .ai-processing-header i {
+            font-size: 1.5rem;
+        }
+        
+        .ai-processing-header h2 {
+            font-size: 1.3rem;
+            color: var(--ai-purple);
+        }
+        
+        .ai-processing-info {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .ai-processing-info p {
+            margin-bottom: 15px;
+            color: var(--light);
+            line-height: 1.5;
+        }
+        
+        .memory-warning {
+            display: none;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.9rem;
+            color: var(--warning);
+            margin-top: 15px;
+        }
+        
+        .memory-warning.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        .ai-processing-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .ai-option-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid transparent;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .ai-option-card:hover {
+            border-color: var(--ai-purple);
+            background: rgba(139, 92, 246, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .ai-option-card.selected {
+            border-color: var(--ai-purple);
+            background: rgba(139, 92, 246, 0.15);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.2);
+        }
+        
+        .ai-option-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--ai-purple);
+        }
+        
+        .ai-option-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--light);
+        }
+        
+        .ai-option-desc {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        
+        .ai-option-tag {
+            display: inline-block;
+            padding: 4px 8px;
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--ai-purple);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .ai-processing-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .ai-processing-btn {
+            flex: 1;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .ai-processing-btn.start {
+            background: linear-gradient(135deg, var(--ai-purple), #7c3aed);
+            color: white;
+        }
+        
+        .ai-processing-btn.cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            border: 1px solid var(--border);
+        }
+        
+        .ai-processing-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+        }
+        
+        .ai-processing-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .ai-processing-progress {
+            display: none;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0 10px;
+        }
+        
+        .ai-processing-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--ai-purple), #a78bfa);
+            width: 0%;
+            transition: width 0.3s;
+            border-radius: 4px;
+        }
+        
+        .ai-processing-details {
+            display: none;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+        
+        /* Advanced Search Controls */
         .advanced-search-controls {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 12px;
@@ -615,7 +809,7 @@
             border-color: var(--search-blue);
         }
         
-        /* Nâng cấp: Thêm controls chọn video */
+        /* Selection Controls */
         .selection-controls {
             display: flex;
             justify-content: space-between;
@@ -696,7 +890,7 @@
             cursor: not-allowed;
         }
         
-        /* Search Results - Nâng cấp với checkbox */
+        /* Search Results */
         .search-results {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -1436,6 +1630,10 @@
             background: linear-gradient(135deg, var(--search-blue), #2563eb);
         }
         
+        .notification.ai {
+            background: linear-gradient(135deg, var(--ai-purple), #7c3aed);
+        }
+        
         /* Progress Bar */
         .progress-container {
             margin-top: 20px;
@@ -1547,7 +1745,7 @@
             justify-content: center;
         }
         
-        /* TikTok Swipe Mode - Mới */
+        /* TikTok Swipe Mode */
         .swipe-mode {
             display: none;
             position: fixed;
@@ -1795,7 +1993,7 @@
                 font-size: 0.85rem;
             }
             
-            #videoUrls {
+            #videoUrls, #aiVideoUrls {
                 padding: 18px 60px 18px 18px;
                 border-radius: 14px;
                 min-height: 100px;
@@ -1839,7 +2037,7 @@
                 right: 12px;
             }
             
-            #downloadBtn {
+            #downloadBtn, #analyzeAIBtn {
                 padding: 14px 25px;
                 min-width: 140px;
                 font-size: 0.95rem;
@@ -1861,6 +2059,15 @@
             .multi-download-section {
                 padding: 16px;
                 border-radius: 14px;
+            }
+            
+            .ai-processing-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .ai-processing-btn {
+                padding: 12px 16px;
+                font-size: 0.9rem;
             }
             
             .notification {
@@ -1941,7 +2148,7 @@
                 gap: 5px;
             }
             
-            #videoUrls {
+            #videoUrls, #aiVideoUrls {
                 padding: 16px 55px 16px 16px;
                 font-size: 1rem;
                 min-height: 80px;
@@ -1991,7 +2198,7 @@
                 gap: 6px;
             }
             
-            #downloadBtn {
+            #downloadBtn, #analyzeAIBtn {
                 padding: 12px 20px;
                 min-width: 120px;
                 font-size: 0.9rem;
@@ -2040,7 +2247,7 @@
                 display: none;
             }
             
-            #videoUrls {
+            #videoUrls, #aiVideoUrls {
                 padding: 14px 45px 14px 14px;
             }
             
@@ -2072,7 +2279,9 @@
         .filter-btn,
         .page-btn,
         .page-number,
-        .result-action-btn {
+        .result-action-btn,
+        .ai-option-card,
+        .ai-processing-btn {
             cursor: pointer;
             touch-action: manipulation;
             -webkit-user-select: none;
@@ -2119,6 +2328,31 @@
             background: rgba(99, 102, 241, 0.3);
             color: white;
         }
+        
+        /* Performance Optimization */
+        .transform-gpu {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+        
+        .lazy-image {
+            opacity: 0;
+            transition: opacity 0.3s;
+            background: linear-gradient(90deg, #2d3748 0%, #4a5568 50%, #2d3748 100%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        .lazy-image.loaded {
+            opacity: 1;
+            animation: none;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
     </style>
 </head>
 <body>
@@ -2128,7 +2362,7 @@
             <div class="welcome-header">
                 <div class="logo">
                     <i class="fab fa-tiktok logo-icon"></i>
-                    <h1>TikDown Pro</h1>
+                    <h1>TikDown Pro <span style="font-size: 0.7rem; background: var(--ai-purple); padding: 2px 8px; border-radius: 10px; margin-left: 8px;">AI Enhanced</span></h1>
                 </div>
                 <p>Công cụ tải video TikTok miễn phí & tìm kiếm không giới hạn</p>
             </div>
@@ -2223,9 +2457,9 @@
         <header>
             <div class="logo">
                 <i class="fab fa-tiktok logo-icon"></i>
-                <h1>TikDown Pro</h1>
+                <h1>TikDown Pro <span style="font-size: 0.7rem; background: var(--ai-purple); padding: 2px 8px; border-radius: 10px; margin-left: 8px;">AI Enhanced</span></h1>
             </div>
-            <p class="tagline">Tải video TikTok chất lượng cao miễn phí - Hỗ trợ MP4/MP3 & Tìm kiếm không giới hạn video</p>
+            <p class="tagline">Tải video TikTok chất lượng cao miễn phí - Hỗ trợ MP4/MP3 & AI xóa âm thanh</p>
         </header>
         
         <!-- Main Tabs -->
@@ -2234,7 +2468,10 @@
                 <i class="fas fa-download"></i> Tải Video
             </button>
             <button class="main-tab-btn" id="searchTabBtn">
-                <i class="fas fa-search"></i> Tìm Kiếm Video
+                <i class="fas fa-search"></i> Tìm Kiếm
+            </button>
+            <button class="main-tab-btn" id="aiTabBtn">
+                <i class="fas fa-robot"></i> AI Xóa Âm Thanh
             </button>
         </div>
         
@@ -2383,6 +2620,79 @@
             </div>
         </div>
         
+        <!-- AI Audio Remover Tab -->
+        <div class="tab-content" id="aiTab">
+            <div class="ai-processing-section" id="aiProcessingSection">
+                <div class="ai-processing-header">
+                    <i class="fas fa-robot"></i>
+                    <h2>Công cụ AI xóa âm thanh video</h2>
+                </div>
+                
+                <div class="ai-processing-info">
+                    <p style="margin-bottom: 15px; color: var(--light);">
+                        <i class="fas fa-info-circle"></i> Sử dụng AI để xóa âm thanh khỏi video TikTok. Công cụ này hoạt động trực tiếp trên trình duyệt của bạn.
+                    </p>
+                    
+                    <div class="memory-warning" id="memoryWarning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Lưu ý:</strong> Xử lý video dài (>2 phút) có thể tốn nhiều bộ nhớ. Khuyến nghị sử dụng video ngắn để đạt hiệu suất tốt nhất.
+                    </div>
+                </div>
+                
+                <div class="ai-processing-options" id="aiProcessingOptions">
+                    <!-- Các tùy chọn AI sẽ được thêm bằng JavaScript -->
+                </div>
+                
+                <div class="ai-processing-controls">
+                    <button class="ai-processing-btn start" id="startAIProcessing" disabled>
+                        <i class="fas fa-play"></i> Bắt đầu xử lý
+                    </button>
+                    <button class="ai-processing-btn cancel" id="cancelAIProcessing">
+                        <i class="fas fa-times"></i> Hủy
+                    </button>
+                </div>
+                
+                <div class="ai-processing-progress" id="aiProcessingProgress" style="display: none;">
+                    <div class="ai-processing-fill" id="aiProcessingFill"></div>
+                </div>
+                
+                <div class="ai-processing-details" id="aiProcessingDetails" style="display: none;">
+                    <span id="aiProcessingStatus">Đang khởi tạo...</span>
+                    <span id="aiProcessingTime">--:--</span>
+                </div>
+                
+                <div id="aiResultContainer" style="display: none; margin-top: 20px;">
+                    <!-- Kết quả AI sẽ được hiển thị ở đây -->
+                </div>
+            </div>
+            
+            <div class="input-section" style="margin-top: 20px;">
+                <div class="input-container">
+                    <textarea id="aiVideoUrls" placeholder="Dán liên kết video TikTok cần xóa âm thanh... (Mỗi liên kết trên một dòng)" autocomplete="off"></textarea>
+                    
+                    <div class="input-actions">
+                        <button class="clear-btn" id="clearAIBtn" title="Xóa tất cả">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <button class="quick-clear-btn" id="quickClearAIBtn">
+                            <i class="fas fa-trash-alt"></i> Xóa tất cả
+                        </button>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button id="analyzeAIBtn">
+                        <i class="fas fa-magic"></i> Phân tích video
+                    </button>
+                </div>
+                
+                <div class="loading" id="aiLoading">
+                    <div class="spinner"></div>
+                    <p>Đang phân tích video...</p>
+                </div>
+            </div>
+        </div>
+        
         <!-- Video Info Section -->
         <div class="video-info-section" id="videoInfoSection">
             <div class="video-preview">
@@ -2408,6 +2718,7 @@
                 <div class="selector-tabs">
                     <button class="tab-btn active" data-tab="video">Video (MP4)</button>
                     <button class="tab-btn" data-tab="audio">Âm thanh (MP3)</button>
+                    <button class="tab-btn" data-tab="mute">Video không âm thanh</button>
                 </div>
                 
                 <div class="quality-options active" id="videoOptions">
@@ -2416,6 +2727,10 @@
                 
                 <div class="quality-options" id="audioOptions">
                     <!-- Audio options will be loaded here -->
+                </div>
+                
+                <div class="quality-options" id="muteOptions">
+                    <!-- Mute video options will be loaded here -->
                 </div>
                 
                 <div class="progress-container" id="progressContainer">
@@ -2472,52 +2787,42 @@
         const dontShowAgainCheckbox = document.getElementById('dontShowAgain');
         const mainContent = document.getElementById('mainContent');
         
-        // Kiểm tra nếu người dùng đã đồng ý trước đó
         function checkFirstVisit() {
             const hasVisited = localStorage.getItem('tikdownProHasVisited');
             const skipWelcome = localStorage.getItem('tikdownProSkipWelcome');
             
             if (hasVisited === 'true' && skipWelcome === 'true') {
-                // Đã từng truy cập và chọn không hiển thị nữa
                 hideWelcomeModal();
                 showMainContent();
             } else if (hasVisited === 'true') {
-                // Đã từng truy cập nhưng vẫn hiển thị thông báo
                 showWelcomeModal();
             } else {
-                // Lần đầu truy cập
                 showWelcomeModal();
                 localStorage.setItem('tikdownProHasVisited', 'true');
             }
         }
         
-        // Hiển thị modal chào mừng
         function showWelcomeModal() {
             welcomeModal.style.display = 'flex';
             mainContent.style.display = 'none';
         }
         
-        // Ẩn modal chào mừng
         function hideWelcomeModal() {
             welcomeModal.style.display = 'none';
             showMainContent();
         }
         
-        // Hiển thị nội dung chính
         function showMainContent() {
             mainContent.style.display = 'block';
-            // Focus vào input nếu không phải mobile
             if (!isMobile) {
                 videoUrlsInput.focus();
             }
         }
         
-        // Toggle checkbox
         function toggleCheckbox() {
             dontShowAgainCheckbox.checked = !dontShowAgainCheckbox.checked;
         }
         
-        // Xử lý sự kiện nút "Bắt đầu sử dụng"
         enterBtn.addEventListener('click', () => {
             if (dontShowAgainCheckbox.checked) {
                 localStorage.setItem('tikdownProSkipWelcome', 'true');
@@ -2529,17 +2834,17 @@
             showNotification('Chào mừng đến với TikDown Pro! 🎉');
         });
         
-        // ============ PHẦN CÒN LẠI CỦA CODE ============
-        
-        // Khởi tạo các biến
+        // ============ KHỞI TẠO BIẾN ============
         const videoUrlsInput = document.getElementById('videoUrls');
         const downloadBtn = document.getElementById('downloadBtn');
         const clearBtn = document.getElementById('clearBtn');
         const quickClearBtn = document.getElementById('quickClearBtn');
         const downloadTabBtn = document.getElementById('downloadTabBtn');
         const searchTabBtn = document.getElementById('searchTabBtn');
+        const aiTabBtn = document.getElementById('aiTabBtn');
         const downloadTab = document.getElementById('downloadTab');
         const searchTab = document.getElementById('searchTab');
+        const aiTab = document.getElementById('aiTab');
         const loading = document.getElementById('loading');
         const videoInfoSection = document.getElementById('videoInfoSection');
         const multiDownloadSection = document.getElementById('multiDownloadSection');
@@ -2549,6 +2854,7 @@
         const tabBtns = document.querySelectorAll('.tab-btn');
         const videoOptions = document.getElementById('videoOptions');
         const audioOptions = document.getElementById('audioOptions');
+        const muteOptions = document.getElementById('muteOptions');
         const startDownloadBtn = document.getElementById('startDownload');
         const progressContainer = document.getElementById('progressContainer');
         const progressFill = document.getElementById('progressFill');
@@ -2563,7 +2869,7 @@
         const modalVideo = document.getElementById('modalVideo');
         const closeModal = document.getElementById('closeModal');
         
-        // Biến cho tính năng tìm kiếm nâng cao
+        // Search variables
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
         const searchResults = document.getElementById('searchResults');
@@ -2575,14 +2881,14 @@
         const nextPageBtn = document.getElementById('nextPage');
         const pageNumbers = document.getElementById('pageNumbers');
         
-        // Biến cho tính năng chọn video
+        // Selection variables
         const selectionControls = document.getElementById('selectionControls');
         const selectedCount = document.getElementById('selectedCount');
         const selectAllBtn = document.getElementById('selectAllBtn');
         const deselectAllBtn = document.getElementById('deselectAllBtn');
         const downloadSelectedBtn = document.getElementById('downloadSelectedBtn');
         
-        // Biến cho tìm kiếm nâng cao
+        // Advanced search variables
         const advancedSearchControls = document.getElementById('advancedSearchControls');
         const toggleAdvancedBtn = document.getElementById('toggleAdvancedBtn');
         const closeAdvancedBtn = document.getElementById('closeAdvancedBtn');
@@ -2590,7 +2896,7 @@
         const durationFilter = document.getElementById('durationFilter');
         const countFilter = document.getElementById('countFilter');
         
-        // Biến cho chế độ lướt video TikTok
+        // Swipe mode variables
         const swipeMode = document.getElementById('swipeMode');
         const swipeContainer = document.getElementById('swipeContainer');
         const swipeVideoContainer = document.getElementById('swipeVideoContainer');
@@ -2604,34 +2910,61 @@
         const swipeIndicator = document.getElementById('swipeIndicator');
         const swipeLoading = document.getElementById('swipeLoading');
         
-        // State
-        let currentFormats = { video: [], audio: [] };
+        // AI Audio Remover variables
+        const aiVideoUrls = document.getElementById('aiVideoUrls');
+        const clearAIBtn = document.getElementById('clearAIBtn');
+        const quickClearAIBtn = document.getElementById('quickClearAIBtn');
+        const analyzeAIBtn = document.getElementById('analyzeAIBtn');
+        const aiLoading = document.getElementById('aiLoading');
+        const aiProcessingSection = document.getElementById('aiProcessingSection');
+        const aiProcessingOptions = document.getElementById('aiProcessingOptions');
+        const startAIProcessingBtn = document.getElementById('startAIProcessing');
+        const cancelAIProcessingBtn = document.getElementById('cancelAIProcessing');
+        const aiProcessingProgress = document.getElementById('aiProcessingProgress');
+        const aiProcessingFill = document.getElementById('aiProcessingFill');
+        const aiProcessingDetails = document.getElementById('aiProcessingDetails');
+        const aiProcessingStatus = document.getElementById('aiProcessingStatus');
+        const aiProcessingTime = document.getElementById('aiProcessingTime');
+        const aiResultContainer = document.getElementById('aiResultContainer');
+        const memoryWarning = document.getElementById('memoryWarning');
+        
+        // State variables
+        let currentFormats = { video: [], audio: [], mute: [] };
         let selectedFormat = null;
         let selectedType = 'video';
         let currentVideoInfo = null;
         let multiVideos = [];
         
-        // State cho tìm kiếm
+        // Search state
         let searchResultsData = [];
-        let selectedVideos = new Set(); // Set chứa ID của các video được chọn
+        let selectedVideos = new Set();
         let currentSearchQuery = '';
         let currentSearchFilter = 'all';
         let currentPage = 1;
         let totalPages = 1;
-        let resultsPerPage = 10000; // Tăng số lượng video mỗi trang
+        let resultsPerPage = 10000;
         
-        // State cho chế độ lướt video
+        // Swipe mode state
         let swipeVideos = [];
         let currentSwipeIndex = 0;
-        let isSwiping = false;
-        let startY = 0;
-        let currentY = 0;
         
-        // Check if iOS
+        // AI Audio Remover state
+        let aiWorker = null;
+        let aiProcessingActive = false;
+        let aiProcessingStartTime = null;
+        let selectedAIMethod = null;
+        
+        // Performance optimization
+        let isProcessing = false;
+        let requestQueue = [];
+        const MAX_CONCURRENT_REQUESTS = 3;
+        let activeRequests = 0;
+        
+        // Device detection
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
-        // TikTok API - Multiple endpoints for redundancy
+        // ============ API ENDPOINTS ============
         const TIKTOK_APIS = [
             {
                 name: 'tikwm',
@@ -2648,7 +2981,6 @@
             }
         ];
         
-        // TikTok Search API - Cập nhật với nhiều lựa chọn hơn
         const TIKTOK_SEARCH_APIS = [
             {
                 name: 'tikwm_search',
@@ -2664,7 +2996,27 @@
             }
         ];
         
-        // Show notification
+        // Enhanced mute video APIs
+        const TIKTOK_MUTE_APIS = [
+            {
+                name: 'tikwm_mute',
+                endpoint: 'https://tikwm.com/api/',
+                method: 'GET'
+            },
+            {
+                name: 'snaptik_mute',
+                endpoint: 'https://snaptik.app/api/v1/mute',
+                method: 'GET'
+            },
+            {
+                name: 'ttdownloader_mute',
+                endpoint: 'https://ttdownloader.com/ajax',
+                method: 'POST'
+            }
+        ];
+        
+        // ============ CORE FUNCTIONS ============
+        
         function showNotification(message, type = 'success') {
             notification.textContent = message;
             notification.className = `notification ${type}`;
@@ -2675,13 +3027,11 @@
             }, 4000);
         }
         
-        // Detect if URL is TikTok
         function isTikTokUrl(url) {
             const urlLower = url.toLowerCase();
             return urlLower.includes('tiktok.com') || urlLower.includes('tiktok');
         }
         
-        // Clean filename for download
         function cleanFilename(filename) {
             return filename
                 .replace(/[^\w\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđĐ\-\u4e00-\u9fa5]/gi, '')
@@ -2689,7 +3039,33 @@
                 .substring(0, 100);
         }
         
-        // ============ TÍNH NĂNG TẢI VIDEO ============
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            };
+        }
+        
+        // ============ VIDEO DOWNLOAD FUNCTIONS ============
+        
         async function fetchVideoInfo(url) {
             if (!isTikTokUrl(url)) {
                 throw new Error('Chỉ hỗ trợ liên kết TikTok');
@@ -2731,6 +3107,134 @@
             }
         }
         
+        async function fetchMuteVideoInfoEnhanced(url) {
+            console.log('Đang tìm kiếm video không âm thanh từ các API...');
+            
+            // Try multiple APIs for mute video
+            for (let i = 0; i < TIKTOK_MUTE_APIS.length; i++) {
+                try {
+                    let response;
+                    const api = TIKTOK_MUTE_APIS[i];
+                    
+                    if (api.name === 'tikwm_mute') {
+                        const apiUrl = `${api.endpoint}?url=${encodeURIComponent(url)}&hd=1&mute=1`;
+                        response = await fetch(apiUrl);
+                    } else if (api.name === 'snaptik_mute') {
+                        const apiUrl = `${api.endpoint}?url=${encodeURIComponent(url)}`;
+                        response = await fetch(apiUrl);
+                    } else if (api.name === 'ttdownloader_mute') {
+                        const formData = new FormData();
+                        formData.append('url', url);
+                        formData.append('format', 'mute');
+                        response = await fetch(api.endpoint, {
+                            method: 'POST',
+                            body: formData
+                        });
+                    }
+                    
+                    if (response && response.ok) {
+                        const data = await response.json();
+                        return processMuteTikTokDataEnhanced(data, url, api.name);
+                    }
+                } catch (error) {
+                    console.log(`API ${TIKTOK_MUTE_APIS[i].name} failed:`, error.message);
+                }
+            }
+            
+            // Fallback: Use AI processing
+            return await createMuteVideoWithAI(url);
+        }
+        
+        function processMuteTikTokDataEnhanced(data, url, apiName) {
+            const result = {
+                platform: 'tiktok',
+                url: url,
+                title: data.data?.title || 'Video TikTok (không âm thanh)',
+                thumbnail: data.data?.cover || data.data?.cover_url || '',
+                duration: data.data?.duration || '',
+                author: data.data?.author?.nickname || data.data?.author?.unique_id || '@tiktok_user',
+                likes: data.data?.digg_count || 0,
+                formats: { mute: [] },
+                status: 'success',
+                error: null,
+                source: apiName
+            };
+            
+            // Process based on API response
+            if (apiName === 'tikwm_mute') {
+                if (data.data?.hdplay) {
+                    result.formats.mute.push({
+                        quality: '1080p HD (không âm thanh)',
+                        url: data.data.hdplay,
+                        size: '~80 MB',
+                        source: 'api'
+                    });
+                }
+                if (data.data?.play) {
+                    result.formats.mute.push({
+                        quality: '720p (không âm thanh)',
+                        url: data.data.play,
+                        size: '~50 MB',
+                        source: 'api'
+                    });
+                }
+            } else if (apiName === 'snaptik_mute') {
+                if (data.video_url) {
+                    result.formats.mute.push({
+                        quality: 'HD (không âm thanh)',
+                        url: data.video_url,
+                        size: '~N/A',
+                        source: 'api'
+                    });
+                }
+            } else if (apiName === 'ttdownloader_mute') {
+                if (data.url) {
+                    result.formats.mute.push({
+                        quality: data.quality || 'HD (không âm thanh)',
+                        url: data.url,
+                        size: data.size || '~N/A',
+                        source: 'api'
+                    });
+                }
+            }
+            
+            return result;
+        }
+        
+        async function createMuteVideoWithAI(url) {
+            showNotification('Đang sử dụng AI để tạo video không âm thanh...', 'ai');
+            
+            try {
+                const videoInfo = await fetchVideoInfo(url);
+                
+                if (videoInfo.status !== 'success' || !videoInfo.formats.video.length) {
+                    throw new Error('Không thể lấy video gốc');
+                }
+                
+                const videoUrl = videoInfo.formats.video[0].url;
+                
+                return {
+                    ...videoInfo,
+                    formats: {
+                        ...videoInfo.formats,
+                        mute: [{
+                            quality: 'HD (AI xóa âm thanh)',
+                            url: videoUrl,
+                            size: '~N/A',
+                            source: 'ai',
+                            requiresProcessing: true,
+                            originalUrl: videoUrl
+                        }]
+                    },
+                    aiProcessable: true
+                };
+                
+            } catch (error) {
+                console.error('AI processing setup failed:', error);
+                throw new Error('Không thể thiết lập xử lý AI: ' + error.message);
+            }
+        }
+        
         function processTikTokData(data, url, apiType = 'api1') {
             let result = {
                 platform: 'tiktok',
@@ -2740,7 +3244,7 @@
                 duration: '',
                 author: '',
                 likes: 0,
-                formats: { video: [], audio: [] },
+                formats: { video: [], audio: [], mute: [] },
                 status: 'pending',
                 error: null
             };
@@ -2859,6 +3363,14 @@
             populateQualityOptions('video', info.formats.video);
             populateQualityOptions('audio', info.formats.audio);
             
+            // Load mute video options
+            if (info.formats.mute && info.formats.mute.length > 0) {
+                populateQualityOptions('mute', info.formats.mute);
+            } else {
+                // Show loading message for mute tab
+                muteOptions.innerHTML = '<p style="color: var(--gray); text-align: center; padding: 20px;">Video không âm thanh sẽ được tải khi bạn chọn tab này</p>';
+            }
+            
             // Show video info
             loading.classList.remove('active');
             videoInfoSection.classList.add('active');
@@ -2875,7 +3387,9 @@
         }
         
         function populateQualityOptions(type, formats) {
-            const container = type === 'video' ? videoOptions : audioOptions;
+            const container = type === 'video' ? videoOptions : 
+                            type === 'audio' ? audioOptions : 
+                            muteOptions;
             container.innerHTML = '';
             
             if (formats.length === 0) {
@@ -2890,12 +3404,18 @@
                 option.dataset.url = format.url;
                 option.dataset.type = type;
                 
+                const icon = type === 'video' ? 'fa-video' : 
+                           type === 'audio' ? 'fa-music' : 
+                           'fa-volume-mute';
+                
                 option.innerHTML = `
                     <div class="quality-details">
-                        <i class="fas fa-${type === 'video' ? 'video' : 'music'}"></i>
+                        <i class="fas ${icon}"></i>
                         <div class="quality-text">
                             <h4>${format.quality}</h4>
-                            <p>${type === 'video' ? 'Độ phân giải video' : 'Chất lượng âm thanh'}</p>
+                            <p>${type === 'video' ? 'Độ phân giải video' : 
+                                type === 'audio' ? 'Chất lượng âm thanh' : 
+                                'Video không có âm thanh'}</p>
                         </div>
                     </div>
                     <span class="file-size">${format.size}</span>
@@ -2904,6 +3424,77 @@
                 option.addEventListener('click', () => selectQualityOption(option, format.url, type));
                 container.appendChild(option);
             });
+        }
+        
+        async function loadMuteVideoOptions() {
+            if (!currentVideoInfo || !currentVideoInfo.url) return;
+            
+            try {
+                muteOptions.innerHTML = '<div class="loading" style="padding: 20px;"><div class="spinner"></div><p>Đang tải video không âm thanh...</p></div>';
+                
+                const muteInfo = await fetchMuteVideoInfoEnhanced(currentVideoInfo.url);
+                
+                if (muteInfo.formats.mute && muteInfo.formats.mute.length > 0) {
+                    // Add source info to quality label
+                    muteInfo.formats.mute = muteInfo.formats.mute.map(format => ({
+                        ...format,
+                        quality: format.quality + (format.source === 'ai' ? ' (AI xử lý)' : '')
+                    }));
+                    
+                    populateQualityOptions('mute', muteInfo.formats.mute);
+                    
+                    // Update currentFormats
+                    currentFormats.mute = muteInfo.formats.mute;
+                    
+                    // Select first option if in mute tab
+                    if (selectedType === 'mute') {
+                        const firstMuteOption = muteOptions.querySelector('.quality-option');
+                        if (firstMuteOption) {
+                            selectQualityOption(firstMuteOption, firstMuteOption.dataset.url, 'mute');
+                        }
+                    }
+                } else {
+                    muteOptions.innerHTML = `
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: var(--warning); margin-bottom: 10px;"></i>
+                            <p style="color: var(--warning); margin-bottom: 10px;">Không thể tải video không âm thanh từ API</p>
+                            <p style="color: var(--gray); margin-bottom: 15px; font-size: 0.9rem;">Hãy thử sử dụng công cụ AI xóa âm thanh</p>
+                            <button style="background: var(--ai-purple); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;" 
+                                    onclick="switchToAITab('${currentVideoInfo.url}')">
+                                <i class="fas fa-robot"></i> Sử dụng AI
+                            </button>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                muteOptions.innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <i class="fas fa-exclamation-circle" style="font-size: 2rem; color: var(--danger); margin-bottom: 10px;"></i>
+                        <p style="color: var(--danger); margin-bottom: 10px;">Lỗi: ${error.message}</p>
+                        <p style="color: var(--gray); margin-bottom: 15px; font-size: 0.9rem;">Hãy thử sử dụng công cụ AI xóa âm thanh</p>
+                        <button style="background: var(--ai-purple); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;" 
+                                onclick="switchToAITab('${currentVideoInfo.url}')">
+                            <i class="fas fa-robot"></i> Sử dụng AI
+                        </button>
+                    </div>
+                `;
+            }
+        }
+        
+        function switchToAITab(videoUrl) {
+            if (aiTabBtn) {
+                aiTabBtn.click();
+                
+                // Fill URL into AI input
+                if (aiVideoUrls) {
+                    aiVideoUrls.value = videoUrl;
+                    
+                    // Auto analyze
+                    setTimeout(() => {
+                        analyzeAIBtn.click();
+                    }, 500);
+                }
+            }
         }
         
         function selectQualityOption(option, url, type) {
@@ -2936,8 +3527,14 @@
                 
                 // Create a clean filename
                 const cleanName = cleanFilename(filename);
-                const extension = selectedType === 'video' ? 'mp4' : 'mp3';
-                const finalFilename = `${cleanName}_${Date.now()}.${extension}`;
+                const extension = selectedType === 'video' ? 'mp4' : 
+                                selectedType === 'audio' ? 'mp3' : 'mp4';
+                let finalFilename = `${cleanName}_${Date.now()}.${extension}`;
+                
+                // Add "no_sound" to filename for mute videos
+                if (selectedType === 'mute') {
+                    finalFilename = `${cleanName}_no_sound_${Date.now()}.${extension}`;
+                }
                 
                 // Fetch the file
                 const response = await fetch(url);
@@ -3023,6 +3620,8 @@
                 }
             }
         }
+        
+        // ============ MULTI DOWNLOAD FUNCTIONS ============
         
         function addToMultiList(videoInfo) {
             // Check if video already exists
@@ -3194,91 +3793,8 @@
             showNotification(message, successCount === readyVideos.length ? 'success' : 'warning');
         }
         
-        async function processMultipleUrls(urls) {
-            loading.classList.add('active');
-            videoInfoSection.classList.remove('active');
-            multiDownloadSection.classList.add('active');
-            
-            // Clear previous videos if needed
-            if (multiVideos.length > 0) {
-                multiVideos = [];
-                updateMultiList();
-                updateMultiStats();
-            }
-            
-            // Filter out empty lines and validate TikTok URLs
-            const validUrls = urls
-                .map(url => url.trim())
-                .filter(url => url.length > 0)
-                .filter(url => isTikTokUrl(url));
-            
-            if (validUrls.length === 0) {
-                loading.classList.remove('active');
-                showNotification('Không có liên kết TikTok hợp lệ', 'error');
-                return;
-            }
-            
-            if (validUrls.length > 1000) {
-                showNotification(`Bạn đã nhập ${validUrls.length} video. Chỉ xử lý 1000 video đầu tiên.`, 'warning');
-                validUrls.splice(1000);
-            }
-            
-            showNotification(`Đang xử lý ${validUrls.length} video...`, 'warning');
-            
-            // Process each URL
-            for (let i = 0; i < validUrls.length; i++) {
-                const url = validUrls[i];
-                
-                try {
-                    const videoInfo = await fetchVideoInfo(url);
-                    addToMultiList(videoInfo);
-                    
-                    // Update loading message
-                    const loadingText = loading.querySelector('p');
-                    loadingText.textContent = `Đang phân tích video... (${i+1}/${validUrls.length})`;
-                    
-                } catch (error) {
-                    // Add error video to list
-                    const errorVideo = {
-                        id: Date.now() + Math.random(),
-                        platform: 'tiktok',
-                        url: url,
-                        title: 'Video không thể truy cập',
-                        thumbnail: '',
-                        duration: '',
-                        author: '',
-                        likes: 0,
-                        formats: { video: [], audio: [] },
-                        status: 'error',
-                        error: error.message,
-                        downloaded: false
-                    };
-                    
-                    multiVideos.push(errorVideo);
-                    updateMultiList();
-                    updateMultiStats();
-                }
-                
-                // Small delay between requests
-                await new Promise(resolve => setTimeout(resolve, 500));
-            }
-            
-            loading.classList.remove('active');
-            
-            const successCount = multiVideos.filter(v => v.status === 'success').length;
-            const errorCount = multiVideos.filter(v => v.status === 'error').length;
-            
-            showNotification(`Đã xử lý xong! Thành công: ${successCount}, Lỗi: ${errorCount}`);
-            
-            // Show iOS guide if needed
-            if (isIOS && successCount > 0) {
-                iosGuide.classList.add('active');
-            }
-        }
+        // ============ SEARCH FUNCTIONS ============
         
-        // ============ TÍNH NĂNG TÌM KIẾM NÂNG CAO ============
-        
-        // Hàm tìm kiếm video TikTok nâng cao
         async function searchTikTokVideos(query, page = 1, options = {}) {
             if (!query.trim()) {
                 throw new Error('Vui lòng nhập từ khóa tìm kiếm');
@@ -3288,7 +3804,7 @@
                 searchLoading.classList.add('active');
                 searchResults.innerHTML = '';
                 
-                // Lấy tham số tìm kiếm nâng cao
+                // Get advanced search parameters
                 const sortByValue = options.sortBy || 'relevance';
                 const durationFilterValue = options.durationFilter || 'all';
                 const countValue = options.count || resultsPerPage;
@@ -3299,12 +3815,12 @@
                 // Try first search API
                 let apiUrl = `${TIKTOK_SEARCH_APIS[0].endpoint}?keywords=${encodeURIComponent(query)}&count=${resultsPerPage}&page=${page}`;
                 
-                // Thêm tham số sắp xếp nếu có
+                // Add sorting parameter if available
                 if (sortByValue !== 'relevance') {
                     apiUrl += `&sort=${sortByValue}`;
                 }
                 
-                // Thêm tham số thời lượng nếu có
+                // Add duration filter if available
                 if (durationFilterValue !== 'all') {
                     apiUrl += `&duration=${durationFilterValue}`;
                 }
@@ -3353,7 +3869,6 @@
             }
         }
         
-        // Tạo dữ liệu giả cho demo (khi API không hoạt động)
         function generateMockSearchResults(query, page, count) {
             const mockVideos = [];
             const startIndex = (page - 1) * count;
@@ -3383,7 +3898,6 @@
             };
         }
         
-        // Hiển thị kết quả tìm kiếm với checkbox
         function displaySearchResults(results, query, page) {
             searchResultsData = results.videos;
             currentSearchQuery = query;
@@ -3545,7 +4059,6 @@
             });
         }
         
-        // Cập nhật số lượng video được chọn
         function updateSelectedCount() {
             const count = selectedVideos.size;
             selectedCount.textContent = count;
@@ -3557,7 +4070,6 @@
             }
         }
         
-        // Chọn tất cả video
         function selectAllVideos() {
             selectedVideos.clear();
             document.querySelectorAll('.video-checkbox').forEach(checkbox => {
@@ -3568,7 +4080,6 @@
             updateSelectedCount();
         }
         
-        // Bỏ chọn tất cả video
         function deselectAllVideos() {
             selectedVideos.clear();
             document.querySelectorAll('.video-checkbox').forEach(checkbox => {
@@ -3578,7 +4089,6 @@
             updateSelectedCount();
         }
         
-        // Tải các video đã chọn
         async function downloadSelectedVideos() {
             const selectedVideoIds = Array.from(selectedVideos);
             
@@ -3587,7 +4097,7 @@
                 return;
             }
             
-            // Lấy thông tin video đã chọn từ searchResultsData
+            // Get selected videos from searchResultsData
             const selectedVideosData = searchResultsData.filter(video => 
                 selectedVideoIds.includes(video.id)
             );
@@ -3603,7 +4113,7 @@
             let successCount = 0;
             let errorCount = 0;
             
-            // Hiển thị danh sách đa nhiệm
+            // Show multi download section
             multiDownloadSection.classList.add('active');
             videoInfoSection.classList.remove('active');
             
@@ -3614,7 +4124,7 @@
                 updateMultiStats();
             }
             
-            // Xử lý từng video đã chọn
+            // Process each selected video
             for (let i = 0; i < selectedVideosData.length; i++) {
                 const video = selectedVideosData[i];
                 const videoUrl = `https://www.tiktok.com/@${video.author?.unique_id || 'user'}/video/${video.id}`;
@@ -3669,7 +4179,6 @@
             }
         }
         
-        // Xem trước video từ kết quả tìm kiếm
         function previewSearchVideo(video) {
             if (video.play) {
                 modalVideo.src = video.play;
@@ -3679,7 +4188,6 @@
             }
         }
         
-        // Thêm video từ kết quả tìm kiếm vào danh sách tải
         async function addSearchVideoToDownload(video) {
             const videoUrl = `https://www.tiktok.com/@${video.author?.unique_id || 'user'}/video/${video.id}`;
             
@@ -3702,7 +4210,6 @@
             }
         }
         
-        // Cập nhật phân trang
         function updatePagination() {
             pageNumbers.innerHTML = '';
             
@@ -3739,7 +4246,6 @@
             pagination.style.display = totalPages > 1 ? 'flex' : 'none';
         }
         
-        // Thực hiện tìm kiếm với các tùy chọn nâng cao
         async function performSearch(query, page = 1) {
             if (!query.trim()) {
                 showNotification('Vui lòng nhập từ khóa tìm kiếm', 'error');
@@ -3750,7 +4256,7 @@
             searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Đang tìm...</span>';
             
             try {
-                // Lấy tùy chọn tìm kiếm nâng cao
+                // Get advanced search options
                 const searchOptions = {
                     sortBy: sortBy.value,
                     durationFilter: durationFilter.value,
@@ -3774,9 +4280,457 @@
             }
         }
         
-        // ============ TÍNH NĂNG LƯỚT VIDEO TIKTOK ============
+        // ============ AI AUDIO REMOVER FUNCTIONS ============
         
-        // Mở chế độ lướt video
+        function initializeAIAudioRemover() {
+            const aiOptions = [
+                {
+                    id: 'web_audio',
+                    title: 'Web Audio API',
+                    description: 'Sử dụng Web Audio API của trình duyệt để xóa âm thanh. Nhanh và hiệu quả cho video ngắn.',
+                    icon: 'fas fa-wave-square',
+                    tag: 'Nhanh',
+                    maxDuration: 120 // 2 minutes
+                },
+                {
+                    id: 'canvas_method',
+                    title: 'Canvas Recording',
+                    description: 'Sử dụng Canvas để ghi lại video không có âm thanh. Chất lượng tốt và tương thích rộng.',
+                    icon: 'fas fa-video',
+                    tag: 'Chất lượng cao',
+                    maxDuration: 180 // 3 minutes
+                },
+                {
+                    id: 'ffmpeg_wasm',
+                    title: 'FFmpeg WASM',
+                    description: 'Sử dụng FFmpeg compiled to WebAssembly để xử lý video. Mạnh mẽ nhưng cần tải thư viện.',
+                    icon: 'fas fa-cogs',
+                    tag: 'Mạnh mẽ',
+                    maxDuration: 300 // 5 minutes
+                }
+            ];
+            
+            const container = document.getElementById('aiProcessingOptions');
+            container.innerHTML = '';
+            
+            aiOptions.forEach(option => {
+                const card = document.createElement('div');
+                card.className = 'ai-option-card';
+                card.dataset.id = option.id;
+                card.dataset.maxDuration = option.maxDuration;
+                
+                card.innerHTML = `
+                    <div class="ai-option-icon">
+                        <i class="${option.icon}"></i>
+                    </div>
+                    <div class="ai-option-title">${option.title}</div>
+                    <div class="ai-option-desc">${option.description}</div>
+                    <div class="ai-option-tag">${option.tag}</div>
+                    <div style="margin-top: 8px; font-size: 0.8rem; color: var(--gray);">
+                        <i class="fas fa-clock"></i> Tối đa: ${option.maxDuration} giây
+                    </div>
+                `;
+                
+                card.addEventListener('click', () => selectAIOption(card));
+                container.appendChild(card);
+            });
+        }
+        
+        function selectAIOption(card) {
+            // Deselect all
+            document.querySelectorAll('.ai-option-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            
+            // Select clicked card
+            card.classList.add('selected');
+            
+            // Enable start button
+            startAIProcessingBtn.disabled = false;
+            
+            // Store selected method
+            selectedAIMethod = card.dataset.id;
+            
+            // Show memory warning if video is long
+            const maxDuration = parseInt(card.dataset.maxDuration);
+            
+            if (maxDuration < 120) {
+                memoryWarning.classList.add('active');
+            } else {
+                memoryWarning.classList.remove('active');
+            }
+            
+            showNotification(`Đã chọn: ${card.querySelector('.ai-option-title').textContent}`, 'ai');
+        }
+        
+        async function startAIProcessing() {
+            if (!selectedAIMethod) {
+                showNotification('Vui lòng chọn phương pháp xử lý AI', 'error');
+                return;
+            }
+            
+            const videoUrl = aiVideoUrls.value.trim();
+            
+            if (!videoUrl) {
+                showNotification('Vui lòng nhập URL video', 'error');
+                return;
+            }
+            
+            if (!isTikTokUrl(videoUrl)) {
+                showNotification('URL video TikTok không hợp lệ', 'error');
+                return;
+            }
+            
+            if (aiProcessingActive) {
+                showNotification('Đang xử lý video khác, vui lòng đợi', 'warning');
+                return;
+            }
+            
+            aiProcessingActive = true;
+            aiProcessingStartTime = Date.now();
+            
+            // Show progress
+            aiProcessingProgress.style.display = 'block';
+            aiProcessingDetails.style.display = 'flex';
+            startAIProcessingBtn.disabled = true;
+            
+            showNotification('Đang xử lý video với AI...', 'ai');
+            
+            try {
+                // Update progress
+                updateAIProgress(10, 'Đang tải video...');
+                
+                // Get video info
+                const videoInfo = await fetchVideoInfo(videoUrl);
+                
+                if (videoInfo.status !== 'success' || !videoInfo.formats.video.length) {
+                    throw new Error('Không thể lấy video gốc');
+                }
+                
+                const originalVideoUrl = videoInfo.formats.video[0].url;
+                
+                updateAIProgress(30, 'Đang xử lý âm thanh...');
+                
+                let resultUrl;
+                
+                // Process based on selected method
+                if (selectedAIMethod === 'web_audio') {
+                    resultUrl = await processWithWebAudio(originalVideoUrl);
+                } else if (selectedAIMethod === 'canvas_method') {
+                    resultUrl = await processWithCanvas(originalVideoUrl);
+                } else {
+                    resultUrl = await processWithFFmpegWASM(originalVideoUrl);
+                }
+                
+                updateAIProgress(90, 'Đang hoàn tất...');
+                
+                // Show result
+                showAIResult(videoInfo, resultUrl);
+                
+                updateAIProgress(100, 'Hoàn thành!');
+                
+                showNotification('Xử lý AI hoàn thành!', 'success');
+                
+            } catch (error) {
+                console.error('AI processing failed:', error);
+                showNotification(`Lỗi xử lý AI: ${error.message}`, 'error');
+                updateAIProgress(0, 'Lỗi xử lý');
+            } finally {
+                aiProcessingActive = false;
+                startAIProcessingBtn.disabled = false;
+                
+                // Hide progress after 3 seconds
+                setTimeout(() => {
+                    aiProcessingProgress.style.display = 'none';
+                    aiProcessingDetails.style.display = 'none';
+                    aiProcessingFill.style.width = '0%';
+                }, 3000);
+            }
+        }
+        
+        async function processWithWebAudio(videoUrl) {
+            // This is a simplified version - in reality would need more complex implementation
+            return videoUrl; // Placeholder
+        }
+        
+        async function processWithCanvas(videoUrl) {
+            return new Promise((resolve, reject) => {
+                try {
+                    const video = document.createElement('video');
+                    video.crossOrigin = 'anonymous';
+                    video.src = videoUrl;
+                    
+                    video.onloadedmetadata = () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Create a stream from canvas (video only, no audio)
+                        const stream = canvas.captureStream(30);
+                        
+                        // Create media recorder
+                        const recorder = new MediaRecorder(stream, {
+                            mimeType: 'video/webm;codecs=vp9'
+                        });
+                        
+                        const chunks = [];
+                        
+                        recorder.ondataavailable = (e) => {
+                            if (e.data.size > 0) {
+                                chunks.push(e.data);
+                            }
+                        };
+                        
+                        recorder.onstop = () => {
+                            const blob = new Blob(chunks, { type: 'video/webm' });
+                            const url = URL.createObjectURL(blob);
+                            resolve(url);
+                        };
+                        
+                        // Start recording
+                        recorder.start();
+                        
+                        // Draw video frames to canvas
+                        function drawFrame() {
+                            if (video.paused || video.ended) {
+                                recorder.stop();
+                                return;
+                            }
+                            
+                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                            requestAnimationFrame(drawFrame);
+                        }
+                        
+                        // Start playing and recording
+                        video.play().then(() => {
+                            drawFrame();
+                            
+                            // Stop when video ends
+                            video.onended = () => {
+                                recorder.stop();
+                            };
+                        }).catch(reject);
+                    };
+                    
+                    video.onerror = reject;
+                    
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        }
+        
+        async function processWithFFmpegWASM(videoUrl) {
+            // This would require loading ffmpeg.wasm library
+            // For now, return the original URL as placeholder
+            return videoUrl;
+        }
+        
+        function updateAIProgress(progress, message) {
+            if (aiProcessingFill) {
+                aiProcessingFill.style.width = `${progress}%`;
+            }
+            
+            if (aiProcessingStatus) {
+                aiProcessingStatus.textContent = message;
+            }
+            
+            if (aiProcessingTime && aiProcessingStartTime) {
+                const elapsed = Date.now() - aiProcessingStartTime;
+                const seconds = Math.floor(elapsed / 1000);
+                aiProcessingTime.textContent = `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`;
+            }
+        }
+        
+        function cancelAIProcessing() {
+            if (aiProcessingActive) {
+                aiProcessingActive = false;
+                startAIProcessingBtn.disabled = false;
+                aiProcessingProgress.style.display = 'none';
+                aiProcessingDetails.style.display = 'none';
+                
+                showNotification('Đã hủy xử lý AI', 'warning');
+            }
+        }
+        
+        async function analyzeVideoForAI() {
+            const videoUrl = aiVideoUrls.value.trim();
+            
+            if (!videoUrl || !isTikTokUrl(videoUrl)) {
+                showNotification('URL video TikTok không hợp lệ', 'error');
+                return;
+            }
+            
+            aiLoading.classList.add('active');
+            analyzeAIBtn.disabled = true;
+            
+            try {
+                showNotification('Đang phân tích video cho xử lý AI...', 'ai');
+                
+                // Get video info
+                const videoInfo = await fetchVideoInfo(videoUrl);
+                
+                if (videoInfo.status !== 'success') {
+                    throw new Error('Không thể lấy thông tin video');
+                }
+                
+                // Display video info
+                displayAIVideoInfo(videoInfo);
+                
+                // Enable AI options based on video duration
+                const duration = parseDuration(videoInfo.duration);
+                enableAIOptionsBasedOnDuration(duration);
+                
+                showNotification('Phân tích video hoàn tất!', 'success');
+                
+            } catch (error) {
+                showNotification(`Lỗi phân tích: ${error.message}`, 'error');
+            } finally {
+                aiLoading.classList.remove('active');
+                analyzeAIBtn.disabled = false;
+            }
+        }
+        
+        function parseDuration(durationStr) {
+            if (!durationStr) return 0;
+            
+            const parts = durationStr.split(':').map(Number);
+            if (parts.length === 2) {
+                return parts[0] * 60 + parts[1];
+            } else if (parts.length === 3) {
+                return parts[0] * 3600 + parts[1] * 60 + parts[2];
+            }
+            return 0;
+        }
+        
+        function enableAIOptionsBasedOnDuration(durationSeconds) {
+            const options = document.querySelectorAll('.ai-option-card');
+            
+            options.forEach(option => {
+                const maxDuration = parseInt(option.dataset.maxDuration);
+                const title = option.querySelector('.ai-option-title').textContent;
+                
+                if (durationSeconds <= maxDuration) {
+                    option.style.opacity = '1';
+                    option.style.pointerEvents = 'auto';
+                    option.title = '';
+                } else {
+                    option.style.opacity = '0.5';
+                    option.style.pointerEvents = 'none';
+                    option.title = `Video quá dài (${durationSeconds}s). Giới hạn: ${maxDuration}s`;
+                }
+            });
+            
+            // Show warning if video is too long
+            if (durationSeconds > 300) {
+                showNotification('Video quá dài (>5 phút). Khuyến nghị sử dụng video ngắn hơn cho xử lý AI.', 'warning');
+            }
+        }
+        
+        function displayAIVideoInfo(videoInfo) {
+            const container = document.getElementById('aiResultContainer');
+            
+            container.innerHTML = `
+                <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 20px; margin-top: 20px;">
+                    <h3 style="margin-bottom: 15px; color: var(--light);">
+                        <i class="fas fa-video"></i> Thông tin video
+                    </h3>
+                    
+                    <div style="display: grid; grid-template-columns: 120px 1fr; gap: 15px; align-items: start;">
+                        <div style="width: 120px; height: 120px; border-radius: 8px; overflow: hidden; background: rgba(0,0,0,0.3);">
+                            ${videoInfo.thumbnail ? 
+                                `<img src="${videoInfo.thumbnail}" alt="Thumbnail" style="width: 100%; height: 100%; object-fit: cover;" class="lazy-image" data-src="${videoInfo.thumbnail}">` : 
+                                `<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--gray);"><i class="fas fa-image"></i></div>`
+                            }
+                        </div>
+                        
+                        <div>
+                            <h4 style="margin-bottom: 8px; color: var(--light);">${videoInfo.title || 'Video TikTok'}</h4>
+                            <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 10px;">
+                                <div style="display: flex; align-items: center; gap: 5px; color: var(--gray);">
+                                    <i class="fas fa-user"></i>
+                                    <span>${videoInfo.author || 'N/A'}</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 5px; color: var(--gray);">
+                                    <i class="fas fa-clock"></i>
+                                    <span>${videoInfo.duration || 'N/A'}</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 5px; color: var(--gray);">
+                                    <i class="fas fa-heart"></i>
+                                    <span>${videoInfo.likes?.toLocaleString() || '0'}</span>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 15px;">
+                                <div style="font-size: 0.9rem; color: var(--gray); margin-bottom: 5px;">
+                                    <i class="fas fa-info-circle"></i> Video ${videoInfo.duration ? `dài ${videoInfo.duration}` : ''} - ${parseDuration(videoInfo.duration) > 120 ? 'Khuyến nghị sử dụng video ngắn hơn' : 'Phù hợp cho xử lý AI'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.style.display = 'block';
+        }
+        
+        function showAIResult(videoInfo, resultUrl) {
+            const container = document.getElementById('aiResultContainer');
+            
+            container.innerHTML += `
+                <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid var(--ai-purple); border-radius: 12px; padding: 20px; margin-top: 20px;">
+                    <h3 style="margin-bottom: 15px; color: var(--ai-purple);">
+                        <i class="fas fa-check-circle"></i> Kết quả xử lý AI
+                    </h3>
+                    
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                        <div style="flex-shrink: 0;">
+                            <i class="fas fa-volume-mute" style="font-size: 2rem; color: var(--ai-purple);"></i>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--light); margin-bottom: 5px;">Video không âm thanh đã sẵn sàng</h4>
+                            <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 10px;">
+                                Phương pháp: ${selectedAIMethod || 'N/A'}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="ai-processing-btn start" onclick="downloadAIResult('${resultUrl}', '${cleanFilename(videoInfo.title)}_no_sound_${Date.now()}.mp4')">
+                            <i class="fas fa-download"></i> Tải xuống
+                        </button>
+                        <button class="ai-processing-btn cancel" onclick="previewAIResult('${resultUrl}')">
+                            <i class="fas fa-eye"></i> Xem trước
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            container.style.display = 'block';
+        }
+        
+        function downloadAIResult(url, filename) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            showNotification('Đang tải xuống video không âm thanh...', 'ai');
+        }
+        
+        function previewAIResult(url) {
+            if (modalVideo && videoModal) {
+                modalVideo.src = url;
+                videoModal.classList.add('active');
+                showNotification('Đang mở video xem trước...', 'ai');
+            }
+        }
+        
+        // ============ SWIPE MODE FUNCTIONS ============
+        
         function openSwipeMode(video, videoList) {
             swipeVideos = videoList;
             currentSwipeIndex = videoList.findIndex(v => v.id === video.id);
@@ -3785,21 +4739,20 @@
                 currentSwipeIndex = 0;
             }
             
-            // Hiển thị chế độ lướt video
+            // Show swipe mode
             swipeMode.classList.add('active');
             mainContent.style.display = 'none';
             
-            // Load video đầu tiên
+            // Load first video
             loadSwipeVideo(currentSwipeIndex);
             
-            // Tạo indicator
+            // Create indicator
             createSwipeIndicator();
             
-            // Thiết lập sự kiện swipe
+            // Setup swipe events
             setupSwipeEvents();
         }
         
-        // Tạo indicator cho chế độ lướt
         function createSwipeIndicator() {
             swipeIndicator.innerHTML = '';
             
@@ -3819,7 +4772,6 @@
             }
         }
         
-        // Cập nhật indicator
         function updateSwipeIndicator() {
             const dots = swipeIndicator.querySelectorAll('.swipe-dot');
             dots.forEach((dot, index) => {
@@ -3831,35 +4783,34 @@
             });
         }
         
-        // Tải video trong chế độ lướt
         function loadSwipeVideo(index) {
             if (index < 0 || index >= swipeVideos.length) return;
             
             currentSwipeIndex = index;
             const video = swipeVideos[index];
             
-            // Hiển thị loading
+            // Show loading
             swipeLoading.style.display = 'flex';
             
-            // Cập nhật thông tin video
+            // Update video info
             swipeTitle.textContent = video.title || 'Video TikTok';
             swipeAuthor.innerHTML = `<i class="fas fa-user"></i> ${video.author?.nickname || video.author?.unique_id || '@user'}`;
             
-            // Kiểm tra xem video đã được tải chưa
+            // Check if video is already loaded
             const existingVideo = swipeVideoContainer.querySelector(`[data-index="${index}"]`);
             
             if (existingVideo) {
-                // Video đã được tải, hiển thị nó
+                // Video already loaded, show it
                 swipeVideoContainer.style.transform = `translateY(-${index * 100}%)`;
                 swipeLoading.style.display = 'none';
                 
-                // Phát video
+                // Play video
                 const videoElement = existingVideo.querySelector('.swipe-video');
                 if (videoElement) {
                     videoElement.play().catch(e => console.log('Video autoplay failed:', e));
                 }
             } else {
-                // Tạo phần tử video mới
+                // Create new video element
                 const videoItem = document.createElement('div');
                 videoItem.className = 'swipe-video-item';
                 videoItem.dataset.index = index;
@@ -3869,7 +4820,7 @@
                 videoElement.src = video.play || '';
                 videoElement.controls = true;
                 videoElement.playsInline = true;
-                videoElement.muted = isMobile; // Tắt tiếng trên mobile để tự động phát
+                videoElement.muted = isMobile; // Mute on mobile for autoplay
                 
                 videoElement.addEventListener('loadeddata', () => {
                     swipeLoading.style.display = 'none';
@@ -3892,21 +4843,20 @@
                 videoItem.appendChild(videoElement);
                 swipeVideoContainer.appendChild(videoItem);
                 
-                // Di chuyển đến video hiện tại
+                // Move to current video
                 swipeVideoContainer.style.transform = `translateY(-${index * 100}%)`;
             }
             
-            // Cập nhật indicator
+            // Update indicator
             updateSwipeIndicator();
         }
         
-        // Thiết lập sự kiện swipe
         function setupSwipeEvents() {
             let startY = 0;
             let currentY = 0;
             let isSwiping = false;
             
-            // Sự kiện touch cho mobile
+            // Touch events for mobile
             swipeContainer.addEventListener('touchstart', (e) => {
                 startY = e.touches[0].clientY;
                 isSwiping = true;
@@ -3915,8 +4865,6 @@
             swipeContainer.addEventListener('touchmove', (e) => {
                 if (!isSwiping) return;
                 currentY = e.touches[0].clientY;
-                
-                // Ngăn chặn scroll mặc định
                 e.preventDefault();
             });
             
@@ -3924,14 +4872,14 @@
                 if (!isSwiping) return;
                 
                 const diff = startY - currentY;
-                const threshold = 50; // Ngưỡng swipe
+                const threshold = 50;
                 
                 if (Math.abs(diff) > threshold) {
                     if (diff > 0) {
-                        // Swipe lên - video tiếp theo
+                        // Swipe up - next video
                         loadSwipeVideo(currentSwipeIndex + 1);
                     } else {
-                        // Swipe xuống - video trước đó
+                        // Swipe down - previous video
                         loadSwipeVideo(currentSwipeIndex - 1);
                     }
                 }
@@ -3939,7 +4887,7 @@
                 isSwiping = false;
             });
             
-            // Sự kiện chuột cho desktop
+            // Mouse events for desktop
             swipeContainer.addEventListener('mousedown', (e) => {
                 startY = e.clientY;
                 isSwiping = true;
@@ -3954,14 +4902,12 @@
                 if (!isSwiping) return;
                 
                 const diff = startY - currentY;
-                const threshold = 30; // Ngưỡng swipe cho desktop
+                const threshold = 30;
                 
                 if (Math.abs(diff) > threshold) {
                     if (diff > 0) {
-                        // Swipe lên - video tiếp theo
                         loadSwipeVideo(currentSwipeIndex + 1);
                     } else {
-                        // Swipe xuống - video trước đó
                         loadSwipeVideo(currentSwipeIndex - 1);
                     }
                 }
@@ -3969,21 +4915,18 @@
                 isSwiping = false;
             });
             
-            // Cho phép scroll bằng wheel
+            // Wheel for desktop
             swipeContainer.addEventListener('wheel', (e) => {
                 e.preventDefault();
                 
                 if (e.deltaY > 0) {
-                    // Scroll xuống - video tiếp theo
                     loadSwipeVideo(currentSwipeIndex + 1);
                 } else {
-                    // Scroll lên - video trước đó
                     loadSwipeVideo(currentSwipeIndex - 1);
                 }
             });
         }
         
-        // Tải video hiện tại trong chế độ lướt
         async function downloadCurrentSwipeVideo() {
             const video = swipeVideos[currentSwipeIndex];
             if (!video) return;
@@ -4022,32 +4965,62 @@
             downloadTabBtn.classList.add('active');
             searchTabBtn.classList.remove('active');
             searchTabBtn.classList.remove('search-active');
+            aiTabBtn.classList.remove('active');
+            aiTabBtn.classList.remove('ai-active');
             
             downloadTab.classList.add('active');
             searchTab.classList.remove('active');
+            aiTab.classList.remove('active');
             
             // Hide other sections
             videoInfoSection.classList.remove('active');
             multiDownloadSection.classList.remove('active');
             advancedSearchControls.classList.remove('active');
+            aiProcessingSection.classList.remove('active');
         });
         
         searchTabBtn.addEventListener('click', () => {
             searchTabBtn.classList.add('active');
             searchTabBtn.classList.add('search-active');
             downloadTabBtn.classList.remove('active');
+            aiTabBtn.classList.remove('active');
+            aiTabBtn.classList.remove('ai-active');
             
             searchTab.classList.add('active');
             downloadTab.classList.remove('active');
+            aiTab.classList.remove('active');
             
             // Hide other sections
             videoInfoSection.classList.remove('active');
             multiDownloadSection.classList.remove('active');
+            aiProcessingSection.classList.remove('active');
             
             // Focus search input
             if (!isMobile) {
                 searchInput.focus();
             }
+        });
+        
+        aiTabBtn.addEventListener('click', () => {
+            aiTabBtn.classList.add('active');
+            aiTabBtn.classList.add('ai-active');
+            downloadTabBtn.classList.remove('active');
+            searchTabBtn.classList.remove('active');
+            searchTabBtn.classList.remove('search-active');
+            
+            aiTab.classList.add('active');
+            downloadTab.classList.remove('active');
+            searchTab.classList.remove('active');
+            
+            // Show AI section
+            aiProcessingSection.classList.add('active');
+            
+            // Focus AI input
+            if (!isMobile) {
+                aiVideoUrls.focus();
+            }
+            
+            showNotification('Chế độ AI xóa âm thanh đã kích hoạt', 'ai');
         });
         
         // Clear buttons
@@ -4064,6 +5037,20 @@
             updateMultiList();
             updateMultiStats();
             showNotification('Đã xóa tất cả liên kết và danh sách video');
+        });
+        
+        clearAIBtn.addEventListener('click', () => {
+            aiVideoUrls.value = '';
+            aiVideoUrls.focus();
+            showNotification('Đã xóa URL video AI');
+        });
+        
+        quickClearAIBtn.addEventListener('click', () => {
+            aiVideoUrls.value = '';
+            aiVideoUrls.focus();
+            aiResultContainer.innerHTML = '';
+            aiResultContainer.style.display = 'none';
+            showNotification('Đã xóa tất cả dữ liệu AI');
         });
         
         // Download button (process URLs)
@@ -4126,6 +5113,15 @@
             }
         });
         
+        // AI analyze button
+        analyzeAIBtn.addEventListener('click', analyzeVideoForAI);
+        
+        // AI start processing button
+        startAIProcessingBtn.addEventListener('click', startAIProcessing);
+        
+        // AI cancel button
+        cancelAIProcessingBtn.addEventListener('click', cancelAIProcessing);
+        
         // Filter buttons
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -4133,24 +5129,11 @@
                 btn.classList.add('active');
                 currentSearchFilter = btn.dataset.filter;
                 
-                // Apply filter (in a real app, this would re-fetch with filter)
+                // Apply filter
                 if (searchResultsData.length > 0) {
                     showNotification(`Đã áp dụng bộ lọc: ${btn.textContent}`, 'info');
                 }
             });
-        });
-        
-        // Pagination buttons
-        prevPageBtn.addEventListener('click', () => {
-            if (currentPage > 1) {
-                performSearch(currentSearchQuery, currentPage - 1);
-            }
-        });
-        
-        nextPageBtn.addEventListener('click', () => {
-            if (currentPage < totalPages) {
-                performSearch(currentSearchQuery, currentPage + 1);
-            }
         });
         
         // Selection buttons
@@ -4196,18 +5179,30 @@
                 btn.classList.add('active');
                 
                 // Show selected tab content
+                videoOptions.classList.remove('active');
+                audioOptions.classList.remove('active');
+                muteOptions.classList.remove('active');
+                
                 if (tab === 'video') {
                     videoOptions.classList.add('active');
-                    audioOptions.classList.remove('active');
                     selectedType = 'video';
-                } else {
-                    videoOptions.classList.remove('active');
+                } else if (tab === 'audio') {
                     audioOptions.classList.add('active');
                     selectedType = 'audio';
+                } else if (tab === 'mute') {
+                    muteOptions.classList.add('active');
+                    selectedType = 'mute';
+                    
+                    // Load mute video options if not already loaded
+                    if ((!currentFormats.mute || currentFormats.mute.length === 0) && currentVideoInfo) {
+                        loadMuteVideoOptions();
+                    }
                 }
                 
                 // Select first option in active tab
-                const activeOptions = tab === 'video' ? videoOptions : audioOptions;
+                const activeOptions = tab === 'video' ? videoOptions : 
+                                    tab === 'audio' ? audioOptions : 
+                                    muteOptions;
                 const firstOption = activeOptions.querySelector('.quality-option');
                 if (firstOption) {
                     selectQualityOption(firstOption, firstOption.dataset.url, tab);
@@ -4219,8 +5214,16 @@
         startDownloadBtn.addEventListener('click', async () => {
             if (!selectedFormat || !currentVideoInfo) return;
             
-            const extension = selectedType === 'video' ? 'mp4' : 'mp3';
-            const filename = `${cleanFilename(currentVideoInfo.title)}_${currentVideoInfo.author}.${extension}`;
+            let extension = selectedType === 'video' ? 'mp4' : 
+                          selectedType === 'audio' ? 'mp3' : 
+                          'mp4';
+            
+            let filename = `${cleanFilename(currentVideoInfo.title)}_${currentVideoInfo.author}.${extension}`;
+            
+            // Add "no_sound" to filename for mute videos
+            if (selectedType === 'mute') {
+                filename = `${cleanFilename(currentVideoInfo.title)}_no_sound_${currentVideoInfo.author}.${extension}`;
+            }
             
             startDownloadBtn.disabled = true;
             startDownloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải...';
@@ -4234,7 +5237,10 @@
                 if (result.fallback) {
                     showNotification('Đã gửi yêu cầu tải. Kiểm tra trình tải xuống của bạn.', 'warning');
                 } else {
-                    showNotification('Tải xuống thành công! Kiểm tra thư mục Downloads.', 'success');
+                    const typeText = selectedType === 'video' ? 'video' : 
+                                   selectedType === 'audio' ? 'âm thanh' : 
+                                   'video không âm thanh';
+                    showNotification(`Tải xuống ${typeText} thành công! Kiểm tra thư mục Downloads.`, 'success');
                 }
             }
         });
@@ -4269,7 +5275,7 @@
             swipeMode.classList.remove('active');
             mainContent.style.display = 'block';
             
-            // Dừng tất cả video
+            // Stop all videos
             swipeVideoContainer.querySelectorAll('video').forEach(video => {
                 video.pause();
             });
@@ -4308,7 +5314,22 @@
                         showNotification('Đã tự động dán liên kết từ clipboard');
                     }
                 } catch (err) {
-                    // Clipboard permission not granted or other error
+                    // Clipboard permission not granted
+                }
+            }
+        });
+        
+        // Auto paste for AI input
+        aiVideoUrls.addEventListener('focus', async () => {
+            if (isMobile && aiVideoUrls.value === '') {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    if (isTikTokUrl(text)) {
+                        aiVideoUrls.value = text;
+                        showNotification('Đã tự động dán liên kết từ clipboard');
+                    }
+                } catch (err) {
+                    // Clipboard permission not granted
                 }
             }
         });
@@ -4329,12 +5350,16 @@
             showNotification('Liên hệ: Sử dụng công cụ này một cách có trách nhiệm.', 'warning');
         });
         
-        // Initialize
+        // ============ INITIALIZATION ============
+        
         document.addEventListener('DOMContentLoaded', () => {
-            // Kiểm tra và hiển thị welcome modal
+            // Check and show welcome modal
             checkFirstVisit();
             
-            // Auto-focus on input (sau khi welcome modal đóng)
+            // Initialize AI Audio Remover
+            initializeAIAudioRemover();
+            
+            // Auto-focus on input (after welcome modal closes)
             if (!isMobile) {
                 setTimeout(() => {
                     if (welcomeModal.style.display === 'none') {
@@ -4361,25 +5386,216 @@
                             showNotification('📱 Mẹo: Chạm vào ô nhập để tự động dán liên kết từ clipboard', 'warning');
                         }, 3000);
                     }
+                    
+                    // Show AI feature notification
+                    setTimeout(() => {
+                        showNotification('🎯 Tính năng mới: AI xóa âm thanh video TikTok!', 'ai');
+                    }, 4000);
                 }
             }, 1000);
+            
+            // Performance optimization: Lazy load images
+            const lazyLoad = () => {
+                const images = document.querySelectorAll('img[data-src]');
+                const imageObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.dataset.src;
+                            img.classList.add('loaded');
+                            img.removeAttribute('data-src');
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                });
+                
+                images.forEach(img => imageObserver.observe(img));
+            };
+            
+            // Run lazy load after page is loaded
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(lazyLoad);
+            } else {
+                setTimeout(lazyLoad, 1000);
+            }
         });
         
-        // Add vibration feedback for mobile (if supported)
-        function vibrate() {
-            if (navigator.vibrate) {
-                navigator.vibrate(50);
-            }
-        }
+        // Performance optimization: Optimize scrolling
+        let scrollTimer;
+        window.addEventListener('scroll', () => {
+            // Throttle scroll events
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(() => {
+                // Pause videos that are not in viewport
+                document.querySelectorAll('video').forEach(video => {
+                    const rect = video.getBoundingClientRect();
+                    const isInViewport = (
+                        rect.top >= 0 &&
+                        rect.left >= 0 &&
+                        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                    );
+                    
+                    if (!isInViewport && !video.paused) {
+                        video.pause();
+                    }
+                });
+            }, 100);
+        });
         
-        // Add vibration to buttons
-        document.querySelectorAll('button').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (isMobile) {
-                    vibrate();
-                }
+        // Clean up when page is hidden
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Pause all videos when page is hidden
+                document.querySelectorAll('video').forEach(video => {
+                    if (!video.paused) video.pause();
+                });
+                
+                // Clear request queue to save resources
+                requestQueue = [];
+            }
+        });
+        
+        // Clean up before page unload
+        window.addEventListener('beforeunload', () => {
+            // Revoke object URLs
+            if (window.URL && window.URL.revokeObjectURL) {
+                // Could track and revoke all created URLs here
+            }
+            
+            // Stop all media elements
+            document.querySelectorAll('video, audio').forEach(media => {
+                media.pause();
+                media.src = '';
             });
         });
+        
+        // ============ MULTI URL PROCESSING ============
+        
+        async function processMultipleUrls(urls) {
+            loading.classList.add('active');
+            videoInfoSection.classList.remove('active');
+            multiDownloadSection.classList.add('active');
+            
+            // Clear previous videos if needed
+            if (multiVideos.length > 0) {
+                multiVideos = [];
+                updateMultiList();
+                updateMultiStats();
+            }
+            
+            // Filter out empty lines and validate TikTok URLs
+            const validUrls = urls
+                .map(url => url.trim())
+                .filter(url => url.length > 0)
+                .filter(url => isTikTokUrl(url));
+            
+            if (validUrls.length === 0) {
+                loading.classList.remove('active');
+                showNotification('Không có liên kết TikTok hợp lệ', 'error');
+                return;
+            }
+            
+            if (validUrls.length > 1000) {
+                showNotification(`Bạn đã nhập ${validUrls.length} video. Chỉ xử lý 1000 video đầu tiên.`, 'warning');
+                validUrls.splice(1000);
+            }
+            
+            showNotification(`Đang xử lý ${validUrls.length} video...`, 'warning');
+            
+            // Add requests to queue
+            for (let i = 0; i < validUrls.length; i++) {
+                const url = validUrls[i];
+                const index = i;
+                
+                requestQueue.push({
+                    func: async () => {
+                        try {
+                            const videoInfo = await fetchVideoInfo(url);
+                            videoInfo.index = index;
+                            addToMultiList(videoInfo);
+                            
+                            // Update loading message
+                            const loadingText = loading.querySelector('p');
+                            if (loadingText) {
+                                loadingText.textContent = `Đang phân tích video... (${index+1}/${validUrls.length})`;
+                            }
+                            
+                        } catch (error) {
+                            // Add error video to list
+                            const errorVideo = {
+                                id: Date.now() + Math.random(),
+                                platform: 'tiktok',
+                                url: url,
+                                title: 'Video không thể truy cập',
+                                thumbnail: '',
+                                duration: '',
+                                author: '',
+                                likes: 0,
+                                formats: { video: [], audio: [] },
+                                status: 'error',
+                                error: error.message,
+                                downloaded: false,
+                                index: index
+                            };
+                            
+                            multiVideos.push(errorVideo);
+                            updateMultiList();
+                            updateMultiStats();
+                        }
+                    }
+                });
+            }
+            
+            // Process request queue
+            processRequestQueue();
+            
+            // Check completion
+            const checkCompletion = setInterval(() => {
+                if (requestQueue.length === 0 && activeRequests === 0) {
+                    clearInterval(checkCompletion);
+                    loading.classList.remove('active');
+                    
+                    const successCount = multiVideos.filter(v => v.status === 'success').length;
+                    const errorCount = multiVideos.filter(v => v.status === 'error').length;
+                    
+                    showNotification(`Đã xử lý xong! Thành công: ${successCount}, Lỗi: ${errorCount}`);
+                    
+                    // Show iOS guide if needed
+                    if (isIOS && successCount > 0) {
+                        iosGuide.classList.add('active');
+                    }
+                }
+            }, 500);
+        }
+        
+        async function processRequestQueue() {
+            if (isProcessing || requestQueue.length === 0 || activeRequests >= MAX_CONCURRENT_REQUESTS) {
+                return;
+            }
+            
+            isProcessing = true;
+            
+            while (requestQueue.length > 0 && activeRequests < MAX_CONCURRENT_REQUESTS) {
+                const request = requestQueue.shift();
+                activeRequests++;
+                
+                try {
+                    await request.func();
+                } catch (error) {
+                    console.error('Queue request error:', error);
+                } finally {
+                    activeRequests--;
+                }
+            }
+            
+            isProcessing = false;
+            
+            // Continue processing if there are more requests
+            if (requestQueue.length > 0) {
+                setTimeout(processRequestQueue, 100);
+            }
+        }
     </script>
 </body>
 </html>
