@@ -49,50 +49,187 @@
             margin: 0 auto;
         }
         
-        /* Header */
-        header {
-            text-align: center;
-            padding: 20px 0 15px;
-            margin-bottom: 15px;
-        }
-        
-        .logo {
+        /* Welcome Modal */
+        .welcome-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 8px;
+            z-index: 3000;
+            padding: 20px;
+            animation: fadeIn 0.5s;
         }
         
-        .logo-icon {
-            font-size: 2.2rem;
+        .welcome-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            border: 2px solid var(--primary);
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            animation: slideUp 0.5s;
+        }
+        
+        .welcome-header {
+            padding: 25px 30px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .welcome-header .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-header .logo-icon {
+            font-size: 3rem;
             background: linear-gradient(45deg, #ff0050, #00f2ea);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: pulse 2s infinite;
         }
         
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        h1 {
-            font-size: 1.8rem;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        .welcome-header h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, white, #e0e7ff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
         
-        .tagline {
-            color: var(--gray);
-            font-size: 0.95rem;
+        .welcome-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+        }
+        
+        .welcome-body {
+            padding: 30px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .welcome-body h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .welcome-message {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .welcome-message p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: var(--light);
+        }
+        
+        .welcome-message ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .welcome-message li {
             margin-bottom: 8px;
-            padding: 0 10px;
-            line-height: 1.4;
+            color: var(--light);
+            line-height: 1.5;
+        }
+        
+        .warning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .warning-box h3 {
+            color: var(--warning);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .warning-box p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+        }
+        
+        .welcome-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .welcome-checkbox:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .welcome-checkbox input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .welcome-checkbox label {
+            cursor: pointer;
+            color: var(--light);
+            font-size: 0.95rem;
+            flex: 1;
+        }
+        
+        .welcome-footer {
+            padding: 0 30px 30px;
+            text-align: center;
+        }
+        
+        #enterBtn {
+            background: linear-gradient(135deg, var(--secondary), #0ca678);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 18px 50px;
+            width: 100%;
+        }
+        
+        #enterBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
         }
         
         /* Main Tabs */
@@ -148,6 +285,52 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding: 20px 0 15px;
+            margin-bottom: 15px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .logo-icon {
+            font-size: 2.2rem;
+            background: linear-gradient(45deg, #ff0050, #00f2ea);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 6px;
+        }
+        
+        .tagline {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            padding: 0 10px;
+            line-height: 1.4;
         }
         
         /* Input Section */
@@ -586,7 +769,7 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Video Info Section - Giữ nguyên từ code cũ */
+        /* Video Info Section */
         .video-info-section {
             display: none;
             animation: slideUp 0.5s;
@@ -686,7 +869,7 @@
             gap: 8px;
         }
         
-        /* Quality Selector - Giữ nguyên từ code cũ */
+        /* Quality Selector */
         .quality-selector {
             margin-top: 20px;
         }
@@ -822,7 +1005,7 @@
             transform: none;
         }
         
-        /* Multi Download Section - Giữ nguyên từ code cũ */
+        /* Multi Download Section */
         .multi-download-section {
             display: none;
             margin-top: 25px;
@@ -994,7 +1177,7 @@
             transform: none;
         }
         
-        /* iOS Guide - Giữ nguyên từ code cũ */
+        /* iOS Guide */
         .ios-guide {
             display: none;
             background: rgba(99, 102, 241, 0.1);
@@ -1029,7 +1212,7 @@
             line-height: 1.4;
         }
         
-        /* Notification - Giữ nguyên từ code cũ */
+        /* Notification */
         .notification {
             position: fixed;
             bottom: 20px;
@@ -1071,7 +1254,7 @@
             background: linear-gradient(135deg, var(--search-blue), #2563eb);
         }
         
-        /* Progress Bar - Giữ nguyên từ code cũ */
+        /* Progress Bar */
         .progress-container {
             margin-top: 20px;
             display: none;
@@ -1104,7 +1287,7 @@
             color: var(--gray);
         }
         
-        /* Footer - Giữ nguyên từ code cũ */
+        /* Footer */
         footer {
             text-align: center;
             padding: 25px 0;
@@ -1133,7 +1316,7 @@
             color: var(--primary);
         }
         
-        /* Video Preview Modal - Giữ nguyên từ code cũ */
+        /* Video Preview Modal */
         .video-modal {
             display: none;
             position: fixed;
@@ -1186,6 +1369,36 @@
         @media (max-width: 768px) {
             body {
                 padding: 10px;
+            }
+            
+            .welcome-modal {
+                padding: 15px;
+            }
+            
+            .welcome-content {
+                max-width: 100%;
+            }
+            
+            .welcome-header {
+                padding: 20px 25px;
+            }
+            
+            .welcome-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .welcome-body {
+                padding: 20px;
+                max-height: 50vh;
+            }
+            
+            .welcome-footer {
+                padding: 0 20px 20px;
+            }
+            
+            #enterBtn {
+                padding: 16px 30px;
+                font-size: 1rem;
             }
             
             header {
@@ -1291,6 +1504,22 @@
         @media (max-width: 480px) {
             body {
                 padding: 8px;
+            }
+            
+            .welcome-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .welcome-header .logo-icon {
+                font-size: 2.5rem;
+            }
+            
+            .welcome-body h2 {
+                font-size: 1.3rem;
+            }
+            
+            .welcome-checkbox label {
+                font-size: 0.9rem;
             }
             
             h1 {
@@ -1434,18 +1663,21 @@
         
         /* Scrollbar Styling */
         .multi-list::-webkit-scrollbar,
-        .search-results::-webkit-scrollbar {
+        .search-results::-webkit-scrollbar,
+        .welcome-body::-webkit-scrollbar {
             width: 6px;
         }
         
         .multi-list::-webkit-scrollbar-track,
-        .search-results::-webkit-scrollbar-track {
+        .search-results::-webkit-scrollbar-track,
+        .welcome-body::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 3px;
         }
         
         .multi-list::-webkit-scrollbar-thumb,
-        .search-results::-webkit-scrollbar-thumb {
+        .search-results::-webkit-scrollbar-thumb,
+        .welcome-body::-webkit-scrollbar-thumb {
             background: var(--primary);
             border-radius: 3px;
         }
@@ -1472,6 +1704,46 @@
     </style>
 </head>
 <body>
+    <!-- Welcome Modal -->
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="welcome-content">
+            <div class="welcome-header">
+                <div class="logo">
+                    <i class="fab fa-tiktok logo-icon"></i>
+                    <h1>TikDown Pro</h1>
+                </div>
+                <p>Công cụ tải video TikTok miễn phí & tìm kiếm không giới hạn</p>
+            </div>
+            
+            <div class="welcome-body">
+                <h2><i class="fas fa-exclamation-circle"></i> Thông báo quan trọng</h2>
+                
+                <div class="welcome-message">
+                    <p>Chào mừng bạn đến với <strong>TikDown Pro</strong> - Công cụ tải video TikTok chất lượng cao hoàn toàn miễn phí!</p>
+                    
+                    <p><strong>📥 Nếu Thiết Bị Bạn Đang Dùng Là IOS/Iphone</strong></p>
+                    <ul>
+                        <li>Sử Dụng Web Trên Safari</li>
+                        <li>Khi Tải Xong Video Sẽ Được Lưu Trong Download Của Tệp</li>
+                        <li>App Tệp -> Thư Mục -> Download</li>
+                        <li>Tải Video Về Máy Trong Mục Download</li>
+                    </ul>
+                </div>
+                
+                <div class="welcome-checkbox" onclick="toggleCheckbox()">
+                    <input type="checkbox" id="dontShowAgain">
+                    <label for="dontShowAgain">Không hiển thị thông báo này lần sau</label>
+                </div>
+            </div>
+            
+            <div class="welcome-footer">
+                <button id="enterBtn">
+                    <i class="fas fa-play-circle"></i> Bắt đầu sử dụng
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <div class="notification" id="notification"></div>
     
     <!-- Video Preview Modal -->
@@ -1482,7 +1754,7 @@
         </div>
     </div>
     
-    <div class="container">
+    <div class="container" id="mainContent" style="display: none;">
         <header>
             <div class="logo">
                 <i class="fab fa-tiktok logo-icon"></i>
@@ -1583,9 +1855,8 @@
             </div>
         </div>
         
-        <!-- Video Info Section (giữ nguyên) -->
+        <!-- Video Info Section -->
         <div class="video-info-section" id="videoInfoSection">
-            <!-- Giữ nguyên nội dung từ code cũ -->
             <div class="video-preview">
                 <div class="thumbnail-container" id="thumbnailContainer">
                     <img class="thumbnail" id="videoThumbnail" src="" alt="Video thumbnail">
@@ -1637,7 +1908,7 @@
             </div>
         </div>
         
-        <!-- Multi Download Section (giữ nguyên) -->
+        <!-- Multi Download Section -->
         <div class="multi-download-section" id="multiDownloadSection">
             <div class="multi-list" id="multiList">
                 <!-- Multi video items will be loaded here -->
@@ -1667,6 +1938,71 @@
     </div>
 
     <script>
+        // ============ WELCOME MODAL ============
+        const welcomeModal = document.getElementById('welcomeModal');
+        const enterBtn = document.getElementById('enterBtn');
+        const dontShowAgainCheckbox = document.getElementById('dontShowAgain');
+        const mainContent = document.getElementById('mainContent');
+        
+        // Kiểm tra nếu người dùng đã đồng ý trước đó
+        function checkFirstVisit() {
+            const hasVisited = localStorage.getItem('tikdownProHasVisited');
+            const skipWelcome = localStorage.getItem('tikdownProSkipWelcome');
+            
+            if (hasVisited === 'true' && skipWelcome === 'true') {
+                // Đã từng truy cập và chọn không hiển thị nữa
+                hideWelcomeModal();
+                showMainContent();
+            } else if (hasVisited === 'true') {
+                // Đã từng truy cập nhưng vẫn hiển thị thông báo
+                showWelcomeModal();
+            } else {
+                // Lần đầu truy cập
+                showWelcomeModal();
+                localStorage.setItem('tikdownProHasVisited', 'true');
+            }
+        }
+        
+        // Hiển thị modal chào mừng
+        function showWelcomeModal() {
+            welcomeModal.style.display = 'flex';
+            mainContent.style.display = 'none';
+        }
+        
+        // Ẩn modal chào mừng
+        function hideWelcomeModal() {
+            welcomeModal.style.display = 'none';
+            showMainContent();
+        }
+        
+        // Hiển thị nội dung chính
+        function showMainContent() {
+            mainContent.style.display = 'block';
+            // Focus vào input nếu không phải mobile
+            if (!isMobile) {
+                videoUrlsInput.focus();
+            }
+        }
+        
+        // Toggle checkbox
+        function toggleCheckbox() {
+            dontShowAgainCheckbox.checked = !dontShowAgainCheckbox.checked;
+        }
+        
+        // Xử lý sự kiện nút "Bắt đầu sử dụng"
+        enterBtn.addEventListener('click', () => {
+            if (dontShowAgainCheckbox.checked) {
+                localStorage.setItem('tikdownProSkipWelcome', 'true');
+            } else {
+                localStorage.setItem('tikdownProSkipWelcome', 'false');
+            }
+            
+            hideWelcomeModal();
+            showNotification('Chào mừng đến với TikDown Pro! 🎉');
+        });
+        
+        // ============ PHẦN CÒN LẠI CỦA CODE (GIỮ NGUYÊN) ============
+        
         // Khởi tạo các biến
         const videoUrlsInput = document.getElementById('videoUrls');
         const downloadBtn = document.getElementById('downloadBtn');
@@ -1786,8 +2122,7 @@
                 .substring(0, 100);
         }
         
-        // ============ TÍNH NĂNG TẢI VIDEO (GIỮ NGUYÊN) ============
-        // Các hàm xử lý tải video giữ nguyên từ code cũ
+        // ============ TÍNH NĂNG TẢI VIDEO ============
         async function fetchVideoInfo(url) {
             if (!isTikTokUrl(url)) {
                 throw new Error('Chỉ hỗ trợ liên kết TikTok');
@@ -2819,7 +3154,7 @@
             }
         });
         
-        // Tab switching (quality tabs) - giữ nguyên
+        // Tab switching (quality tabs)
         tabBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const tab = btn.dataset.tab;
@@ -2848,7 +3183,7 @@
             });
         });
         
-        // Start download (single mode) - giữ nguyên
+        // Start download (single mode)
         startDownloadBtn.addEventListener('click', async () => {
             if (!selectedFormat || !currentVideoInfo) return;
             
@@ -2872,10 +3207,10 @@
             }
         });
         
-        // Download all (multi mode) - giữ nguyên
+        // Download all (multi mode)
         downloadAllBtn.addEventListener('click', downloadAllFromMulti);
         
-        // Video modal - giữ nguyên
+        // Video modal
         playPreviewBtn.addEventListener('click', () => {
             if (currentVideoInfo && currentVideoInfo.formats.video.length > 0) {
                 modalVideo.src = currentVideoInfo.formats.video[0].url;
@@ -2919,7 +3254,7 @@
             }
         });
         
-        // Footer links - giữ nguyên
+        // Footer links
         document.getElementById('privacyLink').addEventListener('click', (e) => {
             e.preventDefault();
             showNotification('Chính sách bảo mật: Chúng tôi không lưu trữ bất kỳ dữ liệu nào của bạn.', 'warning');
@@ -2935,29 +3270,41 @@
             showNotification('Liên hệ: Sử dụng công cụ này một cách có trách nhiệm.', 'warning');
         });
         
-        // Initialize with welcome message
-        setTimeout(() => {
-            showNotification('Chào mừng đến TikDown Pro! Tải video TikTok hoặc tìm kiếm không giới hạn video.');
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Kiểm tra và hiển thị welcome modal
+            checkFirstVisit();
             
-            // Show iOS specific instructions
-            if (isIOS) {
+            // Auto-focus on input (sau khi welcome modal đóng)
+            if (!isMobile) {
                 setTimeout(() => {
-                    showNotification('💡 Mẹo cho iOS: Video sẽ được lưu vào ứng dụng "Tệp" → Thư mục "Downloads"', 'warning');
-                }, 2000);
+                    if (welcomeModal.style.display === 'none') {
+                        videoUrlsInput.focus();
+                    }
+                }, 500);
             }
             
-            // Show mobile specific instructions
-            if (isMobile && !isIOS) {
-                setTimeout(() => {
-                    showNotification('📱 Mẹo: Chạm vào ô nhập để tự động dán liên kết từ clipboard', 'warning');
-                }, 3000);
-            }
-        }, 1000);
-        
-        // Auto-focus on input
-        if (!isMobile) {
-            videoUrlsInput.focus();
-        }
+            // Show welcome message after modal closes
+            setTimeout(() => {
+                if (welcomeModal.style.display === 'none') {
+                    showNotification('Chào mừng đến TikDown Pro! Tải video TikTok hoặc tìm kiếm không giới hạn video.');
+                    
+                    // Show iOS specific instructions
+                    if (isIOS) {
+                        setTimeout(() => {
+                            showNotification('💡 Mẹo cho iOS: Video sẽ được lưu vào ứng dụng "Tệp" → Thư mục "Downloads"', 'warning');
+                        }, 2000);
+                    }
+                    
+                    // Show mobile specific instructions
+                    if (isMobile && !isIOS) {
+                        setTimeout(() => {
+                            showNotification('📱 Mẹo: Chạm vào ô nhập để tự động dán liên kết từ clipboard', 'warning');
+                        }, 3000);
+                    }
+                }
+            }, 1000);
+        });
         
         // Add vibration feedback for mobile (if supported)
         function vibrate() {
