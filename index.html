@@ -443,7 +443,7 @@
             transform: none;
         }
         
-        /* Search Section */
+        /* Search Section - Nâng cấp */
         .search-section {
             margin-bottom: 25px;
         }
@@ -499,6 +499,85 @@
             transform: none;
         }
         
+        /* Nâng cấp: Thêm bộ lọc nâng cao */
+        .advanced-search-controls {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .advanced-search-controls.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        .advanced-search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .advanced-search-title {
+            font-size: 0.95rem;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .advanced-search-filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .filter-group label {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        .filter-select, .filter-input {
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--light);
+            font-size: 0.9rem;
+        }
+        
+        .filter-select:focus, .filter-input:focus {
+            outline: none;
+            border-color: var(--search-blue);
+        }
+        
+        .toggle-advanced-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--gray);
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
+        }
+        
+        .toggle-advanced-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--light);
+        }
+        
         .search-controls {
             display: flex;
             justify-content: space-between;
@@ -516,6 +595,7 @@
         .search-filters {
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
         }
         
         .filter-btn {
@@ -527,6 +607,7 @@
             cursor: pointer;
             font-size: 0.85rem;
             transition: all 0.3s;
+            white-space: nowrap;
         }
         
         .filter-btn.active {
@@ -534,7 +615,88 @@
             border-color: var(--search-blue);
         }
         
-        /* Search Results */
+        /* Nâng cấp: Thêm controls chọn video */
+        .selection-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .selection-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .selection-count {
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .selection-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .selection-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .select-all-btn {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .select-all-btn:hover {
+            background: rgba(99, 102, 241, 0.3);
+        }
+        
+        .deselect-all-btn {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .deselect-all-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+        
+        .download-selected-btn {
+            background: linear-gradient(135deg, var(--secondary), #0ca678);
+            color: white;
+        }
+        
+        .download-selected-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        .download-selected-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Search Results - Nâng cấp với checkbox */
         .search-results {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -552,12 +714,32 @@
             overflow: hidden;
             transition: all 0.3s;
             border: 1px solid transparent;
+            position: relative;
+        }
+        
+        .search-result-item.selected {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary);
         }
         
         .search-result-item:hover {
             transform: translateY(-5px);
             border-color: var(--primary);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .result-checkbox {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+        }
+        
+        .result-checkbox input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary);
         }
         
         .result-thumbnail {
@@ -1365,6 +1547,201 @@
             justify-content: center;
         }
         
+        /* TikTok Swipe Mode - Mới */
+        .swipe-mode {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 4000;
+            overflow: hidden;
+            flex-direction: column;
+        }
+        
+        .swipe-mode.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+        
+        .swipe-header {
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+        
+        .swipe-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .swipe-title {
+            font-size: 1rem;
+            font-weight: 500;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .swipe-author {
+            font-size: 0.85rem;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .swipe-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .swipe-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .swipe-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .swipe-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .swipe-video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.5s ease;
+        }
+        
+        .swipe-video-item {
+            width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+        }
+        
+        .swipe-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+        }
+        
+        .swipe-video-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 20;
+        }
+        
+        .swipe-action-btn {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        
+        .swipe-action-btn:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: scale(1.1);
+        }
+        
+        .swipe-download-btn {
+            background: rgba(16, 185, 129, 0.7);
+        }
+        
+        .swipe-download-btn:hover {
+            background: rgba(16, 185, 129, 0.9);
+        }
+        
+        .swipe-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 20;
+        }
+        
+        .swipe-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .swipe-dot.active {
+            background: white;
+            width: 20px;
+            border-radius: 10px;
+        }
+        
+        .swipe-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            z-index: 5;
+        }
+        
+        .swipe-loading .spinner {
+            width: 40px;
+            height: 40px;
+            border-width: 3px;
+        }
+        
         /* Mobile Optimizations */
         @media (max-width: 768px) {
             body {
@@ -1499,6 +1876,34 @@
                 font-size: 0.8rem;
                 margin-top: 30px;
             }
+            
+            .swipe-header {
+                padding: 12px 15px;
+            }
+            
+            .swipe-title {
+                font-size: 0.9rem;
+            }
+            
+            .swipe-author {
+                font-size: 0.8rem;
+            }
+            
+            .swipe-btn {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .swipe-video-controls {
+                bottom: 20px;
+                gap: 15px;
+            }
+            
+            .swipe-action-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1609,6 +2014,19 @@
             #startDownload, #downloadAllBtn {
                 padding: 14px 25px;
                 font-size: 1rem;
+            }
+            
+            .selection-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .selection-info {
+                justify-content: center;
+            }
+            
+            .selection-actions {
+                justify-content: center;
             }
         }
         
@@ -1754,6 +2172,53 @@
         </div>
     </div>
     
+    <!-- TikTok Swipe Mode -->
+    <div class="swipe-mode" id="swipeMode">
+        <div class="swipe-header">
+            <div class="swipe-info">
+                <div class="swipe-title" id="swipeTitle">Tiêu đề video</div>
+                <div class="swipe-author" id="swipeAuthor">
+                    <i class="fas fa-user"></i> @username
+                </div>
+            </div>
+            <div class="swipe-controls">
+                <button class="swipe-btn" id="swipeDownloadBtn" title="Tải video">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button class="swipe-btn" id="closeSwipeMode">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="swipe-container" id="swipeContainer">
+            <div class="swipe-video-container" id="swipeVideoContainer">
+                <!-- Các video sẽ được thêm vào đây -->
+            </div>
+            
+            <div class="swipe-video-controls">
+                <button class="swipe-action-btn" id="swipePrevBtn" title="Video trước">
+                    <i class="fas fa-chevron-up"></i>
+                </button>
+                <button class="swipe-action-btn swipe-download-btn" id="swipeCurrentDownloadBtn" title="Tải video này">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button class="swipe-action-btn" id="swipeNextBtn" title="Video tiếp theo">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            
+            <div class="swipe-indicator" id="swipeIndicator">
+                <!-- Các chấm chỉ báo sẽ được thêm vào đây -->
+            </div>
+            
+            <div class="swipe-loading" id="swipeLoading">
+                <div class="spinner"></div>
+                <p>Đang tải video...</p>
+            </div>
+        </div>
+    </div>
+    
     <div class="container" id="mainContent" style="display: none;">
         <header>
             <div class="logo">
@@ -1821,6 +2286,47 @@
                     </button>
                 </div>
                 
+                <!-- Advanced Search Controls -->
+                <div class="advanced-search-controls" id="advancedSearchControls">
+                    <div class="advanced-search-header">
+                        <div class="advanced-search-title">
+                            <i class="fas fa-sliders-h"></i> Tìm kiếm nâng cao
+                        </div>
+                        <button class="toggle-advanced-btn" id="closeAdvancedBtn">
+                            <i class="fas fa-times"></i> Đóng
+                        </button>
+                    </div>
+                    <div class="advanced-search-filters">
+                        <div class="filter-group">
+                            <label><i class="fas fa-sort-amount-up"></i> Sắp xếp theo</label>
+                            <select class="filter-select" id="sortBy">
+                                <option value="relevance">Liên quan nhất</option>
+                                <option value="popular">Phổ biến nhất</option>
+                                <option value="newest">Mới nhất</option>
+                                <option value="oldest">Cũ nhất</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label><i class="fas fa-filter"></i> Thời lượng</label>
+                            <select class="filter-select" id="durationFilter">
+                                <option value="all">Tất cả</option>
+                                <option value="short">Ngắn (&lt; 1 phút)</option>
+                                <option value="medium">Trung bình (1-3 phút)</option>
+                                <option value="long">Dài (&gt; 3 phút)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label><i class="fas fa-hashtag"></i> Số lượng</label>
+                            <select class="filter-select" id="countFilter">
+                                <option value="20">20 video</option>
+                                <option value="30">30 video</option>
+                                <option value="50">50 video</option>
+                                <option value="100">100 video</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="search-controls">
                     <div class="search-stats" id="searchStats">
                         Tìm thấy: 0 video
@@ -1829,6 +2335,28 @@
                         <button class="filter-btn active" data-filter="all">Tất cả</button>
                         <button class="filter-btn" data-filter="popular">Phổ biến</button>
                         <button class="filter-btn" data-filter="newest">Mới nhất</button>
+                        <button class="toggle-advanced-btn" id="toggleAdvancedBtn">
+                            <i class="fas fa-sliders-h"></i> Nâng cao
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Selection Controls -->
+                <div class="selection-controls" id="selectionControls" style="display: none;">
+                    <div class="selection-info">
+                        <span>Đã chọn:</span>
+                        <span class="selection-count" id="selectedCount">0</span>
+                    </div>
+                    <div class="selection-actions">
+                        <button class="selection-btn select-all-btn" id="selectAllBtn">
+                            <i class="fas fa-check-square"></i> Chọn tất cả
+                        </button>
+                        <button class="selection-btn deselect-all-btn" id="deselectAllBtn">
+                            <i class="fas fa-times-circle"></i> Bỏ chọn tất cả
+                        </button>
+                        <button class="selection-btn download-selected-btn" id="downloadSelectedBtn" disabled>
+                            <i class="fas fa-download"></i> Tải đã chọn
+                        </button>
                     </div>
                 </div>
                 
@@ -2001,7 +2529,7 @@
             showNotification('Chào mừng đến với TikDown Pro! 🎉');
         });
         
-        // ============ PHẦN CÒN LẠI CỦA CODE (GIỮ NGUYÊN) ============
+        // ============ PHẦN CÒN LẠI CỦA CODE ============
         
         // Khởi tạo các biến
         const videoUrlsInput = document.getElementById('videoUrls');
@@ -2035,7 +2563,7 @@
         const modalVideo = document.getElementById('modalVideo');
         const closeModal = document.getElementById('closeModal');
         
-        // Biến cho tính năng tìm kiếm
+        // Biến cho tính năng tìm kiếm nâng cao
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
         const searchResults = document.getElementById('searchResults');
@@ -2047,6 +2575,35 @@
         const nextPageBtn = document.getElementById('nextPage');
         const pageNumbers = document.getElementById('pageNumbers');
         
+        // Biến cho tính năng chọn video
+        const selectionControls = document.getElementById('selectionControls');
+        const selectedCount = document.getElementById('selectedCount');
+        const selectAllBtn = document.getElementById('selectAllBtn');
+        const deselectAllBtn = document.getElementById('deselectAllBtn');
+        const downloadSelectedBtn = document.getElementById('downloadSelectedBtn');
+        
+        // Biến cho tìm kiếm nâng cao
+        const advancedSearchControls = document.getElementById('advancedSearchControls');
+        const toggleAdvancedBtn = document.getElementById('toggleAdvancedBtn');
+        const closeAdvancedBtn = document.getElementById('closeAdvancedBtn');
+        const sortBy = document.getElementById('sortBy');
+        const durationFilter = document.getElementById('durationFilter');
+        const countFilter = document.getElementById('countFilter');
+        
+        // Biến cho chế độ lướt video TikTok
+        const swipeMode = document.getElementById('swipeMode');
+        const swipeContainer = document.getElementById('swipeContainer');
+        const swipeVideoContainer = document.getElementById('swipeVideoContainer');
+        const swipeTitle = document.getElementById('swipeTitle');
+        const swipeAuthor = document.getElementById('swipeAuthor');
+        const swipeDownloadBtn = document.getElementById('swipeDownloadBtn');
+        const closeSwipeMode = document.getElementById('closeSwipeMode');
+        const swipePrevBtn = document.getElementById('swipePrevBtn');
+        const swipeNextBtn = document.getElementById('swipeNextBtn');
+        const swipeCurrentDownloadBtn = document.getElementById('swipeCurrentDownloadBtn');
+        const swipeIndicator = document.getElementById('swipeIndicator');
+        const swipeLoading = document.getElementById('swipeLoading');
+        
         // State
         let currentFormats = { video: [], audio: [] };
         let selectedFormat = null;
@@ -2056,11 +2613,19 @@
         
         // State cho tìm kiếm
         let searchResultsData = [];
+        let selectedVideos = new Set(); // Set chứa ID của các video được chọn
         let currentSearchQuery = '';
         let currentSearchFilter = 'all';
         let currentPage = 1;
         let totalPages = 1;
-        const resultsPerPage = 12;
+        let resultsPerPage = 10000; // Tăng số lượng video mỗi trang
+        
+        // State cho chế độ lướt video
+        let swipeVideos = [];
+        let currentSwipeIndex = 0;
+        let isSwiping = false;
+        let startY = 0;
+        let currentY = 0;
         
         // Check if iOS
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -2083,17 +2648,19 @@
             }
         ];
         
-        // TikTok Search API
+        // TikTok Search API - Cập nhật với nhiều lựa chọn hơn
         const TIKTOK_SEARCH_APIS = [
             {
                 name: 'tikwm_search',
                 endpoint: 'https://tikwm.com/api/feed/search',
-                method: 'GET'
+                method: 'GET',
+                params: ['keywords', 'count', 'page', 'sort', 'duration']
             },
             {
                 name: 'tiktok_search',
                 endpoint: 'https://tiktok-search.vercel.app/api/search',
-                method: 'GET'
+                method: 'GET',
+                params: ['keywords', 'count', 'page', 'sort']
             }
         ];
         
@@ -2709,10 +3276,10 @@
             }
         }
         
-        // ============ TÍNH NĂNG TÌM KIẾM VIDEO ============
+        // ============ TÍNH NĂNG TÌM KIẾM NÂNG CAO ============
         
-        // Hàm tìm kiếm video TikTok
-        async function searchTikTokVideos(query, page = 1) {
+        // Hàm tìm kiếm video TikTok nâng cao
+        async function searchTikTokVideos(query, page = 1, options = {}) {
             if (!query.trim()) {
                 throw new Error('Vui lòng nhập từ khóa tìm kiếm');
             }
@@ -2721,8 +3288,26 @@
                 searchLoading.classList.add('active');
                 searchResults.innerHTML = '';
                 
+                // Lấy tham số tìm kiếm nâng cao
+                const sortByValue = options.sortBy || 'relevance';
+                const durationFilterValue = options.durationFilter || 'all';
+                const countValue = options.count || resultsPerPage;
+                
+                // Update results per page
+                resultsPerPage = parseInt(countValue);
+                
                 // Try first search API
-                const apiUrl = `${TIKTOK_SEARCH_APIS[0].endpoint}?keywords=${encodeURIComponent(query)}&count=${resultsPerPage}&page=${page}`;
+                let apiUrl = `${TIKTOK_SEARCH_APIS[0].endpoint}?keywords=${encodeURIComponent(query)}&count=${resultsPerPage}&page=${page}`;
+                
+                // Thêm tham số sắp xếp nếu có
+                if (sortByValue !== 'relevance') {
+                    apiUrl += `&sort=${sortByValue}`;
+                }
+                
+                // Thêm tham số thời lượng nếu có
+                if (durationFilterValue !== 'all') {
+                    apiUrl += `&duration=${durationFilterValue}`;
+                }
                 
                 const response = await fetch(apiUrl);
                 
@@ -2738,7 +3323,11 @@
                     };
                 } else {
                     // Try second search API if first fails
-                    const apiUrl2 = `${TIKTOK_SEARCH_APIS[1].endpoint}?keywords=${encodeURIComponent(query)}&count=${resultsPerPage}&page=${page}`;
+                    let apiUrl2 = `${TIKTOK_SEARCH_APIS[1].endpoint}?keywords=${encodeURIComponent(query)}&count=${resultsPerPage}&page=${page}`;
+                    
+                    if (sortByValue !== 'relevance') {
+                        apiUrl2 += `&sort=${sortByValue}`;
+                    }
                     
                     const response2 = await fetch(apiUrl2);
                     const data2 = await response2.json();
@@ -2758,18 +3347,18 @@
                 console.error('Search error:', error);
                 
                 // Fallback: Generate mock data for demo
-                return generateMockSearchResults(query, page);
+                return generateMockSearchResults(query, page, resultsPerPage);
             } finally {
                 searchLoading.classList.remove('active');
             }
         }
         
         // Tạo dữ liệu giả cho demo (khi API không hoạt động)
-        function generateMockSearchResults(query, page) {
+        function generateMockSearchResults(query, page, count) {
             const mockVideos = [];
-            const startIndex = (page - 1) * resultsPerPage;
+            const startIndex = (page - 1) * count;
             
-            for (let i = 0; i < resultsPerPage; i++) {
+            for (let i = 0; i < count; i++) {
                 const videoNum = startIndex + i + 1;
                 mockVideos.push({
                     id: `mock_${Date.now()}_${i}`,
@@ -2794,7 +3383,7 @@
             };
         }
         
-        // Hiển thị kết quả tìm kiếm
+        // Hiển thị kết quả tìm kiếm với checkbox
         function displaySearchResults(results, query, page) {
             searchResultsData = results.videos;
             currentSearchQuery = query;
@@ -2815,6 +3404,7 @@
                         <p>Thử với từ khóa khác hoặc kiểm tra kết nối mạng</p>
                     </div>
                 `;
+                selectionControls.style.display = 'none';
                 return;
             }
             
@@ -2823,6 +3413,7 @@
                 const resultItem = document.createElement('div');
                 resultItem.className = 'search-result-item';
                 resultItem.dataset.id = video.id;
+                resultItem.dataset.index = index;
                 resultItem.dataset.url = `https://www.tiktok.com/@${video.author?.unique_id || 'user'}/video/${video.id || index}`;
                 
                 // Format duration
@@ -2837,6 +3428,9 @@
                 const shares = video.share_count || 0;
                 
                 resultItem.innerHTML = `
+                    <div class="result-checkbox">
+                        <input type="checkbox" class="video-checkbox" data-id="${video.id}">
+                    </div>
                     <div class="result-thumbnail">
                         <img src="${video.cover || video.thumbnail || 'https://picsum.photos/300/400'}" 
                              alt="${video.title || 'Video TikTok'}" 
@@ -2850,6 +3444,9 @@
                                 </button>
                                 <button class="result-action-btn add add-to-download-btn" data-id="${video.id}">
                                     <i class="fas fa-plus"></i> Thêm
+                                </button>
+                                <button class="result-action-btn swipe-view-btn" data-id="${video.id}">
+                                    <i class="fas fa-play-circle"></i> Lướt
                                 </button>
                             </div>
                         </div>
@@ -2881,7 +3478,28 @@
             // Update pagination
             updatePagination();
             
-            // Add event listeners
+            // Show selection controls
+            selectionControls.style.display = 'flex';
+            updateSelectedCount();
+            
+            // Add event listeners for checkboxes
+            document.querySelectorAll('.video-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    const videoId = e.target.dataset.id;
+                    if (e.target.checked) {
+                        selectedVideos.add(videoId);
+                        // Add selected class to parent
+                        e.target.closest('.search-result-item').classList.add('selected');
+                    } else {
+                        selectedVideos.delete(videoId);
+                        // Remove selected class from parent
+                        e.target.closest('.search-result-item').classList.remove('selected');
+                    }
+                    updateSelectedCount();
+                });
+            });
+            
+            // Add event listeners for action buttons
             document.querySelectorAll('.preview-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -2904,18 +3522,151 @@
                 });
             });
             
-            // Click on result item to preview
-            document.querySelectorAll('.search-result-item').forEach(item => {
-                item.addEventListener('click', (e) => {
-                    if (!e.target.closest('.result-action-btn')) {
-                        const id = item.dataset.id;
-                        const video = results.videos.find(v => v.id === id);
-                        if (video) {
-                            previewSearchVideo(video);
-                        }
+            document.querySelectorAll('.swipe-view-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = e.currentTarget.dataset.id;
+                    const video = results.videos.find(v => v.id === id);
+                    if (video) {
+                        openSwipeMode(video, results.videos);
                     }
                 });
             });
+            
+            // Click on result item to toggle checkbox
+            document.querySelectorAll('.search-result-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    if (!e.target.closest('.result-action-btn') && !e.target.closest('.result-checkbox')) {
+                        const checkbox = item.querySelector('.video-checkbox');
+                        checkbox.checked = !checkbox.checked;
+                        checkbox.dispatchEvent(new Event('change'));
+                    }
+                });
+            });
+        }
+        
+        // Cập nhật số lượng video được chọn
+        function updateSelectedCount() {
+            const count = selectedVideos.size;
+            selectedCount.textContent = count;
+            
+            if (count > 0) {
+                downloadSelectedBtn.disabled = false;
+            } else {
+                downloadSelectedBtn.disabled = true;
+            }
+        }
+        
+        // Chọn tất cả video
+        function selectAllVideos() {
+            selectedVideos.clear();
+            document.querySelectorAll('.video-checkbox').forEach(checkbox => {
+                checkbox.checked = true;
+                selectedVideos.add(checkbox.dataset.id);
+                checkbox.closest('.search-result-item').classList.add('selected');
+            });
+            updateSelectedCount();
+        }
+        
+        // Bỏ chọn tất cả video
+        function deselectAllVideos() {
+            selectedVideos.clear();
+            document.querySelectorAll('.video-checkbox').forEach(checkbox => {
+                checkbox.checked = false;
+                checkbox.closest('.search-result-item').classList.remove('selected');
+            });
+            updateSelectedCount();
+        }
+        
+        // Tải các video đã chọn
+        async function downloadSelectedVideos() {
+            const selectedVideoIds = Array.from(selectedVideos);
+            
+            if (selectedVideoIds.length === 0) {
+                showNotification('Vui lòng chọn ít nhất một video', 'error');
+                return;
+            }
+            
+            // Lấy thông tin video đã chọn từ searchResultsData
+            const selectedVideosData = searchResultsData.filter(video => 
+                selectedVideoIds.includes(video.id)
+            );
+            
+            if (selectedVideosData.length === 0) {
+                showNotification('Không tìm thấy video đã chọn', 'error');
+                return;
+            }
+            
+            downloadSelectedBtn.disabled = true;
+            downloadSelectedBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
+            
+            let successCount = 0;
+            let errorCount = 0;
+            
+            // Hiển thị danh sách đa nhiệm
+            multiDownloadSection.classList.add('active');
+            videoInfoSection.classList.remove('active');
+            
+            // Clear previous videos if needed
+            if (multiVideos.length > 0) {
+                multiVideos = [];
+                updateMultiList();
+                updateMultiStats();
+            }
+            
+            // Xử lý từng video đã chọn
+            for (let i = 0; i < selectedVideosData.length; i++) {
+                const video = selectedVideosData[i];
+                const videoUrl = `https://www.tiktok.com/@${video.author?.unique_id || 'user'}/video/${video.id}`;
+                
+                try {
+                    const videoInfo = await fetchVideoInfo(videoUrl);
+                    addToMultiList(videoInfo);
+                    successCount++;
+                    
+                    // Update button text
+                    downloadSelectedBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Đang xử lý... (${i+1}/${selectedVideosData.length})`;
+                    
+                } catch (error) {
+                    // Add error video to list
+                    const errorVideo = {
+                        id: Date.now() + Math.random(),
+                        platform: 'tiktok',
+                        url: videoUrl,
+                        title: video.title || 'Video không thể truy cập',
+                        thumbnail: video.cover || '',
+                        duration: video.duration || '',
+                        author: video.author?.nickname || video.author?.unique_id || '@user',
+                        likes: video.digg_count || 0,
+                        formats: { video: [], audio: [] },
+                        status: 'error',
+                        error: error.message,
+                        downloaded: false
+                    };
+                    
+                    multiVideos.push(errorVideo);
+                    updateMultiList();
+                    updateMultiStats();
+                    errorCount++;
+                }
+                
+                // Small delay between requests
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            downloadSelectedBtn.disabled = false;
+            downloadSelectedBtn.innerHTML = '<i class="fas fa-download"></i> Tải đã chọn';
+            
+            // Deselect all after processing
+            deselectAllVideos();
+            
+            // Show completion message
+            showNotification(`Đã thêm ${successCount} video vào danh sách tải. Lỗi: ${errorCount}`, successCount > 0 ? 'success' : 'error');
+            
+            // Show iOS guide if needed
+            if (isIOS && successCount > 0) {
+                iosGuide.classList.add('active');
+            }
         }
         
         // Xem trước video từ kết quả tìm kiếm
@@ -2988,7 +3739,7 @@
             pagination.style.display = totalPages > 1 ? 'flex' : 'none';
         }
         
-        // Thực hiện tìm kiếm
+        // Thực hiện tìm kiếm với các tùy chọn nâng cao
         async function performSearch(query, page = 1) {
             if (!query.trim()) {
                 showNotification('Vui lòng nhập từ khóa tìm kiếm', 'error');
@@ -2999,7 +3750,14 @@
             searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Đang tìm...</span>';
             
             try {
-                const results = await searchTikTokVideos(query, page);
+                // Lấy tùy chọn tìm kiếm nâng cao
+                const searchOptions = {
+                    sortBy: sortBy.value,
+                    durationFilter: durationFilter.value,
+                    count: countFilter.value
+                };
+                
+                const results = await searchTikTokVideos(query, page, searchOptions);
                 displaySearchResults(results, query, page);
                 
                 if (results.videos.length === 0) {
@@ -3013,6 +3771,247 @@
             } finally {
                 searchBtn.disabled = false;
                 searchBtn.innerHTML = '<i class="fas fa-search"></i> <span>Tìm Kiếm</span>';
+            }
+        }
+        
+        // ============ TÍNH NĂNG LƯỚT VIDEO TIKTOK ============
+        
+        // Mở chế độ lướt video
+        function openSwipeMode(video, videoList) {
+            swipeVideos = videoList;
+            currentSwipeIndex = videoList.findIndex(v => v.id === video.id);
+            
+            if (currentSwipeIndex === -1) {
+                currentSwipeIndex = 0;
+            }
+            
+            // Hiển thị chế độ lướt video
+            swipeMode.classList.add('active');
+            mainContent.style.display = 'none';
+            
+            // Load video đầu tiên
+            loadSwipeVideo(currentSwipeIndex);
+            
+            // Tạo indicator
+            createSwipeIndicator();
+            
+            // Thiết lập sự kiện swipe
+            setupSwipeEvents();
+        }
+        
+        // Tạo indicator cho chế độ lướt
+        function createSwipeIndicator() {
+            swipeIndicator.innerHTML = '';
+            
+            for (let i = 0; i < Math.min(swipeVideos.length, 10); i++) {
+                const dot = document.createElement('div');
+                dot.className = `swipe-dot ${i === currentSwipeIndex ? 'active' : ''}`;
+                dot.dataset.index = i;
+                
+                dot.addEventListener('click', () => {
+                    const index = parseInt(dot.dataset.index);
+                    if (index >= 0 && index < swipeVideos.length) {
+                        loadSwipeVideo(index);
+                    }
+                });
+                
+                swipeIndicator.appendChild(dot);
+            }
+        }
+        
+        // Cập nhật indicator
+        function updateSwipeIndicator() {
+            const dots = swipeIndicator.querySelectorAll('.swipe-dot');
+            dots.forEach((dot, index) => {
+                if (index === currentSwipeIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+        
+        // Tải video trong chế độ lướt
+        function loadSwipeVideo(index) {
+            if (index < 0 || index >= swipeVideos.length) return;
+            
+            currentSwipeIndex = index;
+            const video = swipeVideos[index];
+            
+            // Hiển thị loading
+            swipeLoading.style.display = 'flex';
+            
+            // Cập nhật thông tin video
+            swipeTitle.textContent = video.title || 'Video TikTok';
+            swipeAuthor.innerHTML = `<i class="fas fa-user"></i> ${video.author?.nickname || video.author?.unique_id || '@user'}`;
+            
+            // Kiểm tra xem video đã được tải chưa
+            const existingVideo = swipeVideoContainer.querySelector(`[data-index="${index}"]`);
+            
+            if (existingVideo) {
+                // Video đã được tải, hiển thị nó
+                swipeVideoContainer.style.transform = `translateY(-${index * 100}%)`;
+                swipeLoading.style.display = 'none';
+                
+                // Phát video
+                const videoElement = existingVideo.querySelector('.swipe-video');
+                if (videoElement) {
+                    videoElement.play().catch(e => console.log('Video autoplay failed:', e));
+                }
+            } else {
+                // Tạo phần tử video mới
+                const videoItem = document.createElement('div');
+                videoItem.className = 'swipe-video-item';
+                videoItem.dataset.index = index;
+                
+                const videoElement = document.createElement('video');
+                videoElement.className = 'swipe-video';
+                videoElement.src = video.play || '';
+                videoElement.controls = true;
+                videoElement.playsInline = true;
+                videoElement.muted = isMobile; // Tắt tiếng trên mobile để tự động phát
+                
+                videoElement.addEventListener('loadeddata', () => {
+                    swipeLoading.style.display = 'none';
+                    videoElement.play().catch(e => {
+                        console.log('Video autoplay failed:', e);
+                        swipeLoading.style.display = 'none';
+                    });
+                });
+                
+                videoElement.addEventListener('error', () => {
+                    swipeLoading.style.display = 'none';
+                    videoItem.innerHTML = `
+                        <div style="color: white; text-align: center; padding: 20px;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                            <p>Không thể tải video</p>
+                        </div>
+                    `;
+                });
+                
+                videoItem.appendChild(videoElement);
+                swipeVideoContainer.appendChild(videoItem);
+                
+                // Di chuyển đến video hiện tại
+                swipeVideoContainer.style.transform = `translateY(-${index * 100}%)`;
+            }
+            
+            // Cập nhật indicator
+            updateSwipeIndicator();
+        }
+        
+        // Thiết lập sự kiện swipe
+        function setupSwipeEvents() {
+            let startY = 0;
+            let currentY = 0;
+            let isSwiping = false;
+            
+            // Sự kiện touch cho mobile
+            swipeContainer.addEventListener('touchstart', (e) => {
+                startY = e.touches[0].clientY;
+                isSwiping = true;
+            });
+            
+            swipeContainer.addEventListener('touchmove', (e) => {
+                if (!isSwiping) return;
+                currentY = e.touches[0].clientY;
+                
+                // Ngăn chặn scroll mặc định
+                e.preventDefault();
+            });
+            
+            swipeContainer.addEventListener('touchend', () => {
+                if (!isSwiping) return;
+                
+                const diff = startY - currentY;
+                const threshold = 50; // Ngưỡng swipe
+                
+                if (Math.abs(diff) > threshold) {
+                    if (diff > 0) {
+                        // Swipe lên - video tiếp theo
+                        loadSwipeVideo(currentSwipeIndex + 1);
+                    } else {
+                        // Swipe xuống - video trước đó
+                        loadSwipeVideo(currentSwipeIndex - 1);
+                    }
+                }
+                
+                isSwiping = false;
+            });
+            
+            // Sự kiện chuột cho desktop
+            swipeContainer.addEventListener('mousedown', (e) => {
+                startY = e.clientY;
+                isSwiping = true;
+            });
+            
+            swipeContainer.addEventListener('mousemove', (e) => {
+                if (!isSwiping) return;
+                currentY = e.clientY;
+            });
+            
+            swipeContainer.addEventListener('mouseup', () => {
+                if (!isSwiping) return;
+                
+                const diff = startY - currentY;
+                const threshold = 30; // Ngưỡng swipe cho desktop
+                
+                if (Math.abs(diff) > threshold) {
+                    if (diff > 0) {
+                        // Swipe lên - video tiếp theo
+                        loadSwipeVideo(currentSwipeIndex + 1);
+                    } else {
+                        // Swipe xuống - video trước đó
+                        loadSwipeVideo(currentSwipeIndex - 1);
+                    }
+                }
+                
+                isSwiping = false;
+            });
+            
+            // Cho phép scroll bằng wheel
+            swipeContainer.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                
+                if (e.deltaY > 0) {
+                    // Scroll xuống - video tiếp theo
+                    loadSwipeVideo(currentSwipeIndex + 1);
+                } else {
+                    // Scroll lên - video trước đó
+                    loadSwipeVideo(currentSwipeIndex - 1);
+                }
+            });
+        }
+        
+        // Tải video hiện tại trong chế độ lướt
+        async function downloadCurrentSwipeVideo() {
+            const video = swipeVideos[currentSwipeIndex];
+            if (!video) return;
+            
+            const videoUrl = `https://www.tiktok.com/@${video.author?.unique_id || 'user'}/video/${video.id}`;
+            
+            try {
+                showNotification('Đang chuẩn bị tải video...', 'info');
+                const videoInfo = await fetchVideoInfo(videoUrl);
+                
+                if (videoInfo.status === 'success' && videoInfo.formats.video.length > 0) {
+                    const format = videoInfo.formats.video[0];
+                    const filename = `${cleanFilename(videoInfo.title)}_${videoInfo.author}.mp4`;
+                    
+                    const a = document.createElement('a');
+                    a.href = format.url;
+                    a.download = filename;
+                    a.target = '_blank';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    showNotification('Đã bắt đầu tải video!', 'success');
+                } else {
+                    showNotification('Không thể tải video này', 'error');
+                }
+            } catch (error) {
+                showNotification(`Lỗi tải video: ${error.message}`, 'error');
             }
         }
         
@@ -3030,6 +4029,7 @@
             // Hide other sections
             videoInfoSection.classList.remove('active');
             multiDownloadSection.classList.remove('active');
+            advancedSearchControls.classList.remove('active');
         });
         
         searchTabBtn.addEventListener('click', () => {
@@ -3136,7 +4136,6 @@
                 // Apply filter (in a real app, this would re-fetch with filter)
                 if (searchResultsData.length > 0) {
                     showNotification(`Đã áp dụng bộ lọc: ${btn.textContent}`, 'info');
-                    // Note: In a real implementation, you would re-fetch or filter existing data
                 }
             });
         });
@@ -3151,6 +4150,39 @@
         nextPageBtn.addEventListener('click', () => {
             if (currentPage < totalPages) {
                 performSearch(currentSearchQuery, currentPage + 1);
+            }
+        });
+        
+        // Selection buttons
+        selectAllBtn.addEventListener('click', selectAllVideos);
+        deselectAllBtn.addEventListener('click', deselectAllVideos);
+        downloadSelectedBtn.addEventListener('click', downloadSelectedVideos);
+        
+        // Advanced search controls
+        toggleAdvancedBtn.addEventListener('click', () => {
+            advancedSearchControls.classList.toggle('active');
+        });
+        
+        closeAdvancedBtn.addEventListener('click', () => {
+            advancedSearchControls.classList.remove('active');
+        });
+        
+        // Apply advanced filters when they change
+        sortBy.addEventListener('change', () => {
+            if (currentSearchQuery) {
+                performSearch(currentSearchQuery, 1);
+            }
+        });
+        
+        durationFilter.addEventListener('change', () => {
+            if (currentSearchQuery) {
+                performSearch(currentSearchQuery, 1);
+            }
+        });
+        
+        countFilter.addEventListener('change', () => {
+            if (currentSearchQuery) {
+                performSearch(currentSearchQuery, 1);
             }
         });
         
@@ -3230,6 +4262,33 @@
                 modalVideo.pause();
                 modalVideo.src = '';
             }
+        });
+        
+        // Swipe mode controls
+        closeSwipeMode.addEventListener('click', () => {
+            swipeMode.classList.remove('active');
+            mainContent.style.display = 'block';
+            
+            // Dừng tất cả video
+            swipeVideoContainer.querySelectorAll('video').forEach(video => {
+                video.pause();
+            });
+        });
+        
+        swipePrevBtn.addEventListener('click', () => {
+            loadSwipeVideo(currentSwipeIndex - 1);
+        });
+        
+        swipeNextBtn.addEventListener('click', () => {
+            loadSwipeVideo(currentSwipeIndex + 1);
+        });
+        
+        swipeDownloadBtn.addEventListener('click', () => {
+            downloadCurrentSwipeVideo();
+        });
+        
+        swipeCurrentDownloadBtn.addEventListener('click', () => {
+            downloadCurrentSwipeVideo();
         });
         
         // Enter key to search (for video URLs)
