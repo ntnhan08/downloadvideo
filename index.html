@@ -1499,7 +1499,7 @@
         // Performance
         let isProcessing = false;
         let requestQueue = [];
-        const MAX_CONCURRENT_REQUESTS = 3;
+        const MAX_CONCURRENT_REQUESTS = 5;
         let activeRequests = 0;
         
         // Device detection
@@ -1508,24 +1508,13 @@
         
         // ============ API ENDPOINTS ============
         const TIKTOK_APIS = [
-            {
-                name: 'tikwm',
-                endpoint: 'https://tikwm.com/api/',
-                method: 'GET'
-            },
-            {
-                name: 'tikmate',
-                endpoint: 'https://api.tikmate.app/api/lookup',
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            },
-            {
-                name: 'tikdown',
-                endpoint: 'https://www.tikdown.org/api/ajaxSearch',
-                method: 'POST'
-            }
+            { name: 'tikwm',    endpoint: 'https://tikwm.com/api/',                      method: 'GET'  },
+            { name: 'tikwm2',   endpoint: 'https://tikwm.com/api/',                      method: 'GET'  },
+            { name: 'tikmate',  endpoint: 'https://api.tikmate.app/api/lookup',           method: 'POST' },
+            { name: 'snaptik',  endpoint: 'https://api.snaptik.app/api2.php',             method: 'POST' },
+            { name: 'musicaldown', endpoint: 'https://musicaldown.com/api/request',       method: 'POST' },
+            { name: 'tikdown',  endpoint: 'https://www.tikdown.org/api/ajaxSearch',       method: 'POST' },
+            { name: 'savetik',  endpoint: 'https://tikcdn.io/ssstik/index',               method: 'POST' }
         ];
         
         // ============ CORE FUNCTIONS ============
@@ -1600,63 +1589,105 @@
         
         // ============ VIDEO DOWNLOAD FUNCTIONS ============
         
+        // Gọi một API cụ thể với timeout
+        async function fetchFromSingleApi(api, url, signal) {
+            let response;
+            if (api.name === 'tikwm' || api.name === 'tikwm2') {
+                const hd = api.name === 'tikwm' ? '1' : '0';
+                response = await fetch(`${api.endpoint}?url=${encodeURIComponent(url)}&hd=${hd}`, { signal });
+            } else if (api.name === 'tikmate') {
+                const formData = new URLSearchParams();
+                formData.append('url', url);
+                response = await fetch(api.endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData,
+                    signal
+                });
+            } else if (api.name === 'snaptik') {
+                const formData = new URLSearchParams();
+                formData.append('url', url);
+                formData.append('lang', 'vi');
+                response = await fetch(api.endpoint, { method: 'POST', body: formData, signal });
+            } else if (api.name === 'musicaldown') {
+                const formData = new URLSearchParams();
+                formData.append('url', url);
+                formData.append('lang', '1');
+                response = await fetch(api.endpoint, { method: 'POST', body: formData, signal });
+            } else if (api.name === 'tikdown') {
+                const formData = new FormData();
+                formData.append('text', url);
+                response = await fetch(api.endpoint, { method: 'POST', body: formData, signal });
+            } else if (api.name === 'savetik') {
+                const formData = new URLSearchParams();
+                formData.append('id', url);
+                formData.append('locale', 'vi');
+                formData.append('tt', btoa(url).slice(0,16));
+                response = await fetch(api.endpoint, { method: 'POST', body: formData, signal });
+            } else {
+                throw new Error('Unknown API');
+            }
+            if (!response.ok) throw new Error(`${api.name} HTTP ${response.status}`);
+            const data = await response.json();
+            // Kiểm tra dữ liệu hợp lệ
+            if (api.name === 'tikwm' || api.name === 'tikwm2') {
+                if (data.code !== 0 || !data.data) throw new Error(`${api.name} no data`);
+            } else if (api.name === 'tikmate') {
+                if (!data.video_url) throw new Error('tikmate no video_url');
+            } else if (api.name === 'tikdown') {
+                if (!data.data) throw new Error('tikdown no data');
+            } else if (api.name === 'snaptik') {
+                if (!data.data || !data.data.play) throw new Error('snaptik no video');
+            } else if (api.name === 'musicaldown') {
+                if (!data.video_url && !(data.links && data.links.length)) throw new Error('musicaldown no video');
+            } else if (api.name === 'savetik') {
+                if (!data.data) throw new Error('savetik no data');
+            }
+            return { data, api };
+        }
+
         async function fetchVideoInfo(url) {
             if (!isTikTokUrl(url)) {
                 throw new Error('Chỉ hỗ trợ liên kết TikTok');
             }
-            
             const videoId = extractVideoId(url);
             if (videoId && processedUrls.has(videoId)) {
                 throw new Error('Video này đã được xử lý trước đó');
             }
-            
-            for (let i = 0; i < TIKTOK_APIS.length; i++) {
+
+            // Nhóm 1: Gọi song song tất cả API đồng thời, lấy kết quả nhanh nhất
+            const controllers = TIKTOK_APIS.map(() => new AbortController());
+            // Timeout 12 giây mỗi request
+            const timeouts = controllers.map(c => setTimeout(() => c.abort(), 12000));
+
+            const racePromises = TIKTOK_APIS.map((api, i) =>
+                fetchFromSingleApi(api, url, controllers[i].signal)
+                    .finally(() => clearTimeout(timeouts[i]))
+            );
+
+            let winner;
+            try {
+                winner = await Promise.any(racePromises);
+            } catch (aggregateError) {
+                // Thử lần 2 với chỉ tikwm (reliable nhất) không timeout
                 try {
-                    const api = TIKTOK_APIS[i];
-                    let response;
-                    
-                    if (api.name === 'tikwm') {
-                        const apiUrl = `${api.endpoint}?url=${encodeURIComponent(url)}&hd=1`;
-                        response = await fetch(apiUrl);
-                    } else if (api.name === 'tikmate') {
-                        const formData = new URLSearchParams();
-                        formData.append('url', url);
-                        response = await fetch(api.endpoint, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                            body: formData
-                        });
-                    } else if (api.name === 'tikdown') {
-                        const formData = new FormData();
-                        formData.append('text', url);
-                        response = await fetch(api.endpoint, { method: 'POST', body: formData });
-                    }
-                    
-                    if (!response.ok) throw new Error(`API ${api.name} không phản hồi`);
-                    
-                    const data = await response.json();
-                    
-                    if (api.name === 'tikwm' && data.code === 0 && data.data) {
-                        const result = processTikTokData(data, url, api.name);
-                        if (videoId) processedUrls.add(videoId);
-                        return result;
-                    } else if (api.name === 'tikmate' && data.video_url) {
-                        const result = processTikTokData(data, url, api.name);
-                        if (videoId) processedUrls.add(videoId);
-                        return result;
-                    } else if (api.name === 'tikdown' && data.data) {
-                        const result = processTikTokData(data, url, api.name);
-                        if (videoId) processedUrls.add(videoId);
-                        return result;
-                    }
-                } catch (error) {
-                    console.log(`API ${TIKTOK_APIS[i].name} failed:`, error.message);
-                    if (i === TIKTOK_APIS.length - 1) {
-                        throw new Error('Không thể lấy thông tin video. Vui lòng thử lại sau.');
-                    }
+                    const fallback = await fetch(`https://tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`);
+                    const fallbackData = await fallback.json();
+                    if (fallbackData.code === 0 && fallbackData.data) {
+                        winner = { data: fallbackData, api: TIKTOK_APIS[0] };
+                    } else throw new Error('fallback failed');
+                } catch {
+                    throw new Error('Không thể lấy thông tin video. Vui lòng thử lại sau.');
                 }
+            } finally {
+                // Hủy tất cả request còn lại để không lãng phí tài nguyên
+                controllers.forEach(c => { try { c.abort(); } catch {} });
             }
-            throw new Error('Không thể lấy thông tin video từ tất cả các API');
+
+            // Xử lý dữ liệu từ API thắng
+            const result = processTikTokData(winner.data, url, winner.api.name);
+            if (videoId) processedUrls.add(videoId);
+            return result;
         }
         
         function processTikTokData(data, url, apiName) {
@@ -1705,6 +1736,32 @@
                 if (data.music_url) {
                     result.formats.audio.push({ quality: '128 kbps', url: data.music_url, size: '~N/A' });
                 }
+            } else if ((apiName === 'snaptik') && data.data) {
+                result.title = data.data.title || 'Video TikTok';
+                result.thumbnail = data.data.cover || '';
+                result.author = data.data.author?.nickname || '@tiktok_user';
+                result.duration = data.data.duration || '';
+                result.likes = data.data.digg_count || 0;
+                result.status = 'success';
+                if (data.data.play) result.formats.video.push({ quality: '720p', url: data.data.play, size: '~N/A' });
+                if (data.data.hdplay) result.formats.video.push({ quality: '1080p HD', url: data.data.hdplay, size: '~N/A' });
+                if (data.data.music) result.formats.audio.push({ quality: '128 kbps', url: data.data.music, size: '~N/A' });
+            } else if (apiName === 'musicaldown') {
+                result.title = data.title || 'Video TikTok';
+                result.thumbnail = data.thumbnail || '';
+                result.author = data.author || '@tiktok_user';
+                result.status = 'success';
+                const vUrl = data.video_url || (data.links && data.links[0]?.url);
+                if (vUrl) result.formats.video.push({ quality: 'HD', url: vUrl, size: '~N/A' });
+                if (data.audio_url) result.formats.audio.push({ quality: '128 kbps', url: data.audio_url, size: '~N/A' });
+            } else if (apiName === 'savetik' && data.data) {
+                const d = data.data;
+                result.title = d.title || 'Video TikTok';
+                result.thumbnail = d.cover || '';
+                result.author = d.author?.nickname || '@tiktok_user';
+                result.status = 'success';
+                if (d.play) result.formats.video.push({ quality: 'HD', url: d.play, size: '~N/A' });
+                if (d.music) result.formats.audio.push({ quality: '128 kbps', url: d.music, size: '~N/A' });
             } else if (apiName === 'tikdown' && data.data && data.data.videos) {
                 const videoData = data.data.videos[0];
                 if (videoData) {
@@ -1826,15 +1883,19 @@
                 let finalFilename = `${cleanName}_${Date.now()}.${extension}`;
                 
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 30000);
+                const timeoutId = setTimeout(() => controller.abort(), 60000); // tăng lên 60s
                 
-                const response = await fetch(url, { signal: controller.signal });
+                const response = await fetch(url, {
+                    signal: controller.signal,
+                    cache: 'no-store',
+                    headers: { 'Accept': '*/*' }
+                });
                 clearTimeout(timeoutId);
+                
+                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 
                 const contentLength = response.headers.get('content-length');
                 const total = contentLength ? parseInt(contentLength, 10) : 0;
-                
-                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 
                 const reader = response.body.getReader();
                 let received = 0;
@@ -1844,22 +1905,42 @@
                 progressFill.style.width = '0%';
                 progressPercent.textContent = '0%';
                 
+                // Đọc stream với hiển thị tốc độ
+                let lastTime = Date.now();
+                let lastReceived = 0;
+                
                 while (true) {
                     const { done, value } = await reader.read();
                     if (done) break;
                     chunks.push(value);
                     received += value.length;
                     
-                    if (total > 0) {
-                        const percent = Math.round((received / total) * 100);
-                        progressFill.style.width = `${percent}%`;
-                        progressPercent.textContent = `${percent}%`;
-                    } else {
-                        progressPercent.textContent = `${Math.round(received / 1024)} KB`;
+                    const now = Date.now();
+                    if (now - lastTime > 300) { // cập nhật UI mỗi 300ms
+                        const speed = ((received - lastReceived) / 1024 / ((now - lastTime) / 1000)).toFixed(0);
+                        lastTime = now;
+                        lastReceived = received;
+                        
+                        if (total > 0) {
+                            const percent = Math.round((received / total) * 100);
+                            progressFill.style.width = `${percent}%`;
+                            progressPercent.textContent = `${percent}% • ${speed} KB/s`;
+                        } else {
+                            progressPercent.textContent = `${(received / 1024).toFixed(0)} KB • ${speed} KB/s`;
+                        }
                     }
                 }
                 
-                const blob = new Blob(chunks);
+                progressFill.style.width = '100%';
+                progressPercent.textContent = '100%';
+                
+                // Ghép chunks hiệu quả bằng một lần cấp phát
+                const totalLength = chunks.reduce((s, c) => s + c.length, 0);
+                const merged = new Uint8Array(totalLength);
+                let offset = 0;
+                for (const chunk of chunks) { merged.set(chunk, offset); offset += chunk.length; }
+                
+                const blob = new Blob([merged]);
                 const blobUrl = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = blobUrl;
@@ -1867,7 +1948,7 @@
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
-                window.URL.revokeObjectURL(blobUrl);
+                setTimeout(() => window.URL.revokeObjectURL(blobUrl), 3000);
                 
                 setTimeout(() => {
                     progressContainer.classList.remove('active');
