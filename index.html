@@ -1221,6 +1221,234 @@
             backface-visibility: hidden;
             perspective: 1000px;
         }
+
+        /* ===== HISTORY TAB ===== */
+        .main-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 14px;
+            padding: 6px;
+        }
+        .main-tab-btn {
+            flex: 1;
+            padding: 10px 16px;
+            background: none;
+            border: none;
+            color: var(--gray);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .main-tab-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(99,102,241,0.4);
+        }
+        .main-tab-btn .badge {
+            background: rgba(255,255,255,0.25);
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* History list */
+        .history-section {
+            background: rgba(255,255,255,0.04);
+            border-radius: 16px;
+            padding: 16px;
+        }
+        .history-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+        .history-empty i { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+        .history-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border: 1px solid transparent;
+            transition: all 0.25s;
+            animation: slideInRight 0.3s ease;
+        }
+        .history-item:hover { border-color: var(--primary); background: rgba(99,102,241,0.1); }
+        .history-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: rgba(0,0,0,0.4);
+        }
+        .history-thumb-placeholder {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+        .history-info { flex: 1; min-width: 0; }
+        .history-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+        .history-meta { font-size: 0.78rem; color: var(--gray); }
+        .history-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .history-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: var(--light);
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+        .history-btn:hover { background: var(--primary); }
+        .history-btn.del:hover { background: var(--danger); }
+        .history-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .history-controls h3 { font-size: 1rem; color: var(--light); }
+        .clear-history-btn {
+            background: rgba(239,68,68,0.15);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: var(--danger);
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .clear-history-btn:hover { background: rgba(239,68,68,0.25); }
+
+        /* ===== SMART PASTE BUTTON ===== */
+        .paste-btn {
+            background: rgba(16,185,129,0.15);
+            border: 1px solid rgba(16,185,129,0.4);
+            color: var(--secondary);
+            border-radius: 10px;
+            padding: 9px 18px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .paste-btn:hover { background: rgba(16,185,129,0.25); transform: translateY(-1px); }
+
+        /* ===== COPY LINK BUTTON trong result ===== */
+        .copy-url-btn {
+            background: rgba(99,102,241,0.15);
+            border: 1px solid rgba(99,102,241,0.3);
+            color: var(--primary);
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .copy-url-btn:hover { background: rgba(99,102,241,0.25); }
+
+        /* ===== SEARCH AGAIN BUTTON ===== */
+        .search-again-btn {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid var(--border);
+            color: var(--gray);
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            margin-left: 8px;
+        }
+        .search-again-btn:hover { color: var(--light); border-color: var(--primary); }
+
+        /* ===== API STATUS BADGE ===== */
+        .api-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(16,185,129,0.15);
+            border: 1px solid rgba(16,185,129,0.3);
+            color: var(--secondary);
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 6px;
+        }
+
+        /* ===== LOADING dots animation ===== */
+        .loading-api-name {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+        .stat-chip {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 0.82rem;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .stat-chip i { color: var(--primary); }
+        .stat-chip strong { color: var(--light); }
     </style>
 </head>
 <body>
@@ -1276,38 +1504,60 @@
             </div>
             <p class="tagline">Tải video TikTok chất lượng cao miễn phí - Hỗ trợ MP4/MP3</p>
         </header>
-        
-        <!-- Download Tab (duy nhất) -->
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-chip"><i class="fas fa-download"></i> Đã tải: <strong id="totalDownloads">0</strong></div>
+            <div class="stat-chip"><i class="fas fa-history"></i> Lịch sử: <strong id="historyCount">0</strong> video</div>
+            <div class="stat-chip"><i class="fas fa-shield-alt"></i> Không watermark</div>
+        </div>
+
+        <!-- Main Tabs -->
+        <div class="main-tabs">
+            <button class="main-tab-btn active" data-main-tab="download" id="mainTabDownload">
+                <i class="fas fa-download"></i> Tải Video
+            </button>
+            <button class="main-tab-btn" data-main-tab="history" id="mainTabHistory">
+                <i class="fas fa-history"></i> Lịch sử
+                <span class="badge" id="historyBadge">0</span>
+            </button>
+        </div>
+
+        <!-- Download Tab -->
+        <div class="tab-panel active" id="panelDownload">
         <div id="downloadTab">
             <div class="input-section">
                 <div class="input-container">
-                    <textarea id="videoUrls" placeholder="Dán một hoặc nhiều liên kết video TikTok, mỗi liên kết trên một dòng..." autocomplete="off"></textarea>
+                    <textarea id="videoUrls" placeholder="Dán một hoặc nhiều liên kết TikTok vào đây...&#10;Mỗi liên kết trên một dòng.&#10;&#10;Tip: Bạn có thể dán cả đoạn văn bản chứa link TikTok!" autocomplete="off"></textarea>
                     
                     <div class="input-actions">
                         <button class="clear-btn" id="clearBtn" title="Xóa tất cả">
                             <i class="fas fa-times"></i>
                         </button>
-                        <button class="quick-clear-btn" id="quickClearBtn">
-                            <i class="fas fa-trash-alt"></i> Xóa tất cả
-                        </button>
                     </div>
                 </div>
-                
-                <!-- Bộ đếm số link đã dán - thiết kế nổi bật -->
+
+                <!-- Bộ đếm số link -->
                 <div class="link-counter" id="linkCounter">
                     <i class="fas fa-link"></i> Link
                     <span id="linkCount">0</span>
                 </div>
-                
-                <div style="text-align: center; margin-top: 20px;">
+
+                <div style="display:flex; gap:10px; justify-content:center; margin-top:18px; flex-wrap:wrap;">
+                    <button class="paste-btn" id="pasteBtn">
+                        <i class="fas fa-paste"></i> Dán từ Clipboard
+                    </button>
                     <button id="downloadBtn">
                         <i class="fas fa-search"></i> Tìm Video
+                    </button>
+                    <button class="quick-clear-btn" id="quickClearBtn">
+                        <i class="fas fa-trash-alt"></i> Xóa tất cả
                     </button>
                 </div>
                 
                 <div class="loading" id="loading">
                     <div class="spinner"></div>
-                    <p>Đang phân tích video...</p>
+                    <p id="loadingText">Đang phân tích video...</p>
                 </div>
                 
                 <div class="ios-guide" id="iosGuide">
@@ -1339,22 +1589,22 @@
                     <p id="videoDuration"><i class="fas fa-clock"></i> Thời lượng: 2:30</p>
                     <p id="videoAuthor"><i class="fas fa-user"></i> Tác giả: @username</p>
                     <p id="videoStats"><i class="fas fa-heart"></i> Lượt thích: 0</p>
+                    <div>
+                        <button class="copy-url-btn" id="copyUrlBtn"><i class="fas fa-copy"></i> Sao chép link</button>
+                        <button class="search-again-btn" id="searchAgainBtn"><i class="fas fa-redo"></i> Tìm lại</button>
+                    </div>
+                    <div id="apiSourceBadge"></div>
                 </div>
             </div>
             
             <div class="quality-selector">
                 <div class="selector-tabs">
-                    <button class="tab-btn active" data-tab="video">Video (MP4)</button>
-                    <button class="tab-btn" data-tab="audio">Âm thanh (MP3)</button>
+                    <button class="tab-btn active" data-tab="video">🎬 Video (MP4)</button>
+                    <button class="tab-btn" data-tab="audio">🎵 Âm thanh (MP3)</button>
                 </div>
                 
-                <div class="quality-options active" id="videoOptions">
-                    <!-- Video options will be loaded here -->
-                </div>
-                
-                <div class="quality-options" id="audioOptions">
-                    <!-- Audio options will be loaded here -->
-                </div>
+                <div class="quality-options active" id="videoOptions"></div>
+                <div class="quality-options" id="audioOptions"></div>
                 
                 <div class="progress-container" id="progressContainer">
                     <div class="progress-bar">
@@ -1376,17 +1626,30 @@
         
         <!-- Multi Download Section -->
         <div class="multi-download-section" id="multiDownloadSection">
-            <div class="multi-list" id="multiList">
-                <!-- Multi video items will be loaded here -->
-            </div>
-            
+            <div class="multi-list" id="multiList"></div>
             <div class="multi-controls">
-                <div class="multi-stats" id="multiStats">
-                    Tổng cộng: 0 video | Sẵn sàng: 0 | Đã tải: 0
-                </div>
+                <div class="multi-stats" id="multiStats">Tổng cộng: 0 video | Sẵn sàng: 0 | Đã tải: 0</div>
                 <button id="downloadAllBtn" disabled>
                     <i class="fas fa-download"></i> Tải tất cả (0)
                 </button>
+            </div>
+        </div>
+        </div><!-- end panelDownload -->
+
+        <!-- History Tab -->
+        <div class="tab-panel" id="panelHistory">
+            <div class="history-section">
+                <div class="history-controls">
+                    <h3><i class="fas fa-history" style="color:var(--primary)"></i> Lịch sử tải xuống</h3>
+                    <button class="clear-history-btn" id="clearHistoryBtn"><i class="fas fa-trash"></i> Xóa tất cả</button>
+                </div>
+                <div id="historyList">
+                    <div class="history-empty">
+                        <i class="fas fa-inbox"></i>
+                        <p>Chưa có lịch sử tải xuống</p>
+                        <p style="font-size:0.82rem;margin-top:6px;">Các video bạn tìm kiếm sẽ xuất hiện ở đây</p>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -1396,7 +1659,7 @@
                 <a href="#" class="footer-link" id="termsLink">Điều khoản sử dụng</a>
                 <a href="#" class="footer-link" id="contactLink">Liên hệ</a>
             </div>
-            <p>© 2023 TikDown Pro. Chỉ sử dụng cho mục đích cá nhân. Tôn trọng bản quyền và quyền riêng tư của người sáng tạo.</p>
+            <p>© 2025 TikDown Pro. Chỉ sử dụng cho mục đích cá nhân. Tôn trọng bản quyền và quyền riêng tư.</p>
             <p style="margin-top: 10px; font-size: 0.8rem; color: var(--gray);">
                 <i class="fas fa-exclamation-triangle"></i> Công cụ này hoạt động độc lập và không liên kết với TikTok.
             </p>
@@ -1461,7 +1724,9 @@
         const downloadBtn = document.getElementById('downloadBtn');
         const clearBtn = document.getElementById('clearBtn');
         const quickClearBtn = document.getElementById('quickClearBtn');
+        const pasteBtn = document.getElementById('pasteBtn');
         const loading = document.getElementById('loading');
+        const loadingText = document.getElementById('loadingText');
         const videoInfoSection = document.getElementById('videoInfoSection');
         const multiDownloadSection = document.getElementById('multiDownloadSection');
         const multiList = document.getElementById('multiList');
@@ -1483,45 +1748,192 @@
         const videoModal = document.getElementById('videoModal');
         const modalVideo = document.getElementById('modalVideo');
         const closeModal = document.getElementById('closeModal');
-        
+        const copyUrlBtn = document.getElementById('copyUrlBtn');
+        const searchAgainBtn = document.getElementById('searchAgainBtn');
+        const apiSourceBadge = document.getElementById('apiSourceBadge');
+
         // Link counter
         const linkCounter = document.getElementById('linkCounter');
         const linkCountSpan = document.getElementById('linkCount');
-        
+
         // State variables
         let currentFormats = { video: [], audio: [] };
         let selectedFormat = null;
         let selectedType = 'video';
         let currentVideoInfo = null;
         let multiVideos = [];
-        let processedUrls = new Set(); // Track processed URLs
-        
+        let processedUrls = new Set();
+        let totalDownloads = parseInt(localStorage.getItem('tikdown_total_downloads') || '0');
+
         // Performance
         let isProcessing = false;
         let requestQueue = [];
         const MAX_CONCURRENT_REQUESTS = 5;
         let activeRequests = 0;
-        
+
         // Device detection
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
         // ============ API ENDPOINTS ============
-        // CORS proxy cho các API không hỗ trợ CORS trực tiếp từ trình duyệt
-        const CORS_PROXY = 'https://corsproxy.io/?';
-
         const TIKTOK_APIS = [
-            { name: 'tikwm',       endpoint: 'https://tikwm.com/api/',                   method: 'GET',  useProxy: false },
-            { name: 'tikwm2',      endpoint: 'https://tikwm.com/api/',                   method: 'GET',  useProxy: false },
-            { name: 'tikwm_proxy', endpoint: 'https://tikwm.com/api/',                   method: 'GET',  useProxy: true  },
-            { name: 'tikmate',     endpoint: 'https://api.tikmate.app/api/lookup',        method: 'POST', useProxy: true  },
-            { name: 'snaptik',     endpoint: 'https://api.snaptik.app/api2.php',          method: 'POST', useProxy: true  },
-            { name: 'musicaldown', endpoint: 'https://musicaldown.com/api/request',       method: 'POST', useProxy: true  },
-            { name: 'tikdown',     endpoint: 'https://www.tikdown.org/api/ajaxSearch',    method: 'POST', useProxy: true  },
-            { name: 'savetik',     endpoint: 'https://tikcdn.io/ssstik/index',            method: 'POST', useProxy: true  }
+            { name: 'tikwm',      endpoint: 'https://tikwm.com/api/',                    method: 'GET'  },
+            { name: 'tikwm2',     endpoint: 'https://tikwm.com/api/',                    method: 'GET'  },
+            { name: 'tiklydown',  endpoint: 'https://api.tiklydown.eu.org/api/download', method: 'GET'  },
+            { name: 'tikmate',    endpoint: 'https://api.tikmate.app/api/lookup',         method: 'POST' },
         ];
         
         // ============ CORE FUNCTIONS ============
+
+        // ===== MAIN TAB SWITCHING =====
+        document.querySelectorAll('.main-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.main-tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('panel' + btn.dataset.mainTab.charAt(0).toUpperCase() + btn.dataset.mainTab.slice(1)).classList.add('active');
+                if (btn.dataset.mainTab === 'history') renderHistory();
+            });
+        });
+
+        // ===== HISTORY SYSTEM =====
+        function getHistory() {
+            try { return JSON.parse(localStorage.getItem('tikdown_history') || '[]'); } catch { return []; }
+        }
+        function saveHistory(history) {
+            localStorage.setItem('tikdown_history', JSON.stringify(history.slice(0, 50)));
+        }
+        function addToHistory(info) {
+            const history = getHistory();
+            const existing = history.findIndex(h => h.url === info.url);
+            if (existing !== -1) history.splice(existing, 1);
+            history.unshift({
+                url: info.url,
+                title: info.title,
+                author: info.author,
+                thumbnail: info.thumbnail,
+                duration: info.duration,
+                date: new Date().toLocaleDateString('vi-VN'),
+                formats: info.formats
+            });
+            saveHistory(history);
+            updateHistoryBadge();
+        }
+        function updateHistoryBadge() {
+            const count = getHistory().length;
+            document.getElementById('historyBadge').textContent = count;
+            document.getElementById('historyCount').textContent = count;
+        }
+        function renderHistory() {
+            const history = getHistory();
+            const container = document.getElementById('historyList');
+            if (history.length === 0) {
+                container.innerHTML = `<div class="history-empty"><i class="fas fa-inbox"></i><p>Chưa có lịch sử tải xuống</p><p style="font-size:0.82rem;margin-top:6px;">Các video bạn tìm kiếm sẽ xuất hiện ở đây</p></div>`;
+                return;
+            }
+            container.innerHTML = history.map((item, idx) => `
+                <div class="history-item" id="hist-${idx}">
+                    ${item.thumbnail
+                        ? `<img class="history-thumb" src="${item.thumbnail}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">`
+                        : ''}
+                    <div class="history-thumb-placeholder" style="${item.thumbnail ? 'display:none' : ''}"><i class="fas fa-video"></i></div>
+                    <div class="history-info">
+                        <div class="history-title" title="${item.title}">${item.title || 'Video TikTok'}</div>
+                        <div class="history-meta"><i class="fas fa-user"></i> ${item.author || '@tiktok'} &nbsp;•&nbsp; <i class="fas fa-calendar"></i> ${item.date}</div>
+                    </div>
+                    <div class="history-actions">
+                        <button class="history-btn" title="Tải lại" onclick="reloadFromHistory(${idx})"><i class="fas fa-redo"></i></button>
+                        <button class="history-btn" title="Sao chép link" onclick="copyHistoryUrl(${idx})"><i class="fas fa-copy"></i></button>
+                        <button class="history-btn del" title="Xóa" onclick="removeHistory(${idx})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        function reloadFromHistory(idx) {
+            const item = getHistory()[idx];
+            if (!item) return;
+            videoUrlsInput.value = item.url;
+            updateLinkCounter();
+            // Switch to download tab
+            document.querySelectorAll('.main-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('mainTabDownload').classList.add('active');
+            document.getElementById('panelDownload').classList.add('active');
+            processedUrls.clear();
+            downloadBtn.click();
+        }
+        function copyHistoryUrl(idx) {
+            const item = getHistory()[idx];
+            if (!item) return;
+            navigator.clipboard.writeText(item.url).then(() => showNotification('Đã sao chép liên kết!', 'success')).catch(() => {});
+        }
+        function removeHistory(idx) {
+            const history = getHistory();
+            history.splice(idx, 1);
+            saveHistory(history);
+            updateHistoryBadge();
+            renderHistory();
+        }
+        document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+            if (confirm('Xóa toàn bộ lịch sử tải?')) {
+                localStorage.removeItem('tikdown_history');
+                updateHistoryBadge();
+                renderHistory();
+                showNotification('Đã xóa lịch sử', 'info');
+            }
+        });
+
+        // ===== SMART PASTE =====
+        function extractTikTokUrls(text) {
+            const urlRegex = /https?:\/\/[^\s\n"'<>]+/g;
+            const found = text.match(urlRegex) || [];
+            return found.filter(u => isTikTokUrl(u)).map(u => u.replace(/[.,;!?)]+$/, ''));
+        }
+        pasteBtn.addEventListener('click', async () => {
+            try {
+                const text = await navigator.clipboard.readText();
+                if (!text) { showNotification('Clipboard trống', 'warning'); return; }
+                const urls = extractTikTokUrls(text);
+                if (urls.length > 0) {
+                    const existing = videoUrlsInput.value.trim();
+                    videoUrlsInput.value = existing ? existing + '\n' + urls.join('\n') : urls.join('\n');
+                    updateLinkCounter();
+                    showNotification(`Đã dán ${urls.length} liên kết TikTok!`, 'success');
+                } else {
+                    videoUrlsInput.value = text;
+                    updateLinkCounter();
+                    showNotification('Đã dán — không tìm thấy link TikTok nào', 'warning');
+                }
+            } catch {
+                showNotification('Không thể đọc clipboard. Hãy dán thủ công (Ctrl+V)', 'error');
+            }
+        });
+
+        // ===== COPY VIDEO URL =====
+        copyUrlBtn.addEventListener('click', () => {
+            if (currentVideoInfo?.url) {
+                navigator.clipboard.writeText(currentVideoInfo.url)
+                    .then(() => showNotification('Đã sao chép liên kết video!', 'success'))
+                    .catch(() => showNotification('Không thể sao chép', 'error'));
+            }
+        });
+
+        // ===== SEARCH AGAIN =====
+        searchAgainBtn.addEventListener('click', () => {
+            processedUrls.clear();
+            videoInfoSection.classList.remove('active');
+            multiDownloadSection.classList.remove('active');
+            videoUrlsInput.focus();
+            showNotification('Đã sẵn sàng tìm lại. Nhập link và nhấn Tìm Video.', 'info');
+        });
+
+        // ===== TOTAL DOWNLOADS COUNTER =====
+        function incrementDownloads() {
+            totalDownloads++;
+            localStorage.setItem('tikdown_total_downloads', totalDownloads.toString());
+            document.getElementById('totalDownloads').textContent = totalDownloads;
+        }
+        document.getElementById('totalDownloads').textContent = totalDownloads;
         
         function showNotification(message, type = 'success') {
             notification.textContent = message;
@@ -1597,50 +2009,22 @@
         async function fetchFromSingleApi(api, url, signal) {
             let response;
 
-            // Hàm tạo endpoint (có proxy hoặc không)
-            function buildEndpoint(baseUrl) {
-                return api.useProxy
-                    ? `${CORS_PROXY}${encodeURIComponent(baseUrl)}`
-                    : baseUrl;
-            }
-
-            const isWm = api.name === 'tikwm' || api.name === 'tikwm2' || api.name === 'tikwm_proxy';
+            const isWm = api.name === 'tikwm' || api.name === 'tikwm2';
 
             if (isWm) {
                 const hd = api.name === 'tikwm2' ? '0' : '1';
-                const baseUrl = `${api.endpoint}?url=${encodeURIComponent(url)}&hd=${hd}`;
-                response = await fetch(buildEndpoint(baseUrl), { signal });
+                response = await fetch(`${api.endpoint}?url=${encodeURIComponent(url)}&hd=${hd}`, { signal });
             } else if (api.name === 'tiklydown') {
-                response = await fetch(buildEndpoint(`${api.endpoint}?url=${encodeURIComponent(url)}`), { signal });
+                response = await fetch(`${api.endpoint}?url=${encodeURIComponent(url)}`, { signal });
             } else if (api.name === 'tikmate') {
                 const formData = new URLSearchParams();
                 formData.append('url', url);
-                response = await fetch(buildEndpoint(api.endpoint), {
+                response = await fetch(api.endpoint, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: formData,
                     signal
                 });
-            } else if (api.name === 'snaptik') {
-                const formData = new URLSearchParams();
-                formData.append('url', url);
-                formData.append('lang', 'vi');
-                response = await fetch(buildEndpoint(api.endpoint), { method: 'POST', body: formData, signal });
-            } else if (api.name === 'musicaldown') {
-                const formData = new URLSearchParams();
-                formData.append('url', url);
-                formData.append('lang', '1');
-                response = await fetch(buildEndpoint(api.endpoint), { method: 'POST', body: formData, signal });
-            } else if (api.name === 'tikdown') {
-                const formData = new URLSearchParams();
-                formData.append('text', url);
-                response = await fetch(buildEndpoint(api.endpoint), { method: 'POST', body: formData, signal });
-            } else if (api.name === 'savetik') {
-                const formData = new URLSearchParams();
-                formData.append('id', url);
-                formData.append('locale', 'vi');
-                formData.append('tt', btoa(url).slice(0, 16));
-                response = await fetch(buildEndpoint(api.endpoint), { method: 'POST', body: formData, signal });
             } else {
                 throw new Error('Unknown API');
             }
@@ -1655,14 +2039,6 @@
                 if (!data || (!data.video && !data.music)) throw new Error('tiklydown no data');
             } else if (api.name === 'tikmate') {
                 if (!data.video_url) throw new Error('tikmate no video_url');
-            } else if (api.name === 'snaptik') {
-                if (!data.data || !data.data.play) throw new Error('snaptik no video');
-            } else if (api.name === 'musicaldown') {
-                if (!data.video_url && !(data.links && data.links.length)) throw new Error('musicaldown no video');
-            } else if (api.name === 'tikdown') {
-                if (!data.data) throw new Error('tikdown no data');
-            } else if (api.name === 'savetik') {
-                if (!data.data) throw new Error('savetik no data');
             }
             return { data, api };
         }
@@ -1673,10 +2049,10 @@
             }
             const videoId = extractVideoId(url);
 
-            // Nhóm 1: Gọi song song tất cả API đồng thời, lấy kết quả nhanh nhất
             const controllers = TIKTOK_APIS.map(() => new AbortController());
-            // Timeout 15 giây mỗi request
             const timeouts = controllers.map(c => setTimeout(() => c.abort(), 15000));
+
+            if (loadingText) loadingText.textContent = 'Đang kết nối với máy chủ...';
 
             const racePromises = TIKTOK_APIS.map((api, i) =>
                 fetchFromSingleApi(api, url, controllers[i].signal)
@@ -1686,39 +2062,30 @@
             let winner;
             try {
                 winner = await Promise.any(racePromises);
+                if (loadingText) loadingText.textContent = `Đã nhận dữ liệu, đang xử lý...`;
             } catch (aggregateError) {
-                // Thử lần 2: tikwm trực tiếp
+                if (loadingText) loadingText.textContent = 'Đang thử phương pháp dự phòng...';
                 try {
                     const fallback = await fetch(`https://tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`);
                     const fallbackData = await fallback.json();
                     if (fallbackData.code === 0 && fallbackData.data) {
                         winner = { data: fallbackData, api: TIKTOK_APIS[0] };
                     } else {
-                        // Thử lần 3: tikwm qua CORS proxy
-                        const proxyUrl = `${CORS_PROXY}${encodeURIComponent(`https://tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`)}`;
-                        const fallback3 = await fetch(proxyUrl);
-                        const fallbackData3 = await fallback3.json();
-                        if (fallbackData3.code === 0 && fallbackData3.data) {
-                            winner = { data: fallbackData3, api: TIKTOK_APIS[0] };
-                        } else {
-                            // Thử tiklydown làm fallback cuối
-                            const fallback2 = await fetch(`https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(url)}`);
-                            const fallbackData2 = await fallback2.json();
-                            if (fallbackData2 && (fallbackData2.video || fallbackData2.music)) {
-                                winner = { data: fallbackData2, api: { name: 'tiklydown' } };
-                            } else throw new Error('fallback failed');
-                        }
+                        const fallback2 = await fetch(`https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(url)}`);
+                        const fallbackData2 = await fallback2.json();
+                        if (fallbackData2 && (fallbackData2.video || fallbackData2.music)) {
+                            winner = { data: fallbackData2, api: { name: 'tiklydown' } };
+                        } else throw new Error('fallback failed');
                     }
                 } catch {
                     throw new Error('Không thể lấy thông tin video. Vui lòng kiểm tra lại liên kết và thử sau.');
                 }
             } finally {
-                // Hủy tất cả request còn lại
                 controllers.forEach(c => { try { c.abort(); } catch {} });
             }
 
-            // Xử lý dữ liệu từ API thắng
             const result = processTikTokData(winner.data, url, winner.api.name);
+            result._apiName = winner.api.name;
             if (videoId) processedUrls.add(videoId);
             return result;
         }
@@ -1778,16 +2145,25 @@
             return result;
         }
         
-        function displayVideoInfo(info) {
+        function displayVideoInfo(info, apiName) {
             currentVideoInfo = info;
             
             document.getElementById('videoTitle').textContent = info.title || 'Video TikTok';
             document.getElementById('videoPlatform').innerHTML = `<i class="fas fa-globe"></i> Nền tảng: TikTok`;
             document.getElementById('videoDuration').innerHTML = `<i class="fas fa-clock"></i> Thời lượng: ${info.duration || 'N/A'}`;
             document.getElementById('videoAuthor').innerHTML = `<i class="fas fa-user"></i> Tác giả: ${info.author || 'N/A'}`;
-            document.getElementById('videoStats').innerHTML = `<i class="fas fa-heart"></i> Lượt thích: ${info.likes.toLocaleString() || '0'}`;
+            document.getElementById('videoStats').innerHTML = `<i class="fas fa-heart"></i> Lượt thích: ${(info.likes || 0).toLocaleString()}`;
+
+            // API badge
+            if (apiName) {
+                apiSourceBadge.innerHTML = `<span class="api-badge"><i class="fas fa-check-circle"></i> Nguồn: ${apiName}</span>`;
+            }
             
             if (info.thumbnail) {
+                videoThumbnail.onerror = () => {
+                    videoThumbnail.style.display = 'none';
+                    thumbnailPlaceholder.style.display = 'flex';
+                };
                 videoThumbnail.src = info.thumbnail;
                 videoThumbnail.style.display = 'block';
                 thumbnailPlaceholder.style.display = 'none';
@@ -1815,7 +2191,10 @@
             if (isIOS) iosGuide.classList.add('active');
             
             selectFirstQuality();
-            showNotification(`Đã tìm thấy video của ${info.author}!`, 'success');
+            showNotification(`✅ Đã tìm thấy video của ${info.author}!`, 'success');
+
+            // Save to history
+            addToHistory(info);
         }
         
         function populateQualityOptions(type, formats) {
@@ -1869,10 +2248,14 @@
         
         async function downloadFile(url, filename) {
             try {
-                showNotification('Đang chuẩn bị tải xuống...', 'info');
+                showNotification('⏳ Đang chuẩn bị tải xuống...', 'info');
                 
                 const cleanName = cleanFilename(filename);
-                const extension = selectedType === 'video' ? 'mp4' : 'mp3';
+                // Derive extension from URL or filename, fallback to selectedType
+                const urlLower = url.toLowerCase().split('?')[0];
+                const extension = urlLower.endsWith('.mp3') || filename.endsWith('.mp3') ? 'mp3'
+                    : urlLower.endsWith('.mp4') || filename.endsWith('.mp4') ? 'mp4'
+                    : selectedType === 'audio' ? 'mp3' : 'mp4';
                 let finalFilename = `${cleanName}_${Date.now()}.${extension}`;
                 
                 const controller = new AbortController();
@@ -2087,7 +2470,8 @@
                 if (result.fallback) {
                     showNotification(`Đã gửi yêu cầu tải ${video.title}. Kiểm tra trình tải xuống của bạn.`, 'warning');
                 } else {
-                    showNotification(`Đã tải thành công: ${video.title}`, 'success');
+                    showNotification(`✅ Đã tải thành công: ${video.title}`, 'success');
+                    incrementDownloads();
                 }
             }
         }
@@ -2116,8 +2500,8 @@
                         if (result.fallback) fallbackCount++;
                         const item = document.getElementById(`multi-item-${video.id}`);
                         if (item) item.classList.add('downloaded');
-                        // Cập nhật thống kê ngay sau mỗi video hoàn tất
                         updateMultiStats();
+                        incrementDownloads();
                     }
                 }
                 // Tạm dừng 1s giữa các lần tải (có thể giữ hoặc bỏ)
@@ -2195,7 +2579,7 @@
                     iosGuide.classList.remove('active');
                     
                     const videoInfo = await fetchVideoInfo(url);
-                    displayVideoInfo(videoInfo);
+                    displayVideoInfo(videoInfo, videoInfo._apiName);
                 } catch (error) {
                     loading.classList.remove('active');
                     showNotification(error.message, 'error');
@@ -2251,7 +2635,8 @@
                     showNotification('Đã gửi yêu cầu tải. Kiểm tra trình tải xuống của bạn.', 'warning');
                 } else {
                     const typeText = selectedType === 'video' ? 'video' : 'âm thanh';
-                    showNotification(`Tải xuống ${typeText} thành công! Kiểm tra thư mục Downloads.`, 'success');
+                    showNotification(`✅ Tải xuống ${typeText} thành công! Kiểm tra thư mục Downloads.`, 'success');
+                    incrementDownloads();
                 }
             }
         });
@@ -2287,10 +2672,11 @@
             if (isMobile && videoUrlsInput.value === '') {
                 try {
                     const text = await navigator.clipboard.readText();
-                    if (isTikTokUrl(text)) {
-                        videoUrlsInput.value = text;
+                    const urls = extractTikTokUrls(text);
+                    if (urls.length > 0) {
+                        videoUrlsInput.value = urls.join('\n');
                         updateLinkCounter();
-                        showNotification('Đã tự động dán liên kết từ clipboard', 'info');
+                        showNotification(`Đã tự động dán ${urls.length} liên kết TikTok`, 'info');
                     }
                 } catch (err) {}
             }
@@ -2436,7 +2822,8 @@
             processedUrls.clear();
             multiVideos = [];
             checkFirstVisit();
-            updateLinkCounter(); // Cập nhật bộ đếm lần đầu
+            updateLinkCounter();
+            updateHistoryBadge();
             
             if (!isMobile) {
                 setTimeout(() => {
@@ -2446,10 +2833,10 @@
             
             setTimeout(() => {
                 if (welcomeModal.style.display === 'none') {
-                    showNotification('Chào mừng đến TikDown Pro!', 'success');
+                    showNotification('Chào mừng đến TikDown Pro! 🎉', 'success');
                     if (isIOS) {
                         setTimeout(() => {
-                            showNotification('💡 Mẹo cho iOS: Video sẽ được lưu vào ứng dụng "Tệp" → Thư mục "Downloads"', 'info');
+                            showNotification('💡 Mẹo iOS: Video sẽ được lưu trong Tệp → Downloads', 'info');
                         }, 2000);
                     }
                 }
